@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ConductriceFashion | Votre style, votre élégance</title>
+<style>
+:root{--o:#F28C28;--w:#fff;--d:#252A34;--bg:#f7f7f7}
+*{box-sizing:border-box}body{margin:0;font:15px Arial,sans-serif;color:var(--d);background:var(--bg)}
+header{background:var(--w);padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
+.logo{font-size:20px;font-weight:bold;color:var(--o)}button{border:0;border-radius:8px;padding:11px 14px;background:var(--o);color:white;font-weight:bold;cursor:pointer}
+nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px;background:var(--d)}
+nav button{background:transparent;color:white;padding:9px}
+nav button:hover{background:var(--o)}
+.hero{padding:40px 18px;text-align:center;background:linear-gradient(135deg,#fff,#ffe8d0)}
+.hero h1{font-size:30px;margin:8px}.hero p{line-height:1.6}
+main{max-width:1100px;margin:auto;padding:16px}
+h2{color:var(--d)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
+.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #0001}
+.card img{width:100%;height:175px;object-fit:cover;background:#eee}
+.info{padding:12px}.info h3{margin:0 0 8px}.price{color:#d66c09;font-weight:bold;font-size:18px}
+select,input,textarea{width:100%;padding:11px;margin:6px 0 10px;border:1px solid #ddd;border-radius:7px;background:white}
+section{margin-bottom:28px}.hidden{display:none!important}
+.panel{background:white;padding:16px;border-radius:12px;margin:12px 0}
+.item{padding:12px 0;border-bottom:1px solid #eee}
+footer{text-align:center;padding:25px;background:var(--d);color:white}
+.badge{background:var(--o);color:white;padding:4px 8px;border-radius:20px}
+@media(min-width:700px){.hero{padding:65px 20px}.hero h1{font-size:42px}}
+</style>
+</head>
+<body>
+<header><div class="logo">ConductriceFashion</div><button onclick="page('panier')">🛒 Panier <span id="nb">0</span></button></header>
+<nav>
+<button onclick="page('accueil')">Accueil</button>
+<button onclick="page('boutique')">Boutique</button>
+<button onclick="page('reservation')">Réserver</button>
+<button onclick="page('panier')">Panier</button>
+</nav>
+<div id="accueil">
+<div class="hero"><h1>Votre style, votre élégance ✨</h1><p>Découvrez notre collection et trouvez la tenue qui vous ressemble.</p><button onclick="page('boutique')">Découvrir la boutique</button></div>
+<main><h2>Nos articles</h2><div id="vedette" class="grid"></div></main>
+</div>
+<main id="boutique" class="hidden"><h2>Notre boutique</h2><input id="recherche" placeholder="Rechercher un vêtement..." oninput="afficher()"><div id="produits" class="grid"></div></main>
+<main id="panier" class="hidden"><h2>Mon panier</h2><div id="liste"></div><h3>Total : <span id="total">0</span> FCFA</h3><button onclick="page('commande')">Commander</button><button onclick="vider()" style="background:#555">Vider le panier</button></main>
+<main id="reservation" class="hidden"><h2>Réserver un article</h2><form id="formRes">
+<label>Article</label><select id="rProduit" required></select>
+<label>Taille</label><select id="rTaille" required><option value="">Choisir</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>Taille unique</option></select>
+<label>Couleur</label><input id="rCouleur" required placeholder="Couleur souhaitée">
+<label>Quantité</label><input id="rQte" type="number" min="1" value="1" required>
+<label>Nom complet</label><input id="rNom" required>
+<label>Téléphone</label><input id="rTel" type="tel" required>
+<label>Note (facultatif)</label><textarea id="rNote"></textarea>
+<button type="submit">Confirmer ma réservation</button>
+</form><div id="resMsg"></div></main>
+<main id="commande" class="hidden"><h2>Finaliser la commande</h2><form id="formCmd">
+<label>Nom complet</label><input id="cNom" required>
+<label>Téléphone</label><input id="cTel" type="tel" required>
+<label>Adresse ou lieu de livraison</label><input id="cAdresse">
+<label>Notes</label><textarea id="cNote"></textarea>
+<button type="submit">Continuer sur WhatsApp</button>
+</form><p>Le paiement sera convenu avec la boutique.</p></main>
+<footer><b>ConductriceFashion</b><p>Votre style, votre élégance.</p><small>Pour toute commande, contactez notre équipe.</small></footer>
+<script>
+                          
+const WHATSAPP="22600000000"; // Remplacer par le numéro WhatsApp de la boutique
+const DB="6ad7a426000ad1659f6b";
+const APPWRITE_ENDPOINT="https://fra.cloud.appwrite.io/v1";
+const APPWRITE_PROJECT=""; // ID du projet Appwrite à renseigner
+const produits=[
+{id:"robe1",nom:"Robe élégante",prix:7500,photo:"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600",actif:true},
+{id:"ensemble1",nom:"Ensemble tendance",prix:10000,photo:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600",actif:true},
+{id:"sac1",nom:"Sac à main",prix:5000,photo:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600",actif:true},
+{id:"chemise1",nom:"Chemise chic",prix:6000,photo:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600",actif:true}
+];
+let panier=JSON.parse(sessionStorage.getItem("cf_panier")||"[]");
+const fcfa=n=>Number(n).toLocaleString("fr-FR");
+function page(id){document.querySelectorAll("body>main,#accueil").forEach(e=>e.classList.add("hidden"));document.getElementById(id)?.classList.remove("hidden");if(id==="panier")afficherPanier();window.scrollTo(0,0)}
+function carte(p){return `<article class="card"><img src="${p.photo}" alt="${p.nom}" loading="lazy"><div class="info"><h3>${p.nom}</h3><p class="price">${fcfa(p.prix)} FCFA</p><button onclick="ajouter('${p.id}')">Ajouter au panier</button> <button onclick="reserver('${p.id}')">Réserver</button></div></article>`}
+function afficher(){let q=(document.getElementById("recherche")?.value||"").toLowerCase();let html=produits.filter(p=>p.actif&&p.nom.toLowerCase().includes(q)).map(carte).join("");document.getElementById("produits").innerHTML=html||"Aucun article trouvé."}
+function initialiser(){document.getElementById("vedette").innerHTML=produits.slice(0,3).map(carte).join("");afficher();document.getElementById("rProduit").innerHTML=produits.map(p=>`<option value="${p.id}">${p.nom} — ${fcfa(p.prix)} FCFA</option>`).join("");afficherPanier()}
+function ajouter(id){let p=produits.find(x=>x.id===id);let a=panier.find(x=>x.id===id);a?a.qte++:panier.push({id,qte:1});sauver();alert(p.nom+" ajouté au panier.")}
+function sauver(){sessionStorage.setItem("cf_panier",JSON.stringify(panier));document.getElementById("nb").textContent=panier.reduce((s,x)=>s+x.qte,0);afficherPanier()}
+function afficherPanier(){let l=document.getElementById("liste");if(!l)return;let t=0;l.innerHTML=panier.map(a=>{let p=produits.find(x=>x.id===a.id);if(!p)return"";t+=p.prix*a.qte;return `<div class="item"><b>${p.nom}</b> — ${fcfa(p.prix)} FCFA × ${a.qte}<button onclick="changer('${p.id}',-1)">−</button><button onclick="changer('${p.id}',1)">+</button><button onclick="retirer('${p.id}')" style="background:#555">Retirer</button></div>`}).join("")||"Votre panier est vide.";document.getElementById("total").textContent=fcfa(t)}
+function changer(id,n){let a=panier.find(x=>x.id===id);if(a)a.qte+=n;panier=panier.filter(x=>x.qte>0);sauver()}
+function retirer(id){panier=panier.filter(x=>x.id!==id);sauver()}
+function vider(){panier=[];sauver()}
+function reserver(id){document.getElementById("rProduit").value=id;page("reservation")}
+function articlesTexte(){return panier.map(a=>{let p=produits.find(x=>x.id===a.id);return p?`${p.nom} x${a.qte} (${fcfa(p.prix*a.qte)} FCFA)`:""}).filter(Boolean).join(", ")}
+initialiser();
+ 
+const cleRes="cf_reservations";
+function reservationsLocales(){return JSON.parse(localStorage.getItem(cleRes)||"[]")}
+function horloge(){document.querySelectorAll("[data-expire]").forEach(e=>{let s=Math.max(0,Number(e.dataset.expire)-Date.now());e.textContent=s?`${Math.floor(s/3600000)} h ${Math.floor(s%3600000/60000)} min ${Math.floor(s%60000/1000)} s`:"Réservation expirée"})}
+setInterval(horloge,1000);
+document.getElementById("formRes").addEventListener("submit",async e=>{
+e.preventDefault();
+const p=produits.find(x=>x.id===document.getElementById("rProduit").value);
+const r={id:crypto.randomUUID(),produit_id:p.id,produit_nom:p.nom,taille:rTaille.value,couleur:rCouleur.value,quantite:Number(rQte.value),nom_client:rNom.value.trim(),telephone:rTel.value.trim(),notes:rNote.value,statut:"en_attente",cree:Date.now(),expire:Date.now()+172800000};
+const arr=reservationsLocales();arr.push(r);localStorage.setItem(cleRes,JSON.stringify(arr));
+resMsg.innerHTML=`<div class="panel"><b>Réservation enregistrée sur cet appareil.</b><p>Il vous reste <strong data-expire="${r.expire}"></strong>.</p><p>Votre réservation expire après 48 heures. Conservez ces informations.</p></div>`;horloge();e.target.reset();
+});
+document.getElementById("formCmd").addEventListener("submit",e=>{
+e.preventDefault();if(!panier.length){alert("Votre panier est vide.");page("boutique");return}
+const nom=document.getElementById("cNom").value.trim(),tel=document.getElementById("cTel").value.trim(),adr=document.getElementById("cAdresse").value.trim(),note=document.getElementById("cNote").value.trim(),ref="CF-"+Date.now().toString().slice(-8),total=panier.reduce((s,a)=>{let p=produits.find(x=>x.id===a.id);return s+(p?p.prix*a.qte:0)},0);
+const msg=`Bonjour ConductriceFashion, je souhaite commander.\nRéférence : ${ref}\nNom : ${nom}\nTéléphone : ${tel}\nAdresse : ${adr||"À préciser"}\nArticles : ${articlesTexte()}\nTotal estimé : ${fcfa(total)} FCFA\nNotes : ${note||"Aucune"}\nMerci de confirmer la disponibilité et la livraison.`;
+window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg),"_blank");
+});
+</script>
+</body>
+</html>
