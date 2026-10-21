@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F28C28">
+<title>Boutique — ConductriceFashion</title>
+<style>
+:root{--orange:#F28C28;--orange-dark:#D96F0B;--dark:#252A34;--light:#F1F4F9;--muted:#747B88;--border:#E5E8EE}
+*{box-sizing:border-box}
+body{margin:0;padding-bottom:85px;font-family:Arial,sans-serif;color:var(--dark);background:#fff}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.container{width:min(1150px,92%);margin:auto}
+.topbar{background:var(--dark);color:white;text-align:center;padding:9px;font-size:11px;letter-spacing:1px}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--border)}
+.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{background:var(--orange);color:white;padding:13px;border-radius:12px;font-weight:900}
+.brand-name{font-size:14px;font-weight:900}
+.brand-slogan{font-size:11px;color:var(--muted);margin-top:4px}
+.cart-link{border:1px solid var(--border);border-radius:11px;padding:10px;font-weight:bold}
+#count{background:var(--orange);color:white;border-radius:50%;padding:4px 7px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#fff;border-top:1px solid var(--border);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+.nav-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:650px;margin:auto;gap:4px}
+.nav-inner a{text-align:center;padding:9px 2px;border-radius:10px;font-size:11px;color:var(--muted);font-weight:bold}
+.nav-inner a.active,.nav-inner a:hover{background:#FFF1E2;color:var(--orange-dark)}
+.nav-inner span{display:block;font-size:19px;margin-bottom:4px}
+main{padding:28px 0}
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;color:var(--orange-dark)}
+h1{font-size:clamp(29px,6vw,43px);margin:10px 0}
+.intro{font-size:14px;line-height:1.8;color:var(--muted)}
+.filters{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin:22px 0}
+input,select{width:100%;min-width:0;padding:13px;border:1px solid var(--border);border-radius:10px;background:white}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.card{border:1px solid var(--border);border-radius:15px;overflow:hidden;min-width:0}
+.card img{width:100%;height:230px;object-fit:cover;background:var(--light)}
+.content{padding:12px}
+.category{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--orange-dark);font-weight:bold}
+h2{font-size:15px;margin:8px 0}
+.description{font-size:12px;color:var(--muted);line-height:1.6}
+.price{font-size:17px;font-weight:900;margin:12px 0}
+.btn{display:block;width:100%;border:0;border-radius:10px;padding:12px 7px;font-weight:bold;font-size:12px;text-align:center;margin-top:8px}
+.primary{background:var(--orange);color:white}
+.secondary{background:white;border:1px solid var(--border);color:var(--dark)}
+.message{display:none;background:#E8F7EE;color:#176B39;padding:12px;border-radius:10px;margin:15px 0;font-size:13px}
+footer{margin-top:35px;padding:25px 0;background:var(--dark);color:white;font-size:12px;line-height:1.8}
+[hidden]{display:none!important}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card img{height:220px}}
+@media(max-width:450px){.grid{gap:9px}.card img{height:175px}.content{padding:9px}.price{font-size:15px}.filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar">CONDUCTRICE FASHION · L'ÉLÉGANCE À VOTRE PORTÉE</div>
+<header><div class="container header-inner">
+<a class="brand" href="index.html"><span class="brand-mark">CF</span><span><span class="brand-name">CONDUCTRICE FASHION</span><br><span class="brand-slogan">Votre style, votre identité</span></span></a>
+<a class="cart-link" href="panier.html">🛍️ Panier <span id="count">0</span></a>
+</div></header>
+<nav><div class="nav-inner">
+<a href="index.html"><span>⌂</span>Accueil</a>
+<a class="active" href="boutique.html"><span>▦</span>Boutique</a>
+<a href="reservation.html"><span>▣</span>Réserver</a>
+<a href="panier.html"><span>🛍️</span>Panier</a>
+</div></nav>
+
+<main class="container">
+<div class="eyebrow">DÉCOUVREZ NOTRE SÉLECTION</div>
+<h1>Notre boutique</h1>
+<p class="intro">Trouvez les pièces qui correspondent à votre style. Ajoutez vos articles au panier ou réservez directement celui qui vous plaît.</p>
+<div id="message" class="message" role="status"></div>
+
+<div class="filters">
+<input id="search" type="search" placeholder="Rechercher un article..." aria-label="Rechercher un article">
+<select id="category" aria-label="Filtrer par catégorie">
+<option value="">Toutes les catégories</option>
+<option>Vêtements</option><option>Robes</option><option>Accessoires</option><option>Ensembles</option>
+</select>
+</div>
+
+<div class="grid" id="products">
+<article class="card" data-id="robe-elegante" data-name="Robe élégante" data-category="Robes" data-price="7500" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80" alt="Robe élégante">
+<div class="content"><div class="category">Robes</div><h2>Robe élégante</h2><p class="description">Une tenue élégante pour vos sorties et occasions spéciales.</p><div class="price">7 500 FCFA</div><button class="btn primary" onclick="add('robe-elegante')">Ajouter au panier</button><a class="btn secondary" href="reservation.html?produit=robe-elegante">Réserver</a></div>
+</article>
+<article class="card" data-id="ensemble-tendance" data-name="Ensemble tendance" data-category="Ensembles" data-price="10000" data-image="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=600&q=80" alt="Ensemble tendance" loading="lazy">
+<div class="content"><div class="category">Ensembles</div><h2>Ensemble tendance</h2><p class="description">Un ensemble moderne pour composer votre look.</p><div class="price">10 000 FCFA</div><button class="btn primary" onclick="add('ensemble-tendance')">Ajouter au panier</button><a class="btn secondary" href="reservation.html?produit=ensemble-tendance">Réserver</a></div>
+</article>
+<article class="card" data-id="sac-a-main" data-name="Sac à main" data-category="Accessoires" data-price="5000" data-image="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" alt="Sac à main" loading="lazy">
+<div class="content"><div class="category">Accessoires</div><h2>Sac à main</h2><p class="description">Un accessoire pour compléter votre tenue.</p><div class="price">5 000 FCFA</div><button class="btn primary" onclick="add('sac-a-main')">Ajouter au panier</button><a class="btn secondary" href="reservation.html?produit=sac-a-main">Réserver</a></div>
+</article>
+<article class="card" data-id="chemise-chic" data-name="Chemise chic" data-category="Vêtements" data-price="6000" data-image="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80" alt="Chemise chic" loading="lazy">
+<div class="content"><div class="category">Vêtements</div><h2>Chemise chic</h2><p class="description">Une pièce facile à porter pour plusieurs occasions.</p><div class="price">6 000 FCFA</div><button class="btn primary" onclick="add('chemise-chic')">Ajouter au panier</button><a class="btn secondary" href="reservation.html?produit=chemise-chic">Réserver</a></div>
+</article>
+</div>
+<p class="intro">Les articles et prix présentés sont des exemples à remplacer par les produits réels de la boutique.</p>
+</main>
+<footer><div class="container">© <span id="year"></span> ConductriceFashion — Votre style, votre identité.</div></footer>
+
+<script>
+const KEY="conductricefashion_cart_v1";
+const cards=[...document.querySelectorAll(".card")];
+function readCart(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch{return[]}}
+function updateCount(){document.getElementById("count").textContent=readCart().reduce((n,p)=>n+p.quantity,0)}
+function add(id){
+ const card=cards.find(c=>c.dataset.id===id);if(!card)return;
+ const cart=readCart();let item=cart.find(p=>p.id===id);
+ if(item)item.quantity=Math.min(50,item.quantity+1);
+ else cart.push({id:card.dataset.id,name:card.dataset.name,price:Number(card.dataset.price),image:card.dataset.image,quantity:1});
+ localStorage.setItem(KEY,JSON.stringify(cart));
+ updateCount();
+ const box=document.getElementById("message");
+ box.textContent=card.dataset.name+" a été ajouté au panier.";
+ box.style.display="block";
+}
+function filter(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const cat=document.getElementById("category").value;
+ cards.forEach(c=>c.hidden=!(c.dataset.name.toLowerCase().includes(q)&&(!cat||c.dataset.category===cat)));
+}
+document.getElementById("search").addEventListener("input",filter);
+document.getElementById("category").addEventListener("change",filter);
+document.getElementById("year").textContent=new Date().getFullYear();
+updateCount();
+</script>
+</body>
+</html>
