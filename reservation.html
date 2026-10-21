@@ -1,169 +1,345 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F28C28">
-<title>Réservation — ConductriceFashion</title>
+<title>Réservation | ConductriceFashion</title>
 <style>
-:root{--orange:#F28C28;--orange-dark:#D96F0B;--dark:#252A34;--light:#F1F4F9;--muted:#747B88;--border:#E5E8EE}
+:root{
+  --orange:#F28C28;
+  --orange2:#ffad55;
+  --dark:#252A34;
+  --cream:#fffaf4;
+  --white:#fff;
+  --muted:#747781;
+  --line:#eee7df;
+  --shadow:0 12px 35px rgba(37,42,52,.09);
+}
 *{box-sizing:border-box}
-body{margin:0;padding-bottom:85px;font-family:Arial,sans-serif;color:var(--dark);background:#fff}
-a{text-decoration:none;color:inherit}
-input,select,textarea,button{font:inherit}
-.container{width:min(900px,92%);margin:auto}
-.topbar{background:var(--dark);color:white;text-align:center;padding:9px;font-size:11px;letter-spacing:1px}
-header{position:sticky;top:0;z-index:5;background:white;border-bottom:1px solid var(--border)}
-.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{display:flex;align-items:center;gap:10px}
-.mark{background:var(--orange);color:white;padding:13px;border-radius:12px;font-weight:900}
-.brand-name{font-size:14px;font-weight:900}
-.brand-slogan{font-size:11px;color:var(--muted);margin-top:4px}
-.cart-link{border:1px solid var(--border);padding:10px;border-radius:10px;font-size:13px;font-weight:bold}
-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:white;border-top:1px solid var(--border);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
-.nav-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:650px;margin:auto}
-.nav-inner a{text-align:center;padding:9px 2px;border-radius:10px;font-size:11px;color:var(--muted);font-weight:bold}
-.nav-inner a.active,.nav-inner a:hover{background:#FFF1E2;color:var(--orange-dark)}
-.nav-inner span{display:block;font-size:19px;margin-bottom:4px}
-main{padding:30px 0}
-.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;color:var(--orange-dark)}
-h1{font-size:clamp(28px,6vw,40px);margin:10px 0}
-.intro{color:var(--muted);font-size:14px;line-height:1.8}
-.panel{padding:clamp(16px,4vw,28px);border:1px solid var(--border);border-radius:17px;box-shadow:0 8px 25px rgba(37,42,52,.06);margin-top:20px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{display:grid;gap:7px}
-.full{grid-column:1/-1}
-label{font-size:12px;font-weight:800}
-input,select,textarea{width:100%;min-width:0;padding:13px;border:1px solid var(--border);border-radius:10px;background:white;color:var(--dark)}
-textarea{min-height:90px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:2px solid #F8C28A;border-color:var(--orange)}
-.btn{width:100%;border:0;border-radius:11px;padding:14px;background:var(--orange);color:white;font-weight:800}
-.note{padding:14px;background:var(--light);border-radius:10px;color:var(--muted);font-size:12px;line-height:1.8;margin-top:16px}
-.result{display:none;padding:15px;background:#E8F7EE;color:#176B39;border-radius:10px;margin-top:16px;font-size:13px;line-height:1.8}
-footer{margin-top:35px;background:var(--dark);color:white;padding:24px 0;font-size:12px}
-@media(max-width:500px){.form-grid{grid-template-columns:1fr}.full{grid-column:auto}}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--cream);
+  color:var(--dark);
+  line-height:1.6;
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.announcement{
+  padding:9px 14px;
+  background:var(--dark);
+  color:white;
+  text-align:center;
+  font-size:12px;
+  letter-spacing:.5px;
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 3px 18px #252a340d;
+}
+.header-inner{
+  max-width:1150px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.logo{font-size:22px;font-weight:900;letter-spacing:-.8px}
+.logo span{color:var(--orange)}
+nav{display:flex;align-items:center;gap:18px;font-size:13px;font-weight:700}
+nav a:hover{color:var(--orange)}
+.cart-link{
+  background:var(--cream);
+  padding:9px 12px;
+  border-radius:12px;
+  white-space:nowrap;
+}
+.cart-count{color:var(--orange);font-weight:900}
+main{max-width:1100px;margin:auto;padding:30px 20px 60px}
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:20px}
+.breadcrumb a{color:var(--orange);font-weight:700}
+.page-heading{text-align:center;margin:15px auto 30px;max-width:650px}
+.eyebrow{
+  display:inline-block;
+  color:#a95b0a;
+  background:#fff0df;
+  padding:6px 12px;
+  border-radius:30px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+h1{font-size:clamp(29px,5vw,45px);line-height:1.12;margin:15px 0}
+.page-heading p{color:var(--muted);margin:0}
+.reservation-layout{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:25px;
+  align-items:start;
+}
+.panel{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+.panel h2{font-size:21px;margin:0 0 6px}
+.panel-intro{font-size:13px;color:var(--muted);margin:0 0 23px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:800}
+input,select,textarea{
+  width:100%;
+  min-width:0;
+  border:1px solid #e6e1db;
+  background:#fffdfa;
+  color:var(--dark);
+  border-radius:12px;
+  padding:13px 12px;
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 3px #f28c2820;
+}
+textarea{min-height:100px;resize:vertical}
+.hint{font-size:11px;color:var(--muted)}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:0;
+  border-radius:13px;
+  padding:14px 18px;
+  font-weight:900;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{
+  color:white;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  box-shadow:0 8px 18px #f28c2835;
+}
+.btn-secondary{background:var(--cream);color:var(--dark)}
+.btn-block{width:100%;margin-top:20px}
 </style>
 </head>
 <body>
-<div class="topbar">CONDUCTRICE FASHION · L'ÉLÉGANCE À VOTRE PORTÉE</div>
-<header><div class="container header-inner">
-<a href="index.html" class="brand"><span class="mark">CF</span><span><span class="brand-name">CONDUCTRICE FASHION</span><br><span class="brand-slogan">Votre style, votre identité</span></span></a>
-<a class="cart-link" href="panier.html">🛍️ Mon panier</a>
-</div></header>
-<nav><div class="nav-inner">
-<a href="index.html"><span>⌂</span>Accueil</a>
-<a href="boutique.html"><span>▦</span>Boutique</a>
-<a class="active" href="reservation.html"><span>▣</span>Réserver</a>
-<a href="panier.html"><span>🛍️</span>Panier</a>
-</div></nav>
+<div class="announcement">VOTRE STYLE, VOTRE HISTOIRE — LA MODE N’A PAS DE FRONTIÈRES</div>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">Conductrice<span>Fashion</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="boutique.html">Boutique</a>
+      <a href="reservation.html">Réservation</a>
+      <a class="cart-link" href="panier.html">🛍️ Panier <span class="cart-count">0</span></a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="breadcrumb"><a href="index.html">Accueil</a> › <a href="boutique.html">Boutique</a> › Réservation</div>
+  <section class="page-heading">
+    <span class="eyebrow">UNE PIÈCE VOUS PLAÎT ?</span>
+    <h1>Réservez votre prochain coup de cœur 🧡</h1>
+    <p>Choisissez votre article, précisez vos préférences et laissez-nous vos coordonnées pour préparer votre demande.</p>
+  </section>
+  <div class="reservation-layout">
+    <section class="panel">
+      <h2>📋 Votre réservation</h2>
+      <p class="panel-intro">Remplissez les informations ci-dessous.</p>
+      
+      <form id="reservation-form">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="produit_nom">Article souhaité *</label>
+            <select id="produit_nom" name="produit_nom" required>
+              <option value="">Choisir un article</option>
+              <option value="robe-elegante">Robe élégante — 7 500 FCFA</option>
+              <option value="ensemble-tendance">Ensemble tendance — 10 000 FCFA</option>
+              <option value="sac-a-main">Sac à main — 5 000 FCFA</option>
+              <option value="chemise-chic">Chemise chic — 6 000 FCFA</option>
+              <option value="tenue-inspiration-africaine">Tenue inspiration africaine — 8 500 FCFA</option>
+              <option value="autre">Autre article / demande particulière</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="taille">Taille *</label>
+            <select id="taille" name="taille" required>
+              <option value="">Choisir</option>
+              <option>XS</option><option>S</option><option>M</option>
+              <option>L</option><option>XL</option><option>XXL</option>
+              <option>Pointure 36</option><option>Pointure 37</option>
+              <option>Pointure 38</option><option>Pointure 39</option>
+              <option>Pointure 40</option><option>Pointure 41</option>
+              <option>Pointure 42</option><option>Sur mesure</option>
+              <option>Non applicable</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="couleur">Couleur souhaitée *</label>
+            <input id="couleur" name="couleur" required maxlength="50" placeholder="Ex. : noir, beige…">
+          </div>
+          <div class="field">
+            <label for="quantite">Quantité *</label>
+            <input id="quantite" name="quantite" type="number" min="1" max="50" value="1" required>
+          </div>
+          <div class="field">
+            <label for="nom_client">Votre nom *</label>
+            <input id="nom_client" name="nom_client" required maxlength="150" autocomplete="name" placeholder="Nom complet">
+          </div>
+          <div class="field full">
+            <label for="telephone">Téléphone / WhatsApp *</label>
+            <input id="telephone" name="telephone" type="tel" required maxlength="30" autocomplete="tel" placeholder="Ex. : +226 XX XX XX XX">
+          </div>
+          <div class="field full">
+            <label for="notes">Précisions supplémentaires (facultatif)</label>
+            <textarea id="notes" name="notes" maxlength="1000" placeholder="Votre style préféré, une mesure particulière, une question…"></textarea>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Confirmer ma demande →</button>
+        <p class="hint">L'envoi définitif sera activé lorsque la connexion au service de réservation sera configurée.</p>
+      </form>
+      <div id="feedback" role="status" aria-live="polite" hidden></div>
+    </section>
 
-<main class="container">
-<div class="eyebrow">RÉSERVEZ VOTRE SÉLECTION</div>
-<h1>Votre réservation</h1>
-<p class="intro">Remplissez ce formulaire pour demander la réservation d'un article auprès de ConductriceFashion.</p>
-
-<div class="panel">
-<form id="reservation-form">
-<div class="form-grid">
-<div class="field full">
-<label for="product">Article souhaité</label>
-<select id="product" required>
-<option value="">Sélectionner un article</option>
-<option value="robe-elegante">Robe élégante — 7 500 FCFA</option>
-<option value="ensemble-tendance">Ensemble tendance — 10 000 FCFA</option>
-<option value="sac-a-main">Sac à main — 5 000 FCFA</option>
-<option value="chemise-chic">Chemise chic — 6 000 FCFA</option>
-</select>
-</div>
-<div class="field">
-<label for="size">Taille</label>
-<select id="size" required>
-<option value="">Choisir une taille</option>
-<option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>Non applicable</option>
-</select>
-</div>
-<div class="field">
-<label for="color">Couleur souhaitée</label>
-<input id="color" maxlength="50" placeholder="Ex. noir, blanc..." required>
-</div>
-<div class="field">
-<label for="quantity">Quantité</label>
-<input id="quantity" type="number" min="1" max="50" value="1" required>
-</div>
-<div class="field">
-<label for="name">Nom complet</label>
-<input id="name" autocomplete="name" maxlength="150" required>
-</div>
-<div class="field full">
-<label for="phone">Numéro de téléphone</label>
-<input id="phone" type="tel" autocomplete="tel" maxlength="30" required>
-</div>
-<div class="field full">
-<label for="notes">Informations complémentaires (facultatif)</label>
-<textarea id="notes" maxlength="1000" placeholder="Précisions concernant votre réservation..."></textarea>
-</div>
-<div class="field full">
-<button class="btn" type="submit">Préparer ma réservation</button>
-</div>
-</div>
-</form>
-
-<div class="result" id="result" role="status"></div>
-<div class="note">
-<strong>Durée prévue : 48 heures.</strong><br>
-Le délai doit commencer à partir de la date et de l'heure de confirmation enregistrées par la boutique. Votre demande n'est pas encore confirmée tant qu'elle n'a pas été enregistrée et validée par le serveur.
-</div>
-</div>
+    <aside class="panel">
+      <h2>✨ Comment ça marche ?</h2>
+      <p class="panel-intro">Une démarche simple pour choisir votre style.</p>
+      <div style="display:flex;gap:13px;margin:22px 0">
+        <div style="font-size:25px">①</div>
+        <div><strong>Choisissez votre article</strong><div class="hint">Indiquez la taille, la couleur et la quantité souhaitées.</div></div>
+      </div>
+      <div style="display:flex;gap:13px;margin:22px 0">
+        <div style="font-size:25px">②</div>
+        <div><strong>Laissez vos coordonnées</strong><div class="hint">Votre numéro permet de vous recontacter au sujet de votre demande.</div></div>
+      </div>
+      <div style="display:flex;gap:13px;margin:22px 0">
+        <div style="font-size:25px">③</div>
+        <div><strong>Attendez la confirmation</strong><div class="hint">La disponibilité et les modalités seront confirmées avant toute commande.</div></div>
+      </div>
+      <div style="background:#fff4e8;border:1px solid #ffe1c0;border-radius:15px;padding:15px;margin-top:25px">
+        <strong>⏱️ Délai de réservation</strong>
+        <p style="font-size:13px;margin:6px 0 0;color:#72502e">Le délai prévu est de 48 heures après validation de la réservation. Le décompte réel sera activé avec l'enregistrement de la réservation.</p>
+      </div>
+      <a href="boutique.html" class="btn btn-secondary btn-block">← Retour à la boutique</a>
+    </aside>
+  </div>
 </main>
-
-<footer><div class="container">© <span id="year"></span> ConductriceFashion</div></footer>
-
-<script>
-const products={
-"robe-elegante":{name:"Robe élégante",price:7500},
-"ensemble-tendance":{name:"Ensemble tendance",price:10000},
-"sac-a-main":{name:"Sac à main",price:5000},
-"chemise-chic":{name:"Chemise chic",price:6000}
-};
-
-const params=new URLSearchParams(location.search);
-const requested=params.get("produit");
-if(requested && products[requested]){
- document.getElementById("product").value=requested;
+<footer style="background:#252A34;color:white;text-align:center;padding:25px 15px;font-size:12px">
+  <div style="font-size:18px;font-weight:900;margin-bottom:7px">Conductrice<span style="color:#F28C28">Fashion</span></div>
+  <p style="color:#d0d2d7">Votre style, votre histoire. La mode n'a pas de frontières.</p>
+  <p>© <span id="year"></span> ConductriceFashion — Tous droits réservés.</p>
+</footer>
+<style>
+@media(max-width:760px){
+  .header-inner{padding:12px;flex-wrap:wrap}
+  .logo{font-size:19px}
+  nav{width:100%;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  nav a{font-size:12px}
+  main{padding:22px 13px 40px}
+  .reservation-layout{grid-template-columns:1fr}
+  .panel{padding:19px}
 }
+@media(max-width:420px){
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .page-heading h1{font-size:30px}
+}
+            
+</style>
+             
+<script>
+(function(){
+  "use strict";
 
-document.getElementById("year").textContent=new Date().getFullYear();
+  const CART_KEY = "conductricefashion_cart_v1";
+  const form = document.getElementById("reservation-form");
+  const productSelect = document.getElementById("produit_nom");
+  const feedback = document.getElementById("feedback");
 
-document.getElementById("reservation-form").addEventListener("submit",function(event){
- event.preventDefault();
+  const productNames = {
+    "robe-elegante": "Robe élégante",
+    "ensemble-tendance": "Ensemble tendance",
+    "sac-a-main": "Sac à main",
+    "chemise-chic": "Chemise chic",
+    "tenue-inspiration-africaine": "Tenue inspiration africaine"
+  };
 
- const id=document.getElementById("product").value;
- const product=products[id];
- if(!product)return;
+  function updateCartCount(){
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      if (!Array.isArray(cart)) cart = [];
+    } catch(e) {
+      cart = [];
+    }
 
- const quantity=Number(document.getElementById("quantity").value);
- if(!Number.isInteger(quantity)||quantity<1||quantity>50){
-  alert("Veuillez choisir une quantité comprise entre 1 et 50.");
-  return;
- }
+    const total = cart.reduce(function(sum, item){
+      return sum + Math.max(0, Number(item.quantity) || 0);
+    }, 0);
 
- const reservation={
-  produit_id:id,
-  produit_nom:product.name,
-  taille:document.getElementById("size").value,
-  couleur:document.getElementById("color").value.trim(),
-  quantite:quantity,
-  nom_client:document.getElementById("name").value.trim(),
-  telephone:document.getElementById("phone").value.trim(),
-  notes:document.getElementById("notes").value.trim()
- };
+    document.querySelectorAll(".cart-count").forEach(function(el){
+      el.textContent = total;
+    });
+  }
 
- const result=document.getElementById("result");
- result.style.display="block";
- result.textContent="Formulaire rempli pour "+reservation.produit_nom+". Les informations sont prêtes, mais elles ne sont pas encore enregistrées dans Appwrite. La réservation ne doit donc pas être considérée comme confirmée.";
-});
+  function showFeedback(message){
+    feedback.hidden = false;
+    feedback.style.cssText =
+      "margin-top:18px;padding:14px;border-radius:12px;background:#fff0df;color:#74400d;font-size:13px;line-height:1.6";
+    feedback.textContent = message;
+  }
+
+  // Préremplir l'article lorsque la réservation vient de la boutique.
+  const params = new URLSearchParams(window.location.search);
+  const productParam = params.get("produit");
+
+  if (productParam && productNames[productParam]) {
+    productSelect.value = productParam;
+  }
+
+  // Proposer automatiquement l'article présent dans le panier,
+  // uniquement si aucun article n'a été transmis dans l'URL.
+  if (!productSelect.value && !productParam) {
+    try {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      if (Array.isArray(cart) && cart.length) {
+        const firstItem = cart[0];
+        if (firstItem && firstItem.id && productNames[firstItem.id]) {
+          productSelect.value = firstItem.id;
+        }
+      }
+    } catch(e) {}
+  }
+
+  form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    // La connexion à Appwrite n'est pas encore branchée à cette page.
+    // Ne pas afficher de fausse confirmation de réservation.
+    showFeedback(
+      "Votre formulaire est prêt, mais la réservation n'a pas encore été envoyée. " +
+      "La connexion au service de réservation doit être activée avant de confirmer votre demande."
+    );
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  updateCartCount();
+})();
 </script>
 </body>
-  </html>
-  
+</html>
