@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F28C28">
+<title>Mon panier — ConductriceFashion</title>
+<style>
+:root{--orange:#F28C28;--orange-dark:#D96F0B;--dark:#252A34;--light:#F1F4F9;--muted:#747B88;--border:#E5E8EE}
+*{box-sizing:border-box}
+body{margin:0;padding-bottom:85px;font-family:Arial,sans-serif;color:var(--dark);background:#fff}
+a{text-decoration:none;color:inherit}
+input,textarea,button{font:inherit}
+button{cursor:pointer}
+.container{width:min(950px,92%);margin:auto}
+.topbar{background:var(--dark);color:white;text-align:center;padding:9px;font-size:11px;letter-spacing:1px}
+header{position:sticky;top:0;z-index:5;background:white;border-bottom:1px solid var(--border)}
+.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{background:var(--orange);color:white;padding:13px;border-radius:12px;font-weight:900}
+.brand-name{font-size:14px;font-weight:900}
+.brand-slogan{font-size:11px;color:var(--muted);margin-top:4px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:white;border-top:1px solid var(--border);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+.nav-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:650px;margin:auto}
+.nav-inner a{text-align:center;padding:9px 2px;border-radius:10px;font-size:11px;color:var(--muted);font-weight:bold}
+.nav-inner a.active,.nav-inner a:hover{background:#FFF1E2;color:var(--orange-dark)}
+.nav-inner span{display:block;font-size:19px;margin-bottom:4px}
+main{padding:30px 0}
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;color:var(--orange-dark)}
+h1{font-size:clamp(28px,6vw,40px);margin:10px 0}
+.intro{font-size:14px;line-height:1.8;color:var(--muted)}
+.panel{border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:18px}
+.item{display:grid;grid-template-columns:85px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--border)}
+.item img{width:85px;height:95px;object-fit:cover;border-radius:10px;background:var(--light)}
+.item h2{font-size:14px;margin:0 0 7px}
+.item-price{font-size:13px;font-weight:bold}
+.controls{display:flex;align-items:center;gap:10px;margin-top:9px}
+.controls button{width:30px;height:30px;border:1px solid var(--border);border-radius:8px;background:white}
+.remove{border:0;background:none;color:#B33A32;font-size:12px;padding:6px}
+.total{display:flex;justify-content:space-between;gap:12px;padding:20px 0;font-size:18px;font-weight:900}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;width:100%;padding:14px;border:0;border-radius:11px;background:var(--orange);color:white;font-weight:800}
+.btn-secondary{background:white;color:var(--dark);border:1px solid var(--border);margin-top:10px}
+.field{display:grid;gap:7px;margin-bottom:14px}
+label{font-size:12px;font-weight:800}
+input,textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:10px;background:white}
+textarea{min-height:85px;resize:vertical}
+.note{background:var(--light);padding:13px;border-radius:10px;font-size:12px;line-height:1.8;color:var(--muted);margin:14px 0}
+.message{display:none;padding:13px;background:#FFF3E7;color:#80420C;border-radius:10px;font-size:13px;line-height:1.7;margin:12px 0}
+.empty{text-align:center;padding:28px 10px}
+.empty-icon{font-size:45px}
+.empty p{color:var(--muted);font-size:13px;line-height:1.7}
+[hidden]{display:none!important}
+footer{margin-top:35px;background:var(--dark);color:white;padding:24px 0;font-size:12px}
+@media(max-width:520px){.item{grid-template-columns:65px 1fr;gap:10px}.item img{width:65px;height:78px}.item .remove-wrap{grid-column:2}.total{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="topbar">CONDUCTRICE FASHION · L'ÉLÉGANCE À VOTRE PORTÉE</div>
+<header><div class="container header-inner">
+<a href="index.html" class="brand"><span class="mark">CF</span><span><span class="brand-name">CONDUCTRICE FASHION</span><br><span class="brand-slogan">Votre style, votre identité</span></span></a>
+<a href="boutique.html" style="font-size:12px;font-weight:bold;color:#D96F0B">Continuer mes achats →</a>
+</div></header>
+<nav><div class="nav-inner">
+<a href="index.html"><span>⌂</span>Accueil</a>
+<a href="boutique.html"><span>▦</span>Boutique</a>
+<a href="reservation.html"><span>▣</span>Réserver</a>
+<a class="active" href="panier.html"><span>🛍️</span>Panier</a>
+</div></nav>
+
+<main class="container">
+<div class="eyebrow">VOTRE SÉLECTION</div>
+<h1>Mon panier</h1>
+<p class="intro">Vérifiez les articles sélectionnés avant de préparer votre commande.</p>
+
+<div class="panel">
+<div id="items"></div>
+<div id="empty" class="empty" hidden>
+<div class="empty-icon">🛍️</div>
+<strong>Votre panier est vide</strong>
+<p>Découvrez nos collections et ajoutez les articles qui vous plaisent.</p>
+<a href="boutique.html" class="btn">Découvrir la boutique</a>
+</div>
+
+<div id="cart-details" hidden>
+<div class="total"><span>Total indicatif</span><span id="total">0 FCFA</span></div>
+<div class="note">Aucun paiement n'est effectué sur ce site. La disponibilité, le prix définitif et la livraison seront confirmés par la boutique.</div>
+<button class="btn" id="checkout">Continuer vers la commande</button>
+<button class="btn btn-secondary" id="clear">Vider le panier</button>
+</div>
+<div id="message" class="message" role="status"></div>
+</div>
+
+<section class="panel" id="order-section" hidden>
+<div class="eyebrow">DERNIÈRE ÉTAPE</div>
+<h2>Vos informations de commande</h2>
+<p class="intro">Renseignez vos coordonnées pour préparer votre demande.</p>
+<form id="order-form">
+<div class="field">
+<label for="name">Nom complet</label>
+<input id="name" autocomplete="name" maxlength="150" required>
+</div>
+<div class="field">
+<label for="phone">Numéro de téléphone</label>
+<input id="phone" type="tel" autocomplete="tel" maxlength="30" required>
+</div>
+<div class="field">
+<label for="address">Adresse ou lieu de retrait</label>
+<input id="address" maxlength="500" placeholder="Quartier, ville ou retrait en boutique">
+</div>
+<div class="field">
+<label for="notes">Précisions (facultatif)</label>
+<textarea id="notes" maxlength="1000" placeholder="Informations utiles concernant la commande..."></textarea>
+</div>
+<button class="btn" type="submit">Préparer la commande</button>
+</form>
+<div id="order-message" class="message" role="status"></div>
+<div class="note">La commande devra être transmise et enregistrée par le serveur avant d'être considérée comme confirmée. Le paiement se fera selon les modalités convenues avec la boutique.</div>
+</section>
+</main>
+
+<footer><div class="container">© <span id="year"></span> ConductriceFashion — Tous droits réservés.</div></footer>
+
+<script>
+"use strict";
+
+const KEY="conductricefashion_cart_v1";
+let cart=[];
+
+function loadCart(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(KEY)||"[]");
+  cart=Array.isArray(saved)?saved.filter(item=>
+   item&&typeof item.id==="string"&&
+   typeof item.name==="string"&&
+   Number.isFinite(Number(item.price))&&
+   Number.isFinite(Number(item.quantity))&&
+   Number(item.price)>=0&&Number(item.quantity)>0
+  ).map(item=>({...item,price:Number(item.price),quantity:Math.min(50,Math.floor(Number(item.quantity)))})):[];
+ }catch{cart=[]}
+}
+
+function saveCart(){
+ localStorage.setItem(KEY,JSON.stringify(cart));
+ render();
+}
+
+function money(value){
+ return new Intl.NumberFormat("fr-FR").format(value)+" FCFA";
+}
+
+function render(){
+ const list=document.getElementById("items");
+ const empty=document.getElementById("empty");
+ const details=document.getElementById("cart-details");
+ const orderSection=document.getElementById("order-section");
+
+ list.replaceChildren();
+ empty.hidden=cart.length!==0;
+ details.hidden=cart.length===0;
+
+ if(cart.length===0){
+  orderSection.hidden=true;
+  document.getElementById("total").textContent="0 FCFA";
+  return;
+ }
+
+ let total=0;
+
+ cart.forEach(item=>{
+  total+=item.price*item.quantity;
+
+  const row=document.createElement("div");
+  row.className="item";
+
+  const img=document.createElement("img");
+  img.src=item.image||"";
+  img.alt=item.name;
+  img.loading="lazy";
+
+  const info=document.createElement("div");
+  const title=document.createElement("h2");
+  title.textContent=item.name;
+
+  const price=document.createElement("div");
+  price.className="item-price";
+  price.textContent=money(item.price*item.quantity);
+
+  const controls=document.createElement("div");
+  controls.className="controls";
+
+  const minus=document.createElement("button");
+  minus.type="button";
+  minus.textContent="−";
+  minus.setAttribute("aria-label","Diminuer la quantité");
+  minus.addEventListener("click",()=>change(item.id,-1));
+
+  const quantity=document.createElement("span");
+  quantity.textContent=item.quantity;
+
+  const plus=document.createElement("button");
+  plus.type="button";
+  plus.textContent="+";
+  plus.setAttribute("aria-label","Augmenter la quantité");
+  plus.addEventListener("click",()=>change(item.id,1));
+
+  controls.append(minus,quantity,plus);
+  info.append(title,price,controls);
+
+  const removeWrap=document.createElement("div");
+  removeWrap.className="remove-wrap";
+  const remove=document.createElement("button");
+  remove.type="button";
+  remove.className="remove";
+  remove.textContent="Retirer";
+  remove.addEventListener("click",()=>removeItem(item.id));
+  removeWrap.append(remove);
+
+  row.append(img,info,removeWrap);
+  list.append(row);
+ });
+
+ document.getElementById("total").textContent=money(total);
+}
+
+function change(id,delta){
+ const item=cart.find(p=>p.id===id);
+ if(!item)return;
+
+ item.quantity+=delta;
+ if(item.quantity<=0){
+  cart=cart.filter(p=>p.id!==id);
+ }else{
+  item.quantity=Math.min(50,item.quantity);
+ }
+ saveCart();
+}
+
+function removeItem(id){
+ cart=cart.filter(item=>item.id!==id);
+ saveCart();
+}
+
+document.getElementById("clear").addEventListener("click",()=>{
+ cart=[];
+ saveCart();
+ showMessage("message","Votre panier a été vidé.");
+});
+
+document.getElementById("checkout").addEventListener("click",()=>{
+ if(cart.length===0)return;
+ document.getElementById("order-section").hidden=false;
+ document.getElementById("order-section").scrollIntoView({behavior:"smooth"});
+});
+
+function showMessage(id,text){
+ const element=document.getElementById(id);
+ element.textContent=text;
+ element.style.display="block";
+}
+
+document.getElementById("order-form").addEventListener("submit",event=>{
+ event.preventDefault();
+
+ if(cart.length===0){
+  showMessage("order-message","Votre panier est vide.");
+  return;
+ }
+
+ const order={
+  nom:document.getElementById("name").value.trim(),
+  telephone:document.getElementById("phone").value.trim(),
+  adresse:document.getElementById("address").value.trim(),
+  notes:document.getElementById("notes").value.trim(),
+  articles:cart.map(item=>({
+   id:item.id,
+   nom:item.name,
+   prix:item.price,
+   quantite:item.quantity
+  })),
+  total:cart.reduce((sum,item)=>sum+item.price*item.quantity,0)
+ };
+
+ showMessage(
+  "order-message",
+  "Votre formulaire est rempli pour un total indicatif de "+money(order.total)+". La commande n'a pas encore été envoyée au serveur Appwrite et n'est pas confirmée."
+ );
+
+ // Les données ne sont volontairement pas présentées comme une commande enregistrée.
+});
+
+document.getElementById("year").textContent=new Date().getFullYear();
+loadCart();
+render();
+</script>
+</body>
+</html>
