@@ -1,4 +1,3 @@
-# PARTIE 1/3 — Configuration
 import os
 import json
 from datetime import datetime, timedelta, timezone
@@ -18,7 +17,6 @@ def nettoyer(valeur, longueur):
     return str(valeur or "").strip()[:longueur]
 
 
-# PARTIE 2/3 — Réception et validation
 def main(context):
     try:
         req = context.req
@@ -36,7 +34,6 @@ def main(context):
                 "message": "Méthode non autorisée."
             }, 405)
 
-        # Correction : en Python, l'attribut s'appelle body_json
         corps = req.body_json
         if not isinstance(corps, dict):
             return reponse(context, {
@@ -46,33 +43,50 @@ def main(context):
 
         endpoint = os.environ["APPWRITE_FUNCTION_API_ENDPOINT"]
         project = os.environ["APPWRITE_FUNCTION_PROJECT_ID"]
-        api_key = os.environ.get("APPWRITE_FUNCTION_API_KEY")
+
+        # Appwrite fournit la clé temporaire dans l'en-tête à l'exécution.
+        en_tetes = req.headers or {}
+        api_key = (
+            en_tetes.get("x-appwrite-key")
+            or en_tetes.get("X-Appwrite-Key")
+            or os.environ.get("APPWRITE_FUNCTION_API_KEY")
+        )
 
         if not api_key:
-            context.error("Clé API de fonction indisponible.")
+            context.error(
+                "Clé API indisponible : vérifier les scopes de la fonction "
+                "et le déploiement actif."
+            )
             return reponse(context, {
                 "ok": False,
-                "message": "Backend à configurer."
+                "message": "Clé API indisponible. Vérifie la configuration du backend."
             }, 500)
 
         client = Client()
         client.set_endpoint(endpoint)
         client.set_project(project)
         client.set_key(api_key)
+
         db = TablesDB(client)
 
         action = corps.get("action")
 
-        # PARTIE 3/3 — Enregistrement
+        # ---------------- RESERVATION ----------------
         if action == "reservation":
             obligatoires = [
-                "produit_id", "produit_nom", "taille",
-                "couleur", "quantite", "nom_client",
+                "produit_id",
+                "produit_nom",
+                "taille",
+                "couleur",
+                "quantite",
+                "nom_client",
                 "telephone"
             ]
 
-            if any(not nettoyer(corps.get(k), 200)
-                   for k in obligatoires):
+            if any(
+                not nettoyer(corps.get(k), 200)
+                for k in obligatoires
+            ):
                 return reponse(context, {
                     "ok": False,
                     "message": "Complète tous les champs obligatoires."
@@ -110,6 +124,7 @@ def main(context):
 
             cree_le = row.get("$createdAt")
             expiration = None
+
             if cree_le:
                 date_creation = datetime.fromisoformat(
                     cree_le.replace("Z", "+00:00")
@@ -126,12 +141,19 @@ def main(context):
                 "expire_le": expiration
             }, 201)
 
+        # ---------------- COMMANDE ----------------
         if action == "commande":
             obligatoires = [
-                "reference", "nom_client", "telephone", "articles"
+                "reference",
+                "nom_client",
+                "telephone",
+                "articles"
             ]
-            if any(not nettoyer(corps.get(k), 5000)
-                   for k in obligatoires):
+
+            if any(
+                not nettoyer(corps.get(k), 5000)
+                for k in obligatoires
+            ):
                 return reponse(context, {
                     "ok": False,
                     "message": "Informations de commande manquantes."
