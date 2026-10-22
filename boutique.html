@@ -91,7 +91,7 @@ button{cursor:pointer}
 </nav>
 </div>
 </header>
- 
+
 <section class="hero">
 <div class="container">
 <span class="eyebrow">LA SÉLECTION DU MOMENT</span>
@@ -116,7 +116,7 @@ button{cursor:pointer}
 <button class="filter" data-filter="africaine">Inspiration africaine</button>
 </div>
 <div class="results">
-<span id="result-count">4 articles</span>
+<span id="result-count">5 articles</span>
 <select id="sort" aria-label="Trier les produits">
 <option value="featured">Sélection de la boutique</option>
 <option value="low">Prix : du moins cher au plus cher</option>
@@ -129,7 +129,7 @@ button{cursor:pointer}
 <section class="products" id="products">
 <article class="card" data-id="robe-elegante" data-name="Robe élégante" data-category="robes" data-style="europeenne" data-price="7500">
 <a class="photo" href="reservation.html?produit=robe-elegante">
-<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80" alt="Robe élégante" loading="lazy">
+<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80" alt="Robe élégante portée par un mannequin" loading="lazy">
 <span class="tag">ÉLÉGANCE</span>
 </a>
 <div class="info">
@@ -145,7 +145,7 @@ button{cursor:pointer}
 
 <article class="card" data-id="ensemble-tendance" data-name="Ensemble tendance" data-category="ensembles" data-style="international" data-price="10000">
 <a class="photo" href="reservation.html?produit=ensemble-tendance">
-<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80" alt="Ensemble tendance" loading="lazy">
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80" alt="Ensemble tendance présenté par des mannequins" loading="lazy">
 <span class="tag">TENDANCE</span>
 </a>
 <div class="info">
@@ -174,10 +174,10 @@ button{cursor:pointer}
 </div>
 </div>
 </article>
-
+ 
 <article class="card" data-id="chemise-chic" data-name="Chemise chic" data-category="vetements" data-style="europeenne" data-price="6000">
 <a class="photo" href="reservation.html?produit=chemise-chic">
-<img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80" alt="Chemise chic" loading="lazy">
+<img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80" alt="Chemise chic présentée sur un mannequin" loading="lazy">
 <span class="tag">ESSENTIEL</span>
 </a>
 <div class="info">
@@ -213,7 +213,7 @@ button{cursor:pointer}
 </div>
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>
- 
+
 <script>
 (function(){
 "use strict";
@@ -313,11 +313,11 @@ document.getElementById("reset").addEventListener("click",()=>{
 });
 document.getElementById("year").textContent=new Date().getFullYear();
 
-/* Ajout d’un exemple de tenue d’inspiration africaine */
+/* Tenue africaine : photo conservée, catalogue inchangé */
 products.insertAdjacentHTML("beforeend",`
 <article class="card" data-id="tenue-inspiration-africaine" data-name="Tenue inspiration africaine" data-category="ensembles" data-style="africaine" data-price="8500">
 <a class="photo" href="reservation.html?produit=tenue-inspiration-africaine">
-<img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80" alt="Inspiration de tenue africaine" loading="lazy">
+<img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80" alt="Tenue d’inspiration africaine" loading="lazy">
 <span class="tag">INSPIRATION AFRICAINE</span>
 </a>
 <div class="info">
@@ -344,4 +344,3 @@ applyFilters();
 </body>
 </html>
 
- 
