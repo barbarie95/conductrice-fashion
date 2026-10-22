@@ -17,10 +17,44 @@ def nettoyer(valeur, longueur):
 
 
 def valeur_row(row, cle):
-    """Lit une propriété d'un objet Row ou d'un dictionnaire."""
+    """
+    Lit les propriétés d'une ligne Appwrite.
+    Le SDK Python 26 renvoie un objet Row, pas forcément un dictionnaire.
+    """
+    correspondances = {
+        "$id": "id",
+        "$createdAt": "created_at",
+        "$updatedAt": "updated_at",
+        "$permissions": "permissions"
+    }
+
     if isinstance(row, dict):
-        return row.get(cle)
-    return getattr(row, cle, None)
+        if cle in row:
+            return row[cle]
+
+        attribut = correspondances.get(cle, cle)
+        return row.get(attribut)
+
+    attribut = correspondances.get(cle, cle)
+    valeur = getattr(row, attribut, None)
+
+    if valeur is not None:
+        return valeur
+
+    # Compatibilité si le SDK expose les données sous une autre forme.
+    for nom_methode in ("model_dump", "to_dict"):
+        methode = getattr(row, nom_methode, None)
+        if callable(methode):
+            try:
+                donnees = methode()
+                if isinstance(donnees, dict):
+                    if cle in donnees:
+                        return donnees[cle]
+                    return donnees.get(attribut)
+            except Exception:
+                pass
+
+    return None
 
 
 def main(context):
@@ -41,6 +75,7 @@ def main(context):
             }, 405)
 
         corps = req.body_json
+
         if not isinstance(corps, dict):
             return reponse(context, {
                 "ok": False,
@@ -127,23 +162,37 @@ def main(context):
             cree_le = valeur_row(row, "$createdAt")
 
             expiration = None
+
             if cree_le:
-                date_creation = datetime.fromisoformat(
-                    cree_le.replace("Z", "+00:00")
-                )
+                if isinstance(cree_le, datetime):
+                    date_creation = cree_le
+                else:
+                    date_creation = datetime.fromisoformat(
+                        str(cree_le).replace("Z", "+00:00")
+                    )
+
                 expiration = (
                     date_creation + timedelta(hours=48)
                 ).isoformat()
+
+            if not reservation_id or not expiration:
+                context.error(
+                    "Réservation créée, mais référence ou date de création "
+                    "impossible à lire dans l'objet Row."
+                )
+                return reponse(context, {
+                    "ok": False,
+                    "message": "La réservation a été créée, mais ses informations de confirmation sont indisponibles."
+                }, 500)
 
             return reponse(context, {
                 "ok": True,
                 "message": "Réservation enregistrée.",
                 "reservation_id": reservation_id,
-                "cree_le": cree_le,
+                "cree_le": cree_le.isoformat() if isinstance(cree_le, datetime) else cree_le,
                 "expire_le": expiration
             }, 201)
-
-        # ---------------- COMMANDE ----------------
+            # ---------------- COMMANDE ----------------
         if action == "commande":
             obligatoires = [
                 "reference",
@@ -194,6 +243,15 @@ def main(context):
             )
 
             commande_id = valeur_row(row, "$id")
+
+            if not commande_id:
+                context.error(
+                    "Commande créée, mais identifiant impossible à lire."
+                )
+                return reponse(context, {
+                    "ok": False,
+                    "message": "La commande a été créée, mais sa référence est indisponible."
+                }, 500)
 
             return reponse(context, {
                 "ok": True,
