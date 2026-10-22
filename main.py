@@ -218,7 +218,7 @@ def main(context):
 
             return reponse(context, {
                 "ok": True,
-                "message": "Réservation enregistrée.",
+            "message": "Réservation confirmée ! ❤️",
                 "reservation_id": str(reservation_id),
                 "cree_le": date_creation.isoformat(),
                 "expire_le": expiration.isoformat()
