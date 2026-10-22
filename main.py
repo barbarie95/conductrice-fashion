@@ -1,4 +1,3 @@
-
 # PARTIE 1/3 — Configuration
 import os
 import json
@@ -37,7 +36,8 @@ def main(context):
                 "message": "Méthode non autorisée."
             }, 405)
 
-        corps = req.bodyJson
+        # Correction : en Python, l'attribut s'appelle body_json
+        corps = req.body_json
         if not isinstance(corps, dict):
             return reponse(context, {
                 "ok": False,
@@ -186,4 +186,3 @@ def main(context):
             "ok": False,
             "message": "Erreur interne du backend."
         }, 500)
-            
