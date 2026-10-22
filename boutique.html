@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F28C28">
-<meta name="description" content="Découvrez les vêtements et accessoires ConductriceFashion : mode africaine, européenne et américaine.">
+<meta name="description" content="Découvrez les vêtements et accessoires ConductriceFashion.">
 <title>Boutique | ConductriceFashion</title>
+
 <style>
 :root{--orange:#F28C28;--dark:#252A34;--cream:#fffaf4;--muted:#747781;--line:#eee7df}
 *{box-sizing:border-box}
@@ -15,7 +17,7 @@ a{color:inherit;text-decoration:none}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .container{width:min(1160px,92%);margin:auto}
-.announcement{background:var(--dark);color:white;text-align:center;padding:8px 10px;font-size:11px;letter-spacing:.6px}
+.announcement{background:var(--dark);color:white;text-align:center;padding:8px;font-size:11px;letter-spacing:.6px}
 .header{position:sticky;top:0;background:white;z-index:20;box-shadow:0 3px 18px #00000008}
 .header-main{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .logo{font-size:21px;font-weight:900;letter-spacing:-1px}
@@ -51,10 +53,13 @@ button{cursor:pointer}
 .info{padding:13px}
 .info small{font-size:10px;letter-spacing:1px;color:#a66a2b;font-weight:800}
 .info h2{font-size:16px;margin:5px 0}
+.description{font-size:12px;color:var(--muted);margin:5px 0}
 .price{font-size:16px;font-weight:900;margin:8px 0 13px}
+.stock{font-size:11px;color:#477a53;margin:0 0 10px}
 .card-actions{display:grid;gap:8px}
 .card-actions .btn{width:100%;padding:11px 6px;font-size:11px}
 .reserve{display:block;text-align:center;font-size:12px;font-weight:800;color:#a85d13;padding:5px}
+.status{margin:14px 0;padding:13px 15px;border-radius:10px;background:#fff0df;color:#754515;font-size:13px}
 .empty{display:none;text-align:center;background:white;border:1px dashed #e2d1be;border-radius:14px;padding:30px;margin-bottom:40px}
 .empty strong{font-size:18px}
 .empty p{color:var(--muted);font-size:13px}
@@ -77,6 +82,7 @@ button{cursor:pointer}
 </head>
 <body>
 <div class="announcement">AFRIQUE · EUROPE · AMÉRIQUE — LE STYLE N’A PAS DE FRONTIÈRES</div>
+
 <header class="header">
 <div class="container">
 <div class="header-main">
@@ -102,6 +108,8 @@ button{cursor:pointer}
 </section>
 
 <main class="container" id="catalogue">
+<div id="connection-status" class="status" role="status">Connexion à la boutique en cours…</div>
+
 <section class="tools">
 <label class="searchbox">
 <span>⌕</span>
@@ -116,7 +124,7 @@ button{cursor:pointer}
 <button class="filter" data-filter="africaine">Inspiration africaine</button>
 </div>
 <div class="results">
-<span id="result-count">5 articles</span>
+<span id="result-count">Chargement…</span>
 <select id="sort" aria-label="Trier les produits">
 <option value="featured">Sélection de la boutique</option>
 <option value="low">Prix : du moins cher au plus cher</option>
@@ -126,78 +134,13 @@ button{cursor:pointer}
 </div>
 </section>
 
-<section class="products" id="products">
-<article class="card" data-id="robe-elegante" data-name="Robe élégante" data-category="robes" data-style="europeenne" data-price="7500">
-<a class="photo" href="reservation.html?produit=robe-elegante">
-<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80" alt="Robe élégante portée par un mannequin" loading="lazy">
-<span class="tag">ÉLÉGANCE</span>
-</a>
-<div class="info">
-<small>ROBES · STYLE CHIC</small>
-<h2>Robe élégante</h2>
-<p class="price">7 500 FCFA</p>
-<div class="card-actions">
-<button class="btn add-cart" data-id="robe-elegante" data-name="Robe élégante" data-price="7500" data-image="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button>
-<a class="reserve" href="reservation.html?produit=robe-elegante">Réserver cet article ↗</a>
-</div>
-</div>
-</article>
-
-<article class="card" data-id="ensemble-tendance" data-name="Ensemble tendance" data-category="ensembles" data-style="international" data-price="10000">
-<a class="photo" href="reservation.html?produit=ensemble-tendance">
-<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80" alt="Ensemble tendance présenté par des mannequins" loading="lazy">
-<span class="tag">TENDANCE</span>
-</a>
-<div class="info">
-<small>ENSEMBLES · MODE</small>
-<h2>Ensemble tendance</h2>
-<p class="price">10 000 FCFA</p>
-<div class="card-actions">
-<button class="btn add-cart" data-id="ensemble-tendance" data-name="Ensemble tendance" data-price="10000" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button>
-<a class="reserve" href="reservation.html?produit=ensemble-tendance">Réserver cet article ↗</a>
-</div>
-</div>
-</article>
-
-<article class="card" data-id="sac-a-main" data-name="Sac à main" data-category="accessoires" data-style="international" data-price="5000">
-<a class="photo" href="reservation.html?produit=sac-a-main">
-<img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80" alt="Sac à main élégant" loading="lazy">
-<span class="tag">ACCESSOIRE</span>
-</a>
-<div class="info">
-<small>ACCESSOIRES · STYLE</small>
-<h2>Sac à main</h2>
-<p class="price">5 000 FCFA</p>
-<div class="card-actions">
-<button class="btn add-cart" data-id="sac-a-main" data-name="Sac à main" data-price="5000" data-image="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button>
-<a class="reserve" href="reservation.html?produit=sac-a-main">Réserver cet article ↗</a>
-</div>
-</div>
-</article>
- 
-<article class="card" data-id="chemise-chic" data-name="Chemise chic" data-category="vetements" data-style="europeenne" data-price="6000">
-<a class="photo" href="reservation.html?produit=chemise-chic">
-<img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80" alt="Chemise chic présentée sur un mannequin" loading="lazy">
-<span class="tag">ESSENTIEL</span>
-</a>
-<div class="info">
-<small>VÊTEMENTS · CHIC</small>
-<h2>Chemise chic</h2>
-<p class="price">6 000 FCFA</p>
-<div class="card-actions">
-<button class="btn add-cart" data-id="chemise-chic" data-name="Chemise chic" data-price="6000" data-image="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button>
-<a class="reserve" href="reservation.html?produit=chemise-chic">Réserver cet article ↗</a>
-</div>
-</div>
-</article>
-</section>
+<section class="products" id="products" aria-live="polite"></section>
 
 <div class="empty" id="empty">
-<strong>Aucun article trouvé</strong>
-<p>Essaie un autre mot ou choisis une autre catégorie.</p>
+<strong id="empty-title">Aucun produit trouvé</strong>
+<p id="empty-description">Les produits actifs ajoutés dans l’espace Appwrite apparaîtront ici.</p>
 <button class="btn" id="reset">Voir tous les articles</button>
 </div>
-<p style="font-size:11px;color:#747781;padding-bottom:28px">Les articles, images et prix présentés sont des exemples provisoires. Remplace-les par le catalogue réel de la boutique avant l’ouverture officielle.</p>
 </main>
 
 <footer class="footer">
@@ -212,135 +155,195 @@ button{cursor:pointer}
 <small>© <span id="year"></span> ConductriceFashion</small>
 </div>
 </footer>
+
 <div id="toast" role="status" aria-live="polite"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
 <script>
 (function(){
 "use strict";
-const KEY="conductricefashion_cart_v1";
-const products=document.getElementById("products");
+
+/* Configuration du projet ConductriceFashion */
+const ENDPOINT="https://fra.cloud.appwrite.io/v1";
+const PROJECT_ID="6ad7761700274f3ae4b1";
+const DATABASE_ID="6ad7a426000ad1659f6b";
+const TABLE_ID="produits";
+const CART_KEY="conductricefashion_cart_v1";
+
+const status=document.getElementById("connection-status");
+const productsNode=document.getElementById("products");
 const search=document.getElementById("search");
 const filters=[...document.querySelectorAll(".filter")];
 const sort=document.getElementById("sort");
 const count=document.getElementById("result-count");
 const empty=document.getElementById("empty");
 const toast=document.getElementById("toast");
-let activeFilter="tout",timer;
+let allProducts=[];
+let activeFilter="tout";
+let toastTimer;
 
+const money=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0});
+
+function notify(message){
+ toast.textContent=message;
+ toast.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>toast.classList.remove("show"),2400);
+}
 function getCart(){
  try{
-  const c=JSON.parse(localStorage.getItem(KEY)||"[]");
-  return Array.isArray(c)?c:[];
+  const value=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+  return Array.isArray(value)?value:[];
  }catch(e){return []}
 }
-function updateCount(){
- const n=getCart().reduce((sum,p)=>sum+Math.max(0,Number(p.quantity)||0),0);
- document.querySelectorAll(".cart-count").forEach(el=>el.textContent=n);
+function updateCartCount(){
+ const total=getCart().reduce((sum,item)=>sum+Math.max(0,Number(item.quantity)||0),0);
+ document.querySelectorAll(".cart-count").forEach(node=>node.textContent=total);
 }
-function notify(text){
- toast.textContent=text;
- toast.classList.add("show");
- clearTimeout(timer);
- timer=setTimeout(()=>toast.classList.remove("show"),2400);
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
 }
-function addItem(button){
- const item={
-  id:button.dataset.id,
-  name:button.dataset.name,
-  price:Number(button.dataset.price),
-  image:button.dataset.image,
-  quantity:1
- };
- if(!item.id||!item.name||!Number.isFinite(item.price)){
-  notify("Impossible d’ajouter cet article.");
+function categoryFor(product){
+ const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+ if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return "accessoires";
+ if(/robe|jupe/.test(text))return "robes";
+ if(/ensemble|complet|costume|tenue/.test(text))return "ensembles";
+ return "vetements";
+}
+function styleFor(product){
+ const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+ return /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(text)?"africaine":"international";
+}
+function addToCart(product){
+ const price=Number(product.prix);
+ if(!product.$id||!product.nom||!Number.isFinite(price)){
+  notify("Les informations de cet article sont incomplètes.");
+  return;
+ }
+ if(Number(product.stock)<=0){
+  notify("Cet article est actuellement indisponible.");
   return;
  }
  const cart=getCart();
- const old=cart.find(p=>p.id===item.id);
+ const old=cart.find(item=>item.id===product.$id);
  if(old)old.quantity=(Number(old.quantity)||0)+1;
- else cart.push(item);
+ else cart.push({
+  id:product.$id,
+  name:product.nom,
+  price:price,
+  image:product.photo_url||"",
+  quantity:1
+ });
  try{
-  localStorage.setItem(KEY,JSON.stringify(cart));
-  updateCount();
-  notify(item.name+" ajouté au panier !");
-  const oldText=button.textContent;
-  button.textContent="✓ Ajouté !";
-  setTimeout(()=>button.textContent=oldText,1200);
+  localStorage.setItem(CART_KEY,JSON.stringify(cart));
+  updateCartCount();
+  notify(product.nom+" ajouté au panier !");
  }catch(e){
-  notify("Le panier n’a pas pu être enregistré dans ce navigateur.");
+  notify("Le panier n’a pas pu être enregistré sur cet appareil.");
  }
 }
-function applyFilters(){
+function render(){
  const term=search.value.trim().toLocaleLowerCase("fr");
- let cards=[...products.querySelectorAll(".card")];
- cards.forEach(card=>{
-  const category=(card.dataset.category||"").toLowerCase();
-  const style=(card.dataset.style||"").toLowerCase();
-  const name=(card.dataset.name||"").toLocaleLowerCase("fr");
-  const text=(card.innerText||"").toLocaleLowerCase("fr");
-  const matchFilter=activeFilter==="tout"||
+ let visible=allProducts.filter(product=>{
+  const category=categoryFor(product);
+  const style=styleFor(product);
+  const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+  const matchesCategory=activeFilter==="tout"||
    category===activeFilter||
-   (activeFilter==="africaine"&&style.includes("africaine"));
-  const matchText=!term||(name+" "+text+" "+style).includes(term);
-  card.hidden=!(matchFilter&&matchText);
+   (activeFilter==="africaine"&&style==="africaine");
+  return matchesCategory&&(!term||text.includes(term));
  });
- cards=cards.filter(card=>!card.hidden);
- if(sort.value==="low")cards.sort((a,b)=>Number(a.dataset.price)-Number(b.dataset.price));
- if(sort.value==="high")cards.sort((a,b)=>Number(b.dataset.price)-Number(a.dataset.price));
- if(sort.value==="az")cards.sort((a,b)=>a.dataset.name.localeCompare(b.dataset.name,"fr"));
- cards.forEach(card=>products.appendChild(card));
- count.textContent=cards.length+(cards.length>1?" articles":" article");
- empty.style.display=cards.length?"none":"block";
- products.style.display=cards.length?"grid":"none";
+ if(sort.value==="low")visible.sort((a,b)=>Number(a.prix)-Number(b.prix));
+ if(sort.value==="high")visible.sort((a,b)=>Number(b.prix)-Number(a.prix));
+ if(sort.value==="az")visible.sort((a,b)=>a.nom.localeCompare(b.nom,"fr"));
+
+ count.textContent=visible.length+(visible.length>1?" articles":" article");
+ productsNode.innerHTML="";
+
+ visible.forEach(product=>{
+  const image=String(product.photo_url||"").trim();
+  const safeImage=/^https?:\/\//i.test(image)?image:"";
+  const category=categoryFor(product);
+  const label=category==="robes"?"ROBES":category==="ensembles"?"ENSEMBLES":category==="accessoires"?"ACCESSOIRES":"VÊTEMENTS";
+  const article=document.createElement("article");
+  article.className="card";
+  article.innerHTML=`
+   <a class="photo" href="reservation.html?produit=${encodeURIComponent(product.$id)}">
+    ${safeImage
+      ?`<img src="${escapeHTML(safeImage)}" alt="${escapeHTML(product.nom)}" loading="lazy">`
+      :`<div style="height:255px;display:grid;place-items:center;color:#8a7664;padding:20px;text-align:center">Photo à ajouter depuis l’administration</div>`}
+    <span class="tag">${label}</span>
+   </a>
+   <div class="info">
+    <small>${label} · CONDUCTRICEFASHION</small>
+    <h2>${escapeHTML(product.nom)}</h2>
+    ${product.description?`<p class="description">${escapeHTML(product.description)}</p>`:""}
+    <p class="price">${money.format(Number(product.prix)||0)} FCFA</p>
+    <p class="stock">${Number(product.stock)>0?"Disponible":"Indisponible"}</p>
+    <div class="card-actions">
+     <button class="btn add-cart" type="button">＋ Ajouter au panier</button>
+     <a class="reserve" href="reservation.html?produit=${encodeURIComponent(product.$id)}">Réserver cet article ↗</a>
+    </div>
+   </div>`;
+  article.querySelector(".add-cart").addEventListener("click",()=>addToCart(product));
+  productsNode.appendChild(article);
+ });
+
+ empty.style.display=visible.length?"none":"block";
+ productsNode.style.display=visible.length?"grid":"none";
+
+ if(allProducts.length===0){
+  document.getElementById("empty-title").textContent="La boutique attend ses premiers produits";
+  document.getElementById("empty-description").textContent="Aucun produit actif n’est encore enregistré dans Appwrite. Ajoute tes produits depuis l’administration lorsque cette partie sera disponible.";
+ }else if(visible.length===0){
+  document.getElementById("empty-title").textContent="Aucun article trouvé";
+  document.getElementById("empty-description").textContent="Essaie un autre mot ou choisis une autre catégorie.";
+ }
 }
-filters.forEach(btn=>btn.addEventListener("click",()=>{
- activeFilter=btn.dataset.filter;
- filters.forEach(f=>f.classList.toggle("active",f===btn));
- applyFilters();
+async function loadProducts(){
+ try{
+  if(!window.Appwrite)throw new Error("Le SDK Appwrite ne s’est pas chargé.");
+  const client=new Appwrite.Client()
+   .setEndpoint(ENDPOINT)
+   .setProject(PROJECT_ID);
+  const tablesDB=new Appwrite.TablesDB(client);
+  const response=await tablesDB.listRows({
+   databaseId:DATABASE_ID,
+   tableId:TABLE_ID,
+   queries:[Appwrite.Query.equal("actif",true)],
+   total:true
+  });
+  allProducts=Array.isArray(response.rows)?response.rows:[];
+  status.textContent="Boutique connectée à Appwrite.";
+  render();
+ }catch(error){
+  console.error("Erreur Appwrite :",error);
+  status.textContent="Connexion impossible : vérifie les permissions de lecture de la table produits et la configuration Appwrite.";
+  count.textContent="Produits non chargés";
+  allProducts=[];
+  render();
+ }
+}
+filters.forEach(button=>button.addEventListener("click",()=>{
+ activeFilter=button.dataset.filter;
+ filters.forEach(item=>item.classList.toggle("active",item===button));
+ render();
 }));
-search.addEventListener("input",applyFilters);
-sort.addEventListener("change",applyFilters);
-products.addEventListener("click",e=>{
- const btn=e.target.closest(".add-cart");
- if(btn)addItem(btn);
-});
+search.addEventListener("input",render);
+sort.addEventListener("change",render);
 document.getElementById("reset").addEventListener("click",()=>{
  search.value="";
  activeFilter="tout";
- filters.forEach(f=>f.classList.toggle("active",f.dataset.filter==="tout"));
  sort.value="featured";
- applyFilters();
+ filters.forEach(item=>item.classList.toggle("active",item.dataset.filter==="tout"));
+ render();
 });
 document.getElementById("year").textContent=new Date().getFullYear();
-
-/* Tenue africaine : photo conservée, catalogue inchangé */
-products.insertAdjacentHTML("beforeend",`
-<article class="card" data-id="tenue-inspiration-africaine" data-name="Tenue inspiration africaine" data-category="ensembles" data-style="africaine" data-price="8500">
-<a class="photo" href="reservation.html?produit=tenue-inspiration-africaine">
-<img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80" alt="Tenue d’inspiration africaine" loading="lazy">
-<span class="tag">INSPIRATION AFRICAINE</span>
-</a>
-<div class="info">
-<small>ENSEMBLES · INSPIRATION</small>
-<h2>Tenue inspiration africaine</h2>
-<p class="price">8 500 FCFA</p>
-<div class="card-actions">
-<button class="btn add-cart" data-id="tenue-inspiration-africaine" data-name="Tenue inspiration africaine" data-price="8500" data-image="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button>
-<a class="reserve" href="reservation.html?produit=tenue-inspiration-africaine">Réserver cet article ↗</a>
-</div>
-</div>
-</article>`);
-
-const params=new URLSearchParams(location.search);
-const category=params.get("categorie");
-if(category&&filters.some(f=>f.dataset.filter===category)){
- activeFilter=category;
- filters.forEach(f=>f.classList.toggle("active",f.dataset.filter===category));
-}
-updateCount();
-applyFilters();
+updateCartCount();
+loadProducts();
 })();
 </script>
 </body>
 </html>
-
