@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from appwrite.client import Client
 from appwrite.services.tables_db import TablesDB
@@ -18,8 +18,8 @@ def nettoyer(valeur, longueur):
 
 def valeur_row(row, cle):
     """
-    Lit les propriétés d'une ligne Appwrite.
-    Le SDK Python 26 renvoie un objet Row, pas forcément un dictionnaire.
+    Récupère une propriété système d'une ligne Appwrite.
+    Compatible avec les dictionnaires et les objets du SDK Python.
     """
     correspondances = {
         "$id": "id",
@@ -27,34 +27,69 @@ def valeur_row(row, cle):
         "$updatedAt": "updated_at",
         "$permissions": "permissions"
     }
+    attribut = correspondances.get(cle, cle)
 
     if isinstance(row, dict):
-        if cle in row:
-            return row[cle]
+        valeur = row.get(cle)
+        if valeur is not None:
+            return valeur
 
-        attribut = correspondances.get(cle, cle)
-        return row.get(attribut)
+        valeur = row.get(attribut)
+        if valeur is not None:
+            return valeur
 
-    attribut = correspondances.get(cle, cle)
-    valeur = getattr(row, attribut, None)
+    # Lecture directe des attributs du modèle Appwrite.
+    for nom in (attribut, cle):
+        try:
+            valeur = getattr(row, nom, None)
+            if valeur is not None:
+                return valeur
+        except Exception:
+            pass
 
-    if valeur is not None:
-        return valeur
-
-    # Compatibilité si le SDK expose les données sous une autre forme.
+    # Compatibilité avec les modèles Pydantic du SDK récent.
     for nom_methode in ("model_dump", "to_dict"):
         methode = getattr(row, nom_methode, None)
         if callable(methode):
-            try:
-                donnees = methode()
-                if isinstance(donnees, dict):
-                    if cle in donnees:
-                        return donnees[cle]
-                    return donnees.get(attribut)
-            except Exception:
-                pass
+            for options in (
+                {"by_alias": True},
+                {},
+            ):
+                try:
+                    donnees = methode(**options)
+                    if isinstance(donnees, dict):
+                        valeur = donnees.get(cle)
+                        if valeur is None:
+                            valeur = donnees.get(attribut)
+                        if valeur is not None:
+                            return valeur
+                except (TypeError, ValueError, AttributeError):
+                    pass
+                except Exception:
+                    pass
 
     return None
+
+
+def date_compatible(valeur):
+    """Convertit une date Appwrite en datetime avec fuseau horaire."""
+    if isinstance(valeur, datetime):
+        date = valeur
+    elif valeur:
+        texte = str(valeur).strip()
+        try:
+            date = datetime.fromisoformat(
+                texte.replace("Z", "+00:00")
+            )
+        except (ValueError, TypeError):
+            return None
+    else:
+        return None
+
+    if date.tzinfo is None:
+        date = date.replace(tzinfo=timezone.utc)
+
+    return date
 
 
 def main(context):
@@ -96,7 +131,10 @@ def main(context):
             context.error("Clé API indisponible.")
             return reponse(context, {
                 "ok": False,
-                "message": "Clé API indisponible. Vérifie la configuration du backend."
+                "message": (
+                    "Clé API indisponible. "
+                    "Vérifie la configuration du backend."
+                )
             }, 500)
 
         client = Client()
@@ -151,48 +189,42 @@ def main(context):
                 "statut": "en_attente"
             }
 
+            reservation_id_genere = ID.unique()
+            date_avant_creation = datetime.now(timezone.utc)
+
             row = db.create_row(
                 database_id=DATABASE_ID,
                 table_id=os.environ["TABLE_RESERVATIONS_ID"],
-                row_id=ID.unique(),
+                row_id=reservation_id_genere,
                 data=data
             )
 
-            reservation_id = valeur_row(row, "$id")
-            cree_le = valeur_row(row, "$createdAt")
+            # Le row_id envoyé à Appwrite sert de solution de repli
+            # si le SDK ne restitue pas la propriété système $id.
+            reservation_id = (
+                valeur_row(row, "$id")
+                or reservation_id_genere
+            )
 
-            expiration = None
+            cree_le_brut = valeur_row(row, "$createdAt")
+            date_creation = (
+                date_compatible(cree_le_brut)
+                or date_avant_creation
+            )
 
-            if cree_le:
-                if isinstance(cree_le, datetime):
-                    date_creation = cree_le
-                else:
-                    date_creation = datetime.fromisoformat(
-                        str(cree_le).replace("Z", "+00:00")
-                    )
-
-                expiration = (
-                    date_creation + timedelta(hours=48)
-                ).isoformat()
-
-            if not reservation_id or not expiration:
-                context.error(
-                    "Réservation créée, mais référence ou date de création "
-                    "impossible à lire dans l'objet Row."
-                )
-                return reponse(context, {
-                    "ok": False,
-                    "message": "La réservation a été créée, mais ses informations de confirmation sont indisponibles."
-                }, 500)
+            expiration = (
+                date_creation + timedelta(hours=48)
+            )
 
             return reponse(context, {
                 "ok": True,
                 "message": "Réservation enregistrée.",
-                "reservation_id": reservation_id,
-                "cree_le": cree_le.isoformat() if isinstance(cree_le, datetime) else cree_le,
-                "expire_le": expiration
+                "reservation_id": str(reservation_id),
+                "cree_le": date_creation.isoformat(),
+                "expire_le": expiration.isoformat()
             }, 201)
-            # ---------------- COMMANDE ----------------
+    
+        # ---------------- COMMANDE ----------------
         if action == "commande":
             obligatoires = [
                 "reference",
@@ -235,28 +267,24 @@ def main(context):
                 "notes": nettoyer(corps.get("notes"), 1000)
             }
 
+            commande_id_genere = ID.unique()
+
             row = db.create_row(
                 database_id=DATABASE_ID,
                 table_id=os.environ["TABLE_COMMANDES_ID"],
-                row_id=ID.unique(),
+                row_id=commande_id_genere,
                 data=data
             )
 
-            commande_id = valeur_row(row, "$id")
-
-            if not commande_id:
-                context.error(
-                    "Commande créée, mais identifiant impossible à lire."
-                )
-                return reponse(context, {
-                    "ok": False,
-                    "message": "La commande a été créée, mais sa référence est indisponible."
-                }, 500)
+            commande_id = (
+                valeur_row(row, "$id")
+                or commande_id_genere
+            )
 
             return reponse(context, {
                 "ok": True,
                 "message": "Commande enregistrée.",
-                "commande_id": commande_id
+                "commande_id": str(commande_id)
             }, 201)
 
         return reponse(context, {
@@ -270,3 +298,4 @@ def main(context):
             "ok": False,
             "message": "Erreur interne du backend."
         }, 500)
+        
