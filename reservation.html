@@ -368,10 +368,6 @@ async function callBackend(payload) {
     );
   }
 
-  /*
-   * Une exécution Appwrite peut renvoyer le résultat de la fonction
-   * dans responseBody. On vérifie ce résultat avant toute confirmation.
-   */
   let result = execution.responseBody;
 
   if (typeof result === "string") {
@@ -392,7 +388,9 @@ async function callBackend(payload) {
 
   return result;
 }
-
+  </script>
+  
+<script>
 /* Enregistrement de la réservation */
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -434,11 +432,11 @@ form.addEventListener("submit", async function (event) {
 
     if (!result.reservation_id || !result.expire_le) {
       throw new Error(
-        "Le serveur n’a pas fourni la référence et l’expiration de la réservation."
+        "Le serveur n’a pas fourni les informations nécessaires à la réservation."
       );
     }
 
-    /* Le compte à rebours n’est affiché qu’après la confirmation serveur. */
+    /* L'identifiant reste enregistré en interne, sans être affiché. */
     const reservation = {
       id: result.reservation_id,
       expireLe: result.expire_le
@@ -453,14 +451,11 @@ form.addEventListener("submit", async function (event) {
       /* La réservation reste enregistrée même si le stockage local échoue. */
     }
 
-    showNotice(
-      "Réservation enregistrée avec succès ! Référence : " +
-      result.reservation_id,
-      "success"
-    );
+    showNotice("Réservation confirmée ! ❤️", "success");
 
     startCountdown(result.expire_le);
     form.reset();
+
   } catch (error) {
     console.error("Erreur de réservation :", error);
     showNotice(
@@ -473,7 +468,8 @@ form.addEventListener("submit", async function (event) {
     submitBtn.textContent = "Confirmer ma réservation";
   }
 });
-  /* Décompte basé sur la date d’expiration renvoyée par Appwrite */
+
+/* Décompte basé sur la date d'expiration renvoyée par Appwrite */
 let countdownInterval = null;
 
 function startCountdown(expireLe) {
@@ -497,6 +493,7 @@ function startCountdown(expireLe) {
       timerElement.textContent = "00:00:00";
       timerBox.querySelector("p").textContent =
         "Le délai de 48 heures est terminé.";
+
       clearInterval(countdownInterval);
       countdownInterval = null;
 
@@ -504,6 +501,7 @@ function startCountdown(expireLe) {
         const saved = JSON.parse(
           localStorage.getItem("conductricefashion_reservation_v1") || "null"
         );
+
         if (saved && saved.expireLe === expireLe) {
           localStorage.removeItem("conductricefashion_reservation_v1");
         }
@@ -528,7 +526,7 @@ function startCountdown(expireLe) {
   countdownInterval = setInterval(updateCountdown, 1000);
 }
 
-/* Restaurer le décompte après rechargement de cette page */
+/* Restaurer le décompte après rechargement de la page */
 try {
   const savedReservation = JSON.parse(
     localStorage.getItem("conductricefashion_reservation_v1") || "null"
@@ -539,11 +537,9 @@ try {
 
     if (Number.isFinite(expiration) && expiration > Date.now()) {
       startCountdown(savedReservation.expireLe);
-      showNotice(
-        "Dernière réservation enregistrée sur cet appareil : " +
-        savedReservation.id,
-        "success"
-      );
+
+      /* Ne jamais afficher l'identifiant technique au client. */
+      showNotice("Réservation confirmée ! ❤️", "success");
     } else {
       localStorage.removeItem("conductricefashion_reservation_v1");
     }
@@ -554,3 +550,5 @@ try {
 </script>
 </body>
 </html>
+
+              
