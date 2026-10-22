@@ -1,6 +1,5 @@
 import os
-import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from appwrite.client import Client
 from appwrite.services.tables_db import TablesDB
@@ -15,6 +14,13 @@ def reponse(context, donnees, code=200):
 
 def nettoyer(valeur, longueur):
     return str(valeur or "").strip()[:longueur]
+
+
+def valeur_row(row, cle):
+    """Lit une propriété d'un objet Row ou d'un dictionnaire."""
+    if isinstance(row, dict):
+        return row.get(cle)
+    return getattr(row, cle, None)
 
 
 def main(context):
@@ -44,7 +50,6 @@ def main(context):
         endpoint = os.environ["APPWRITE_FUNCTION_API_ENDPOINT"]
         project = os.environ["APPWRITE_FUNCTION_PROJECT_ID"]
 
-        # Appwrite fournit la clé temporaire dans l'en-tête à l'exécution.
         en_tetes = req.headers or {}
         api_key = (
             en_tetes.get("x-appwrite-key")
@@ -53,10 +58,7 @@ def main(context):
         )
 
         if not api_key:
-            context.error(
-                "Clé API indisponible : vérifier les scopes de la fonction "
-                "et le déploiement actif."
-            )
+            context.error("Clé API indisponible.")
             return reponse(context, {
                 "ok": False,
                 "message": "Clé API indisponible. Vérifie la configuration du backend."
@@ -68,7 +70,6 @@ def main(context):
         client.set_key(api_key)
 
         db = TablesDB(client)
-
         action = corps.get("action")
 
         # ---------------- RESERVATION ----------------
@@ -122,9 +123,10 @@ def main(context):
                 data=data
             )
 
-            cree_le = row.get("$createdAt")
-            expiration = None
+            reservation_id = valeur_row(row, "$id")
+            cree_le = valeur_row(row, "$createdAt")
 
+            expiration = None
             if cree_le:
                 date_creation = datetime.fromisoformat(
                     cree_le.replace("Z", "+00:00")
@@ -136,7 +138,7 @@ def main(context):
             return reponse(context, {
                 "ok": True,
                 "message": "Réservation enregistrée.",
-                "reservation_id": row.get("$id"),
+                "reservation_id": reservation_id,
                 "cree_le": cree_le,
                 "expire_le": expiration
             }, 201)
@@ -191,10 +193,12 @@ def main(context):
                 data=data
             )
 
+            commande_id = valeur_row(row, "$id")
+
             return reponse(context, {
                 "ok": True,
                 "message": "Commande enregistrée.",
-                "commande_id": row.get("$id")
+                "commande_id": commande_id
             }, 201)
 
         return reponse(context, {
