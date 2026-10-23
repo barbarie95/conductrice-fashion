@@ -17,162 +17,60 @@
   --shadow:0 12px 35px rgba(37,42,52,.08);
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--cream);
-  color:var(--dark);
-  line-height:1.6;
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--dark);line-height:1.6}
 a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit}
-.announcement{
-  padding:9px 12px;
-  background:var(--dark);
-  color:white;
-  text-align:center;
-  font-size:12px;
-  letter-spacing:.5px;
-}
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:rgba(255,255,255,.97);
-  box-shadow:0 3px 18px #252a340d;
-}
-.header-inner{
-  max-width:1150px;
-  margin:auto;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
+.announcement{padding:9px 12px;background:var(--dark);color:white;text-align:center;font-size:12px;letter-spacing:.5px}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.97);box-shadow:0 3px 18px #252a340d}
+.header-inner{max-width:1150px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .logo{font-size:22px;font-weight:900;letter-spacing:-.8px}
 .logo span{color:var(--orange)}
 nav{display:flex;align-items:center;gap:18px;font-size:13px;font-weight:700}
 nav a:hover{color:var(--orange)}
-.cart-link{
-  background:var(--cream);
-  padding:9px 12px;
-  border-radius:12px;
-  white-space:nowrap;
-}
+.cart-link{background:var(--cream);padding:9px 12px;border-radius:12px;white-space:nowrap}
 .cart-count{color:var(--orange);font-weight:900}
 main{max-width:1100px;margin:auto;padding:32px 20px 65px}
 .breadcrumb{font-size:13px;color:var(--muted);margin-bottom:22px}
 .breadcrumb a{color:var(--orange);font-weight:700}
 .heading{text-align:center;margin:12px auto 35px}
-.eyebrow{
-  display:inline-block;
-  background:#fff0df;
-  color:#a95b0a;
-  padding:6px 12px;
-  border-radius:30px;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:1px;
-}
+.eyebrow{display:inline-block;background:#fff0df;color:#a95b0a;padding:6px 12px;border-radius:30px;font-size:11px;font-weight:900;letter-spacing:1px}
 h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
 .heading p{color:var(--muted);margin:0}
-.cart-layout{
-  display:grid;
-  grid-template-columns:minmax(0,1.5fr) minmax(270px,.8fr);
-  gap:24px;
-  align-items:start;
-}
-.panel{
-  background:white;
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:24px;
-  box-shadow:var(--shadow);
-}
+.cart-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(270px,.8fr);gap:24px;align-items:start}
+.panel{background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
 .panel h2{font-size:20px;margin:0 0 18px}
 .cart-items{display:flex;flex-direction:column;gap:16px}
-.cart-item{
-  display:grid;
-  grid-template-columns:95px minmax(0,1fr);
-  gap:16px;
-  padding-bottom:16px;
-  border-bottom:1px solid var(--line);
-}
-.cart-item img{
-  width:95px;
-  height:120px;
-  object-fit:cover;
-  border-radius:14px;
-  background:#f2ece5;
-}
+.cart-item{display:grid;grid-template-columns:95px minmax(0,1fr);gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.cart-item img{width:95px;height:120px;object-fit:cover;border-radius:14px;background:#f2ece5}
 .item-name{font-weight:900;font-size:16px;margin:2px 0 5px}
 .item-price{font-weight:900;color:#b9640d}
-.item-actions{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:9px;
-  margin-top:12px;
-}
-.quantity-control{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:4px 8px;
-}
-.quantity-control button{
-  border:0;
-  background:none;
-  cursor:pointer;
-  font-weight:900;
-  font-size:18px;
-  min-width:22px;
-}
+.item-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:12px}
+.quantity-control{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:4px 8px}
+.quantity-control button{border:0;background:none;cursor:pointer;font-weight:900;font-size:18px;min-width:22px}
 .quantity-control span{font-size:13px;font-weight:800}
-.remove-btn{
-  border:0;
-  background:#fff0ed;
-  color:#b52b24;
-  border-radius:9px;
-  padding:8px 10px;
-  cursor:pointer;
-  font-size:12px;
-  font-weight:800;
-}
+.remove-btn{border:0;background:#fff0ed;color:#b52b24;border-radius:9px;padding:8px 10px;cursor:pointer;font-size:12px;font-weight:800}
 .empty{text-align:center;padding:30px 12px}
 .empty-icon{font-size:48px}
 .empty h3{margin:12px 0 5px}
 .empty p{color:var(--muted);font-size:14px}
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  border:0;
-  border-radius:13px;
-  padding:13px 17px;
-  font-weight:900;
-  cursor:pointer;
-  transition:transform .2s;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:13px;padding:13px 17px;font-weight:900;cursor:pointer;transition:transform .2s}
 .btn:hover{transform:translateY(-2px)}
-.btn-primary{
-  color:white;
-  background:linear-gradient(135deg,var(--orange),var(--orange2));
-  box-shadow:0 8px 18px #f28c2835;
-}
+.btn-primary{color:white;background:linear-gradient(135deg,var(--orange),var(--orange2));box-shadow:0 8px 18px #f28c2835}
 .btn-secondary{background:var(--cream);color:var(--dark)}
 .btn-block{width:100%}
 </style>
 </head>
 <body>
 <div class="announcement">VOTRE STYLE, VOTRE HISTOIRE — LA MODE N’A PAS DE FRONTIÈRES</div>
+
 <header>
   <div class="header-inner">
-    <a class="logo" href="index.html">Conductrice<span>Fashion</span></a>
+    <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+      <img src="logo-conductrice-fashion.png"
+           alt="Logo Conductrice Fashion"
+           style="width:150px;height:auto;object-fit:contain">
+    </a>
+
     <nav>
       <a href="index.html">Accueil</a>
       <a href="boutique.html">Boutique</a>
@@ -181,42 +79,51 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     </nav>
   </div>
 </header>
+
 <main>
   <div class="breadcrumb"><a href="index.html">Accueil</a> › Mon panier</div>
+
   <section class="heading">
     <span class="eyebrow">VOS COUPS DE CŒUR</span>
     <h1>Votre panier 🛍️</h1>
     <p>Retrouvez vos articles préférés avant de préparer votre commande.</p>
   </section>
+
   <div class="cart-layout">
     <section class="panel">
       <h2>Mes articles <span id="item-count" style="color:#F28C28">(0)</span></h2>
       <div id="cart-items" class="cart-items"></div>
+
       <div id="empty-cart" class="empty" hidden>
         <div class="empty-icon">🛍️</div>
         <h3>Votre panier attend vos coups de cœur</h3>
         <p>Découvrez notre sélection de vêtements et d'accessoires.</p>
         <a href="boutique.html" class="btn btn-primary">Découvrir la boutique →</a>
       </div>
+
       <a href="boutique.html" class="btn btn-secondary" style="margin-top:20px">← Continuer mes achats</a>
     </section>
 
-   
     <aside class="panel">
       <h2>Récapitulatif</h2>
+
       <div style="display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:14px">
         <span>Nombre d'articles</span>
         <strong id="summary-quantity">0</strong>
       </div>
+
       <div style="display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:14px">
         <span>Sous-total</span>
         <strong id="subtotal">0 FCFA</strong>
       </div>
+
       <div style="border-top:1px solid #eee7df;margin:18px 0"></div>
+
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
         <strong>Total estimé</strong>
         <strong id="total" style="font-size:22px;color:#F28C28">0 FCFA</strong>
       </div>
+
       <p style="font-size:12px;color:#747781;margin:12px 0 20px">
         Les frais de livraison éventuels seront précisés lors de la confirmation. Aucun paiement en ligne n'est effectué ici.
       </p>
@@ -226,28 +133,41 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
           <label for="customer-name" style="display:block;font-size:13px;font-weight:800;margin-bottom:7px">Votre nom *</label>
           <input id="customer-name" name="nom_client" autocomplete="name" maxlength="150" required placeholder="Nom complet" style="width:100%;padding:12px;border:1px solid #e6e1db;border-radius:12px;background:#fffdfa">
         </div>
+
         <div style="margin-bottom:14px">
           <label for="customer-phone" style="display:block;font-size:13px;font-weight:800;margin-bottom:7px">Téléphone / WhatsApp *</label>
           <input id="customer-phone" name="telephone" type="tel" autocomplete="tel" maxlength="30" required placeholder="+226 XX XX XX XX" style="width:100%;padding:12px;border:1px solid #e6e1db;border-radius:12px;background:#fffdfa">
         </div>
+
         <div style="margin-bottom:14px">
           <label for="customer-address" style="display:block;font-size:13px;font-weight:800;margin-bottom:7px">Adresse de livraison (facultatif)</label>
           <textarea id="customer-address" name="adresse" maxlength="500" rows="3" placeholder="Ville, quartier, indications…" style="width:100%;padding:12px;border:1px solid #e6e1db;border-radius:12px;background:#fffdfa;resize:vertical"></textarea>
         </div>
+
         <button type="submit" id="order-button" class="btn btn-primary btn-block">Préparer ma commande sur WhatsApp →</button>
       </form>
+
       <p id="order-feedback" role="status" aria-live="polite" style="font-size:12px;color:#747781;margin-top:13px"></p>
     </aside>
   </div>
 </main>
 <footer style="background:#252A34;color:white;text-align:center;padding:25px 15px;font-size:12px">
-  <div style="font-size:18px;font-weight:900;margin-bottom:7px">Conductrice<span style="color:#F28C28">Fashion</span></div>
+  <div style="margin-bottom:7px">
+    <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+      <img src="logo-conductrice-fashion.png"
+           alt="Logo Conductrice Fashion"
+           style="width:150px;height:auto;object-fit:contain;margin:auto">
+    </a>
+  </div>
+
   <p style="color:#d0d2d7">Votre style, votre histoire. La mode n'a pas de frontières.</p>
   <p>© <span id="year"></span> ConductriceFashion — Tous droits réservés.</p>
 </footer>
+
 <style>
 @media(max-width:760px){
   .header-inner{padding:12px;flex-wrap:wrap}
+  .header-inner>a img{width:125px!important}
   .logo{font-size:19px}
   nav{width:100%;justify-content:space-between;gap:8px;flex-wrap:wrap}
   nav a{font-size:12px}
@@ -261,16 +181,14 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
   .item-name{font-size:14px}
 }
 </style>
+
 <script>
 (function(){
   "use strict";
 
   const KEY = "conductricefashion_cart_v1";
-
-  // Numéro WhatsApp de la boutique (format international, chiffres uniquement)
   const WHATSAPP_NUMBER = "22604148416";
 
-  // Enregistrement des commandes dans Appwrite (via la fonction conductrice-backend)
   const APPWRITE_ENDPOINT = "https://fra.cloud.appwrite.io/v1";
   const APPWRITE_PROJECT_ID = "6ad7761700274f3ae4b1";
   const APPWRITE_FUNCTION_ID = "conductrice-backend";
@@ -314,7 +232,6 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     });
   }
 
-  // Référence de commande, par exemple CF-261023-A7K2
   function makeReference(){
     const d = new Date();
     const pad = function(n){ return String(n).padStart(2, "0"); };
@@ -323,10 +240,10 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     return "CF-" + date + "-" + rand;
   }
 
-  // Envoie la commande à la fonction Appwrite et vérifie sa réponse
   async function saveOrder(payload){
     const controller = new AbortController();
     const timer = setTimeout(function(){ controller.abort(); }, 20000);
+
     try {
       const response = await fetch(
         APPWRITE_ENDPOINT + "/functions/" + encodeURIComponent(APPWRITE_FUNCTION_ID) + "/executions",
@@ -348,6 +265,7 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
       );
 
       const execution = await response.json();
+
       if(!response.ok){
         throw new Error(execution.message || ("HTTP " + response.status));
       }
@@ -358,6 +276,7 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
       if(!result || result.ok !== true){
         throw new Error((result && result.message) || "Commande non confirmée par le serveur.");
       }
+
       return result;
     } finally {
       clearTimeout(timer);
@@ -380,16 +299,19 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     validCart.forEach(function(item, index){
       const price = Math.max(0, Number(item.price) || 0);
       const quantity = Math.max(1, Math.min(50, parseInt(item.quantity, 10) || 1));
+
       quantityTotal += quantity;
       amountTotal += price * quantity;
 
       const image = typeof item.image === "string" ? item.image : "";
+
       const imageHtml = image
         ? '<img src="' + safeText(image) + '" alt="' + safeText(item.name) + '" loading="lazy" onerror="this.style.visibility=\'hidden\'">'
         : '<div style="width:95px;height:120px;border-radius:14px;background:#f2ece5;display:grid;place-items:center;font-size:28px">👗</div>';
 
       const card = document.createElement("article");
       card.className = "cart-item";
+
       card.innerHTML =
         imageHtml +
         '<div>' +
@@ -447,6 +369,7 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     event.preventDefault();
 
     const cart = getCart();
+
     if(!cart.length){
       feedback.textContent = "Votre panier est vide.";
       return;
@@ -464,7 +387,6 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     const phone = String(formData.get("telephone") || "").trim();
     const address = String(formData.get("adresse") || "").trim();
 
-    // Lignes de commande normalisées (mêmes limites que l'affichage du panier)
     const lignes = cart.map(function(item){
       return {
         id: String(item.id),
@@ -478,8 +400,8 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
       return sum + ligne.prix * ligne.quantite;
     }, 0);
 
-    // Le champ « articles » de la table commandes accepte 5000 caractères au maximum
     const articlesText = JSON.stringify(lignes);
+
     if(articlesText.length > 5000){
       feedback.textContent = "Votre panier contient trop d'articles pour être enregistré. Retirez quelques articles et réessayez.";
       return;
@@ -487,12 +409,13 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
 
     const reference = makeReference();
     const originalLabel = orderButton.textContent;
+
     orderButton.disabled = true;
     orderButton.textContent = "Enregistrement…";
     feedback.textContent = "Enregistrement de votre commande…";
 
-    // 1) Enregistrement dans Appwrite (si cela échoue, on continue avec WhatsApp)
     let saved = false;
+
     try {
       await saveOrder({
         action: "commande",
@@ -508,7 +431,6 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
       console.error("Enregistrement Appwrite impossible :", error);
     }
 
-    // 2) Message WhatsApp prérempli
     const lines = [
       "Bonjour ConductriceFashion ! Je souhaite passer cette commande :",
       saved ? "Référence : " + reference : "",
@@ -534,7 +456,6 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
       ? "Commande enregistrée (réf. " + reference + "). WhatsApp va s'ouvrir avec le récapitulatif : appuyez sur Envoyer pour terminer."
       : "Votre commande n'a pas pu être enregistrée automatiquement, mais vous pouvez l'envoyer : WhatsApp va s'ouvrir, appuyez sur Envoyer.";
 
-    // 3) Ouverture de WhatsApp dans le même onglet (évite le blocage des fenêtres après une attente)
     setTimeout(function(){
       orderButton.disabled = false;
       orderButton.textContent = originalLabel;
