@@ -234,10 +234,6 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
           <label for="customer-address" style="display:block;font-size:13px;font-weight:800;margin-bottom:7px">Adresse de livraison (facultatif)</label>
           <textarea id="customer-address" name="adresse" maxlength="500" rows="3" placeholder="Ville, quartier, indications…" style="width:100%;padding:12px;border:1px solid #e6e1db;border-radius:12px;background:#fffdfa;resize:vertical"></textarea>
         </div>
-        <div style="margin-bottom:14px">
-          <label for="customer-notes" style="display:block;font-size:13px;font-weight:800;margin-bottom:7px">Notes (facultatif)</label>
-          <textarea id="customer-notes" name="notes" maxlength="1000" rows="2" placeholder="Précisions sur votre commande…" style="width:100%;padding:12px;border:1px solid #e6e1db;border-radius:12px;background:#fffdfa;resize:vertical"></textarea>
-        </div>
         <button type="submit" id="order-button" class="btn btn-primary btn-block">Préparer ma commande sur WhatsApp →</button>
       </form>
       <p id="order-feedback" role="status" aria-live="polite" style="font-size:12px;color:#747781;margin-top:13px"></p>
@@ -271,9 +267,13 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
 
   const KEY = "conductricefashion_cart_v1";
 
-  // IMPORTANT : remplace ce numéro par le numéro WhatsApp professionnel
-  // au format international, chiffres uniquement, sans + ni espaces.
-  const WHATSAPP_NUMBER = "226XXXXXXXX";
+  // Numéro WhatsApp de la boutique (format international, chiffres uniquement)
+  const WHATSAPP_NUMBER = "22604148416";
+
+  // Enregistrement des commandes dans Appwrite (via la fonction conductrice-backend)
+  const APPWRITE_ENDPOINT = "https://fra.cloud.appwrite.io/v1";
+  const APPWRITE_PROJECT_ID = "6ad7761700274f3ae4b1";
+  const APPWRITE_FUNCTION_ID = "conductrice-backend";
 
   const container = document.getElementById("cart-items");
   const empty = document.getElementById("empty-cart");
@@ -312,6 +312,56 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
         "'":"&#39;"
       }[char];
     });
+  }
+
+  // Référence de commande, par exemple CF-261023-A7K2
+  function makeReference(){
+    const d = new Date();
+    const pad = function(n){ return String(n).padStart(2, "0"); };
+    const date = String(d.getFullYear()).slice(2) + pad(d.getMonth() + 1) + pad(d.getDate());
+    const rand = (Math.random().toString(36) + "0000").slice(2, 6).toUpperCase();
+    return "CF-" + date + "-" + rand;
+  }
+
+  // Envoie la commande à la fonction Appwrite et vérifie sa réponse
+  async function saveOrder(payload){
+    const controller = new AbortController();
+    const timer = setTimeout(function(){ controller.abort(); }, 20000);
+    try {
+      const response = await fetch(
+        APPWRITE_ENDPOINT + "/functions/" + encodeURIComponent(APPWRITE_FUNCTION_ID) + "/executions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Appwrite-Project": APPWRITE_PROJECT_ID
+          },
+          body: JSON.stringify({
+            body: JSON.stringify(payload),
+            async: false,
+            path: "/",
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          }),
+          signal: controller.signal
+        }
+      );
+
+      const execution = await response.json();
+      if(!response.ok){
+        throw new Error(execution.message || ("HTTP " + response.status));
+      }
+
+      let result = execution.responseBody;
+      if(typeof result === "string") result = JSON.parse(result);
+
+      if(!result || result.ok !== true){
+        throw new Error((result && result.message) || "Commande non confirmée par le serveur.");
+      }
+      return result;
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   function render(){
@@ -393,7 +443,7 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     render();
   });
 
-  orderForm.addEventListener("submit", function(event){
+  orderForm.addEventListener("submit", async function(event){
     event.preventDefault();
 
     const cart = getCart();
@@ -404,7 +454,7 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
 
     if(!orderForm.reportValidity()) return;
 
-    if(!/^\\d{8,15}$/.test(WHATSAPP_NUMBER) || WHATSAPP_NUMBER.includes("X")){
+    if(!/^\d{8,15}$/.test(WHATSAPP_NUMBER) || WHATSAPP_NUMBER.includes("X")){
       feedback.textContent = "Avant d'utiliser la commande, remplace le numéro temporaire dans le code par ton numéro WhatsApp professionnel.";
       return;
     }
@@ -413,29 +463,66 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     const name = String(formData.get("nom_client") || "").trim();
     const phone = String(formData.get("telephone") || "").trim();
     const address = String(formData.get("adresse") || "").trim();
-    const notes = String(formData.get("notes") || "").trim();
 
-    const total = cart.reduce(function(sum, item){
-      return sum + Math.max(0, Number(item.price) || 0) *
-        Math.max(1, parseInt(item.quantity, 10) || 1);
+    // Lignes de commande normalisées (mêmes limites que l'affichage du panier)
+    const lignes = cart.map(function(item){
+      return {
+        id: String(item.id),
+        nom: String(item.name),
+        prix: Math.max(0, Number(item.price) || 0),
+        quantite: Math.max(1, Math.min(50, parseInt(item.quantity, 10) || 1))
+      };
+    });
+
+    const total = lignes.reduce(function(sum, ligne){
+      return sum + ligne.prix * ligne.quantite;
     }, 0);
 
+    // Le champ « articles » de la table commandes accepte 5000 caractères au maximum
+    const articlesText = JSON.stringify(lignes);
+    if(articlesText.length > 5000){
+      feedback.textContent = "Votre panier contient trop d'articles pour être enregistré. Retirez quelques articles et réessayez.";
+      return;
+    }
+
+    const reference = makeReference();
+    const originalLabel = orderButton.textContent;
+    orderButton.disabled = true;
+    orderButton.textContent = "Enregistrement…";
+    feedback.textContent = "Enregistrement de votre commande…";
+
+    // 1) Enregistrement dans Appwrite (si cela échoue, on continue avec WhatsApp)
+    let saved = false;
+    try {
+      await saveOrder({
+        action: "commande",
+        reference: reference,
+        nom_client: name,
+        telephone: phone,
+        adresse: address,
+        montant_total: total,
+        articles: articlesText
+      });
+      saved = true;
+    } catch(error) {
+      console.error("Enregistrement Appwrite impossible :", error);
+    }
+
+    // 2) Message WhatsApp prérempli
     const lines = [
       "Bonjour ConductriceFashion ! Je souhaite passer cette commande :",
+      saved ? "Référence : " + reference : "",
       "",
       "Client : " + name,
       "Téléphone : " + phone,
       address ? "Adresse : " + address : "",
       "",
       "ARTICLES :",
-      ...cart.map(function(item){
-        const qty = Math.max(1, parseInt(item.quantity, 10) || 1);
-        const price = Math.max(0, Number(item.price) || 0);
-        return "- " + item.name + " x" + qty + " — " + money(price * qty);
+      ...lignes.map(function(ligne){
+        return "- " + ligne.nom + " x" + ligne.quantite + " — " + money(ligne.prix * ligne.quantite);
       }),
       "",
       "TOTAL ESTIMÉ : " + money(total),
-      notes ? "Notes : " + notes : "",
       "",
       "Merci de confirmer la disponibilité et les modalités de livraison."
     ].filter(Boolean);
@@ -443,8 +530,16 @@ h1{font-size:clamp(30px,5vw,44px);line-height:1.15;margin:14px 0}
     const url = "https://wa.me/" + WHATSAPP_NUMBER +
       "?text=" + encodeURIComponent(lines.join("\n"));
 
-    feedback.textContent = "WhatsApp va s'ouvrir avec le récapitulatif. Vérifie les informations puis appuie sur Envoyer.";
-    window.open(url, "_blank", "noopener,noreferrer");
+    feedback.textContent = saved
+      ? "Commande enregistrée (réf. " + reference + "). WhatsApp va s'ouvrir avec le récapitulatif : appuyez sur Envoyer pour terminer."
+      : "Votre commande n'a pas pu être enregistrée automatiquement, mais vous pouvez l'envoyer : WhatsApp va s'ouvrir, appuyez sur Envoyer.";
+
+    // 3) Ouverture de WhatsApp dans le même onglet (évite le blocage des fenêtres après une attente)
+    setTimeout(function(){
+      orderButton.disabled = false;
+      orderButton.textContent = originalLabel;
+      window.location.href = url;
+    }, saved ? 400 : 2000);
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
