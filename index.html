@@ -116,25 +116,9 @@ button{font:inherit;cursor:pointer}
 <div><span class="eyebrow">SÉLECTION CONDUCTRICEFASHION</span><h2>Les pièces à découvrir.</h2><p>Quelques inspirations pour commencer votre sélection.</p></div>
 <a class="text-link" href="boutique.html">Voir toute la boutique ↗</a>
 </div>
-<div class="product-grid">
-<article class="product-card">
-<a class="product-image" href="boutique.html"><img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80" alt="Robe élégante" loading="lazy"><span class="product-tag">ÉLÉGANCE</span></a>
-<div class="product-info"><small>ROBES</small><h3>Robe élégante</h3><p class="price">7 500 FCFA</p><button class="btn add-cart" data-id="robe-elegante" data-name="Robe élégante" data-price="7500" data-image="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button></div>
-</article>
-<article class="product-card">
-<a class="product-image" href="boutique.html"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80" alt="Ensemble tendance" loading="lazy"><span class="product-tag">TENDANCE</span></a>
-<div class="product-info"><small>ENSEMBLES</small><h3>Ensemble tendance</h3><p class="price">10 000 FCFA</p><button class="btn add-cart" data-id="ensemble-tendance" data-name="Ensemble tendance" data-price="10000" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button></div>
-</article>
-<article class="product-card">
-<a class="product-image" href="boutique.html"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80" alt="Sac à main" loading="lazy"><span class="product-tag">ACCESSOIRE</span></a>
-<div class="product-info"><small>ACCESSOIRES</small><h3>Sac à main</h3><p class="price">5 000 FCFA</p><button class="btn add-cart" data-id="sac-a-main" data-name="Sac à main" data-price="5000" data-image="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button></div>
-</article>
-<article class="product-card">
-<a class="product-image" href="boutique.html"><img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80" alt="Chemise chic" loading="lazy"><span class="product-tag">ESSENTIEL</span></a>
-<div class="product-info"><small>PRÊT-À-PORTER</small><h3>Chemise chic</h3><p class="price">6 000 FCFA</p><button class="btn add-cart" data-id="chemise-chic" data-name="Chemise chic" data-price="6000" data-image="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=80">＋ Ajouter au panier</button></div>
-</article>
-</div>
-<p class="demo-note">Les articles et les prix affichés ici sont des exemples de présentation à remplacer par les produits réels de la boutique.</p>
+<!-- Produits mis en avant : chargés depuis Appwrite (actif = oui et vedette = oui) -->
+<div class="product-grid" id="featured-products"></div>
+<p class="demo-note" id="featured-status" role="status">Chargement des pièces à découvrir…</p>
 </div>
 </section>
 
@@ -215,6 +199,9 @@ button{font:inherit;cursor:pointer}
 .price{font-size:16px;font-weight:900;margin:8px 0 13px}
 .product-info .btn{width:100%;padding:11px 7px;font-size:12px}
 .demo-note{font-size:11px;color:var(--muted);margin-top:18px}
+.product-info .description{font-size:12px;color:var(--muted);margin:5px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.no-photo{height:255px;display:grid;place-items:center;padding:20px;text-align:center;font-size:12px;color:#8a7664}
+.product-info .btn:disabled{background:#c9c2ba;cursor:not-allowed;transform:none}
 .brand-message{background:#252A34;color:white;padding:38px 0}
 .brand-inner{display:flex;align-items:center;justify-content:space-between;gap:22px}
 .brand-inner .eyebrow{color:#ffbd7a}
@@ -260,6 +247,7 @@ button{font:inherit;cursor:pointer}
  .category-text small{font-size:8px}
  .product-grid{grid-template-columns:1fr 1fr;gap:11px}
  .product-image img{height:205px}
+ .no-photo{height:205px}
  .product-info{padding:11px}
  .product-info h3{font-size:14px}
  .product-info .btn{font-size:11px}
@@ -271,9 +259,13 @@ button{font:inherit;cursor:pointer}
  .cart-link{font-size:11px;padding:9px}
  .logo{font-size:16px}
  .product-image img{height:170px}
+ .no-photo{height:170px}
  .hero-buttons .btn{padding:12px;font-size:12px}
 }
 </style>
+
+<!-- SDK Appwrite (même version que boutique.html) -->
+<script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
 
 <script>
 (function(){
@@ -333,7 +325,86 @@ const year=document.getElementById("year");
 if(year)year.textContent=new Date().getFullYear();
 })();
 </script>
+
+<script>
+(function(){
+"use strict";
+
+/* Produits mis en avant : colonne « vedette » de la table produits */
+const ENDPOINT="https://fra.cloud.appwrite.io/v1";
+const PROJECT_ID="6ad7761700274f3ae4b1";
+const DATABASE_ID="6ad7a426000ad1659f6b";
+const TABLE_ID="produits";
+const MAX_VEDETTES=4;
+
+const grid=document.getElementById("featured-products");
+const note=document.getElementById("featured-status");
+if(!grid||!note)return;
+
+const money=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0});
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+function categoryLabel(product){
+ const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+ if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return "ACCESSOIRES";
+ if(/robe|jupe/.test(text))return "ROBES";
+ if(/ensemble|complet|costume|tenue/.test(text))return "ENSEMBLES";
+ return "VÊTEMENTS";
+}
+
+function carte(product){
+ const image=String(product.photo_url||"").trim();
+ const photo=/^https?:\/\//i.test(image)?image:"";
+ const disponible=Number(product.stock)>0;
+ const prix=Number(product.prix)||0;
+ const visuel=photo
+  ?`<img src="${escapeHTML(photo)}" alt="${escapeHTML(product.nom)}" loading="lazy">`
+  :`<div class="no-photo">Photo à venir</div>`;
+ const description=product.description
+  ?`<p class="description">${escapeHTML(product.description)}</p>`
+  :"";
+ return `<article class="product-card">
+<a class="product-image" href="boutique.html">${visuel}<span class="product-tag">À LA UNE</span></a>
+<div class="product-info"><small>${categoryLabel(product)}</small><h3>${escapeHTML(product.nom)}</h3>${description}<p class="price">${money.format(prix)} FCFA</p><button class="btn add-cart" type="button" ${disponible?"":"disabled"} data-id="${escapeHTML(product.$id)}" data-name="${escapeHTML(product.nom)}" data-price="${prix}" data-image="${escapeHTML(photo)}">${disponible?"＋ Ajouter au panier":"Indisponible"}</button></div>
+</article>`;
+}
+
+async function charger(){
+ try{
+  if(!window.Appwrite)throw new Error("Le SDK Appwrite ne s’est pas chargé.");
+    const client=new Appwrite.Client()
+   .setEndpoint(ENDPOINT)
+   .setProject(PROJECT_ID);
+  const tablesDB=new Appwrite.TablesDB(client);
+  const response=await tablesDB.listRows({
+   databaseId:DATABASE_ID,
+   tableId:TABLE_ID,
+   queries:[
+    Appwrite.Query.equal("actif",true),
+    Appwrite.Query.equal("vedette",true),
+    Appwrite.Query.limit(MAX_VEDETTES)
+   ]
+  });
+  const produits=Array.isArray(response.rows)?response.rows:[];
+  if(!produits.length){
+   note.textContent="Les pièces mises en avant par la boutique apparaîtront ici.";
+   return;
+  }
+  grid.innerHTML=produits.map(carte).join("");
+  note.textContent="";
+ }catch(error){
+  console.error("Erreur Appwrite :",error);
+  note.textContent="Les pièces à découvrir ne sont pas disponibles pour le moment.";
+ }
+}
+
+charger();
+})();
+</script>
 </body>
 </html>
-
-  
