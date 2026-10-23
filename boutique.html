@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -60,6 +59,7 @@ button{cursor:pointer}
 .card-actions .btn{width:100%;padding:11px 6px;font-size:11px}
 .reserve{display:block;text-align:center;font-size:12px;font-weight:800;color:#a85d13;padding:5px}
 .status{margin:14px 0;padding:13px 15px;border-radius:10px;background:#fff0df;color:#754515;font-size:13px}
+#connection-status{display:none}
 .empty{display:none;text-align:center;background:white;border:1px dashed #e2d1be;border-radius:14px;padding:30px;margin-bottom:40px}
 .empty strong{font-size:18px}
 .empty p{color:var(--muted);font-size:13px}
@@ -86,7 +86,9 @@ button{cursor:pointer}
 <header class="header">
 <div class="container">
 <div class="header-main">
-<a class="logo" href="index.html">Conductrice<strong>Fashion</strong><small>STYLE • CONFIANCE • ÉLÉGANCE</small></a>
+<a href="index.html" aria-label="Conductrice Fashion - Accueil">
+<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
+</a>
 <a class="cart-link" href="panier.html">🛍 Panier <span class="cart-count">0</span></a>
 </div>
 <nav class="menu" aria-label="Navigation principale">
@@ -142,10 +144,14 @@ button{cursor:pointer}
 <button class="btn" id="reset">Voir tous les articles</button>
 </div>
 </main>
-
 <footer class="footer">
 <div class="container footer-inner">
-<div><a class="logo" href="index.html">Conductrice<strong>Fashion</strong></a><p style="margin:5px 0;color:#747781;font-size:12px">Le style, sans frontières.</p></div>
+<div>
+<a href="index.html" aria-label="Conductrice Fashion - Accueil">
+<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
+</a>
+<p style="margin:5px 0;color:#747781;font-size:12px">Le style, sans frontières.</p>
+</div>
 <div class="footer-links">
 <a href="index.html">Accueil</a>
 <a href="boutique.html">Boutique</a>
