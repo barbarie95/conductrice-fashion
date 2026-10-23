@@ -44,7 +44,9 @@ button{font:inherit;cursor:pointer}
 <header class="header">
 <div class="container">
 <div class="header-main">
-<a class="logo" href="index.html">Conductrice<strong>Fashion</strong><small>STYLE • CONFIANCE • ÉLÉGANCE</small></a>
+<a href="index.html" aria-label="Conductrice Fashion - Accueil">
+<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;object-fit:contain">
+</a>
 <div class="header-actions">
 <a class="cart-link" href="panier.html" aria-label="Ouvrir le panier">🛍 Panier <span class="cart-count">0</span></a>
 </div>
@@ -56,8 +58,8 @@ button{font:inherit;cursor:pointer}
 <a href="panier.html">Panier</a>
 </nav>
 </div>
-  </header>
-  
+</header>
+
 <main>
 <section class="hero">
 <div class="container hero-grid">
@@ -72,7 +74,7 @@ button{font:inherit;cursor:pointer}
 <div class="hero-note"><span>✦</span> Votre allure. Votre culture. Votre signature.</div>
 </div>
 <div class="hero-visual">
-<img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1000&q=85" alt="Look mode élégant pour une nouvelle collection" fetchpriority="high">
+<img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=1000&q=85" alt="Portrait de mode pour une nouvelle collection" fetchpriority="high">
 <div class="visual-tag"><strong>STYLE SANS LIMITES</strong><small>Afrique · Europe · Amérique</small></div>
 <div class="visual-stamp">CF<br><small>EST.</small></div>
 </div>
@@ -99,7 +101,7 @@ button{font:inherit;cursor:pointer}
 <span class="category-shade"></span><span class="category-text"><small>COULEURS & IDENTITÉ</small><strong>Inspiration africaine</strong><b>Découvrir ↗</b></span>
 </a>
 <a class="category" href="boutique.html?categorie=robes">
-<img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=700&q=80" alt="Robes élégantes" loading="lazy">
+<img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=700&q=80" alt="Robes et élégance" loading="lazy">
 <span class="category-shade"></span><span class="category-text"><small>ÉLÉGANCE INTEMPORELLE</small><strong>Robes & occasions</strong><b>Découvrir ↗</b></span>
 </a>
 <a class="category" href="boutique.html?categorie=urbain">
@@ -140,16 +142,20 @@ button{font:inherit;cursor:pointer}
 </div>
 </section>
 </main>
-
 <footer class="footer">
 <div class="container footer-inner">
-<div><a class="logo footer-logo" href="index.html">Conductrice<strong>Fashion</strong></a><p>Le style, sans frontières.</p></div>
+<div>
+<a href="index.html" aria-label="Conductrice Fashion - Accueil">
+<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;object-fit:contain">
+</a>
+<p>Le style, sans frontières.</p>
+</div>
 <div class="footer-links"><a href="index.html">Accueil</a><a href="boutique.html">Boutique</a><a href="reservation.html">Réservation</a><a href="panier.html">Panier</a></div>
 <small>© <span id="year"></span> ConductriceFashion. Tous droits réservés.</small>
 </div>
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>
-  
+
 <style>
 .hero{background:linear-gradient(120deg,#fff0df,#fffaf4);padding:30px 0 42px;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
@@ -264,7 +270,6 @@ button{font:inherit;cursor:pointer}
 }
 </style>
 
-<!-- SDK Appwrite (même version que boutique.html) -->
 <script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
 
 <script>
@@ -329,26 +334,20 @@ if(year)year.textContent=new Date().getFullYear();
 <script>
 (function(){
 "use strict";
-
-/* Produits mis en avant : colonne « vedette » de la table produits */
 const ENDPOINT="https://fra.cloud.appwrite.io/v1";
 const PROJECT_ID="6ad7761700274f3ae4b1";
 const DATABASE_ID="6ad7a426000ad1659f6b";
 const TABLE_ID="produits";
 const MAX_VEDETTES=4;
-
 const grid=document.getElementById("featured-products");
 const note=document.getElementById("featured-status");
 if(!grid||!note)return;
-
 const money=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0});
-
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,char=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  }[char]));
 }
-
 function categoryLabel(product){
  const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
  if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return "ACCESSOIRES";
@@ -356,7 +355,6 @@ function categoryLabel(product){
  if(/ensemble|complet|costume|tenue/.test(text))return "ENSEMBLES";
  return "VÊTEMENTS";
 }
-
 function carte(product){
  const image=String(product.photo_url||"").trim();
  const photo=/^https?:\/\//i.test(image)?image:"";
@@ -373,11 +371,10 @@ function carte(product){
 <div class="product-info"><small>${categoryLabel(product)}</small><h3>${escapeHTML(product.nom)}</h3>${description}<p class="price">${money.format(prix)} FCFA</p><button class="btn add-cart" type="button" ${disponible?"":"disabled"} data-id="${escapeHTML(product.$id)}" data-name="${escapeHTML(product.nom)}" data-price="${prix}" data-image="${escapeHTML(photo)}">${disponible?"＋ Ajouter au panier":"Indisponible"}</button></div>
 </article>`;
 }
-
 async function charger(){
  try{
   if(!window.Appwrite)throw new Error("Le SDK Appwrite ne s’est pas chargé.");
-    const client=new Appwrite.Client()
+  const client=new Appwrite.Client()
    .setEndpoint(ENDPOINT)
    .setProject(PROJECT_ID);
   const tablesDB=new Appwrite.TablesDB(client);
@@ -402,7 +399,6 @@ async function charger(){
   note.textContent="Les pièces à découvrir ne sont pas disponibles pour le moment.";
  }
 }
-
 charger();
 })();
 </script>
