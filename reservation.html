@@ -10,15 +10,20 @@
 :root{
   --orange:#F28C28;
   --orange-dark:#d97516;
-  --cream:#fff8ef;
+  --cream:#fffaf4;
   --white:#ffffff;
   --dark:#252A34;
   --muted:#707782;
-  --border:#e8e3dc;
+  --border:#eee5db;
   --success:#188754;
   --danger:#c43d3d;
 }
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+html{
+  scroll-behavior:smooth;
+}
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
@@ -26,162 +31,420 @@ body{
   color:var(--dark);
   line-height:1.6;
 }
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* EN-TÊTE ET IDENTITÉ DE LA MARQUE */
 header{
-  background:var(--white);
-  padding:15px 5%;
+  position:relative;
+  z-index:5;
+  width:100%;
+  padding:15px clamp(16px,5%,65px);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
-  flex-wrap:wrap;
-  box-shadow:0 2px 12px #252a340c;
+  gap:22px;
+  background:var(--white);
+  border-bottom:1px solid #f1e8dd;
+  box-shadow:0 4px 18px rgba(37,42,52,.045);
 }
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
+  flex-shrink:0;
   text-decoration:none;
   min-width:0;
 }
 .brand-logo{
   display:block;
-  width:120px;
+  width:112px;
+  max-height:82px;
   height:auto;
   object-fit:contain;
 }
 .brand-description{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  gap:5px;
   color:var(--orange-dark);
-  font-size:10px;
+  font-size:11px;
   font-weight:800;
-  letter-spacing:1px;
+  letter-spacing:1.1px;
+  line-height:1.4;
 }
 .brand-description small{
+  display:block;
+  max-width:265px;
   color:var(--muted);
   font-size:11px;
   font-weight:500;
   letter-spacing:0;
+  line-height:1.5;
 }
-nav{display:flex;gap:15px;flex-wrap:wrap}
+
+/* NAVIGATION */
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:7px;
+}
 nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  padding:9px 12px;
+  border-radius:9px;
   color:var(--dark);
   text-decoration:none;
-  font-size:14px;
-  font-weight:600;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  transition:background .2s,color .2s;
 }
-nav a:hover{color:var(--orange-dark)}
+nav a:hover{
+  color:var(--orange-dark);
+  background:#fff3e5;
+}
+nav a[href="reservation.html"]{
+  background:#fff0dd;
+  color:var(--orange-dark);
+}
+#cart-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+  border-radius:50px;
+  background:var(--orange);
+  color:white;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* BANNIÈRE DE RÉSERVATION */
 .hero{
-  padding:35px 18px 25px;
+  position:relative;
+  overflow:hidden;
+  padding:48px 20px 43px;
   text-align:center;
-  background:linear-gradient(135deg,#fff0dc,#fffaf3);
+  background:
+    radial-gradient(ellipse at top right,rgba(242,140,40,.15),transparent 45%),
+    linear-gradient(135deg,#fff0dc 0%,#fffaf4 55%,#fff4e8 100%);
+  border-bottom:1px solid #f4e5d4;
+}
+.hero::before{
+  content:"";
+  display:block;
+  width:48px;
+  height:4px;
+  margin:0 auto 17px;
+  border-radius:10px;
+  background:var(--orange);
 }
 .hero h1{
-  margin:0 0 8px;
-  font-size:clamp(26px,5vw,36px);
+  margin:0 0 10px;
+  color:var(--dark);
+  font-size:clamp(27px,4vw,39px);
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:-.7px;
 }
 .hero p{
+  max-width:540px;
   margin:0 auto;
-  max-width:600px;
-  color:var(--muted);
+  color:#737783;
+  font-size:15px;
+  line-height:1.7;
 }
+
+/* CONTENU PRINCIPAL */
 main{
-  width:min(720px,92%);
-  margin:25px auto 45px;
+  width:min(760px,92%);
+  margin:36px auto 60px;
 }
 .card{
+  padding:clamp(22px,4.5vw,38px);
   background:var(--white);
-  border-radius:18px;
-  padding:clamp(18px,4vw,30px);
-  box-shadow:0 8px 30px #252a3410;
-  border:1px solid #f0e8de;
+  border:1px solid #f0e7dc;
+  border-radius:20px;
+  box-shadow:0 12px 38px rgba(37,42,52,.065);
 }
-.card h2{margin:0 0 5px;font-size:22px}
-.intro{margin:0 0 22px;color:var(--muted);font-size:14px}
+.card h2{
+  margin:0 0 7px;
+  color:var(--dark);
+  font-size:25px;
+  font-weight:800;
+  line-height:1.3;
+}
+.intro{
+  margin:0 0 27px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* CHAMPS DU FORMULAIRE */
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
+  gap:20px 18px;
 }
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field.full{grid-column:1/-1}
-label{font-size:14px;font-weight:700}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:0;
+}
+.field.full{
+  grid-column:1/-1;
+}
+label{
+  color:#333945;
+  font-size:13px;
+  font-weight:700;
+}
 input,select{
+  display:block;
   width:100%;
-  min-height:47px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px 12px;
-  font:inherit;
-  font-size:15px;
-  color:var(--dark);
+  min-width:0;
+  min-height:50px;
+  padding:12px 14px;
+  border:1px solid #e5e0d9;
+  border-radius:11px;
+  outline:none;
   background:#fff;
+  color:var(--dark);
+  font-family:inherit;
+  font-size:14px;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+input::placeholder{
+  color:#a0a3aa;
+}
+input:hover,select:hover{
+  border-color:#e7b77f;
 }
 input:focus,select:focus{
-  outline:2px solid #f28c2840;
   border-color:var(--orange);
+  background:#fffdf9;
+  box-shadow:0 0 0 4px rgba(242,140,40,.12);
 }
-button{font:inherit;cursor:pointer}
+select{
+  cursor:pointer;
+}
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+/* BOUTON PRINCIPAL */
 .submit-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
   width:100%;
-  margin-top:22px;
-  padding:14px 18px;
+  min-height:54px;
+  margin-top:27px;
+  padding:15px 20px;
   border:0;
   border-radius:12px;
-  color:white;
-  background:var(--orange);
+  background:linear-gradient(135deg,#f59a3c,#e77d19);
+  color:#fff;
+  font-size:15px;
   font-weight:800;
-  font-size:16px;
-  transition:transform .2s,background .2s;
+  box-shadow:0 6px 15px rgba(242,140,40,.22);
+  transition:transform .2s,box-shadow .2s,filter .2s;
 }
 .submit-btn:hover{
-  background:var(--orange-dark);
-  transform:translateY(-1px);
+  filter:brightness(.97);
+  transform:translateY(-2px);
+  box-shadow:0 9px 20px rgba(242,140,40,.28);
 }
-.submit-btn:disabled{opacity:.65;cursor:wait;transform:none}
+.submit-btn:active{
+  transform:translateY(0);
+}
+.submit-btn:disabled{
+  opacity:.65;
+  cursor:wait;
+  transform:none;
+  box-shadow:none;
+}
+
+/* MESSAGES DE RÉSULTAT */
 .notice{
   display:none;
-  margin-top:18px;
-  padding:14px;
+  margin-top:20px;
+  padding:15px 17px;
   border-radius:12px;
   font-size:14px;
   overflow-wrap:anywhere;
 }
-.notice.success{display:block;background:#eaf8f0;color:#176b42}
-.notice.error{display:block;background:#fff0f0;color:#9f2929}
+.notice.success{
+  display:block;
+  background:#eaf8f0;
+  border:1px solid #ccebd8;
+  color:#176b42;
+}
+.notice.error{
+  display:block;
+  background:#fff0f0;
+  border:1px solid #f3d0d0;
+  color:#9f2929;
+}
+
+/* DÉCOMPTE DE 48 HEURES */
 .timer-box{
   display:none;
-  margin-top:15px;
-  padding:16px;
-  background:#fff7e9;
-  border:1px solid #f5d4a6;
-  border-radius:12px;
+  margin-top:20px;
+  padding:21px 16px;
+  background:linear-gradient(135deg,#fff7e9,#fffaf3);
+  border:1px solid #f3d6ad;
+  border-radius:15px;
   text-align:center;
 }
 .timer-box strong{
   display:block;
+  margin:7px 0;
   color:var(--orange-dark);
-  font-size:22px;
+  font-size:clamp(25px,5vw,32px);
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:2px;
 }
-.timer-box p{margin:3px 0 0;font-size:13px;color:var(--muted)}
-footer{
-  text-align:center;
-  padding:22px 15px;
-  background:var(--dark);
-  color:#fff;
+.timer-box p{
+  margin:3px 0 0;
+  color:var(--muted);
   font-size:13px;
 }
-@media(max-width:540px){
-  header{align-items:flex-start}
-  .brand{gap:8px}
-  .brand-logo{width:85px}
-  .brand-description{font-size:9px;letter-spacing:.5px}
-  .brand-description small{font-size:10px}
-  nav{gap:10px}
-  nav a{font-size:12px}
-  .form-grid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
+
+/* PIED DE PAGE */
+footer{
+  padding:25px 16px;
+  background:var(--dark);
+  color:#f5f5f5;
+  text-align:center;
+  font-size:13px;
+}
+  /* ADAPTATION AUX TÉLÉPHONES ET TABLETTES */
+@media(max-width:850px){
+  header{
+    gap:15px;
+    padding:14px 4%;
+  }
+  .brand-logo{
+    width:95px;
+  }
+  .brand-description small{
+    max-width:220px;
+  }
+  nav{
+    gap:3px;
+  }
+  nav a{
+    padding:8px 9px;
+    font-size:12px;
+  }
+}
+@media(max-width:600px){
+  header{
+    flex-direction:column;
+    align-items:stretch;
+    gap:13px;
+    padding:13px 15px 12px;
+  }
+  .brand{
+    justify-content:flex-start;
+    gap:11px;
+  }
+  .brand-logo{
+    width:83px;
+    max-height:67px;
+  }
+  .brand-description{
+    font-size:10px;
+    letter-spacing:.7px;
+  }
+  .brand-description small{
+    max-width:none;
+    font-size:10px;
+  }
+  nav{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:4px;
+    width:100%;
+  }
+  nav a{
+    padding:9px 3px;
+    font-size:11px;
+    text-align:center;
+  }
+  .hero{
+    padding:36px 18px 32px;
+  }
+  .hero h1{
+    font-size:29px;
+  }
+  .hero p{
+    font-size:14px;
+  }
+  main{
+    width:calc(100% - 26px);
+    margin:23px auto 38px;
+  }
+  .card{
+    padding:22px 17px;
+    border-radius:17px;
+  }
+  .card h2{
+    font-size:22px;
+  }
+  .intro{
+    margin-bottom:23px;
+    font-size:13px;
+  }
+  .form-grid{
+    grid-template-columns:1fr;
+    gap:17px;
+  }
+  .field.full{
+    grid-column:auto;
+  }
+  input,select{
+    min-height:49px;
+    font-size:14px;
+  }
+  .submit-btn{
+    min-height:52px;
+    margin-top:24px;
+    font-size:14px;
+  }
+}
+@media(max-width:360px){
+  .brand-logo{
+    width:70px;
+  }
+  .brand-description{
+    font-size:9px;
+  }
+  .brand-description small{
+    font-size:9px;
+  }
+  nav a{
+    font-size:10px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -289,6 +552,7 @@ footer{
     </div>
   </section>
 </main>
+
 <footer>
   © <span id="year"></span> ConductriceFashion — Votre style, votre élégance.
 </footer>
