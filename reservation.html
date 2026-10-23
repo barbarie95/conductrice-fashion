@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F28C28">
 <title>Réservation | ConductriceFashion</title>
+
 <style>
 :root{
   --orange:#F28C28;
@@ -35,11 +36,33 @@ header{
   flex-wrap:wrap;
   box-shadow:0 2px 12px #252a340c;
 }
-.logo{
-  color:var(--orange-dark);
-  font-size:21px;
-  font-weight:800;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
   text-decoration:none;
+  min-width:0;
+}
+.brand-logo{
+  display:block;
+  width:120px;
+  height:auto;
+  object-fit:contain;
+}
+.brand-description{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  color:var(--orange-dark);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.brand-description small{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0;
 }
 nav{display:flex;gap:15px;flex-wrap:wrap}
 nav a{
@@ -99,10 +122,7 @@ input:focus,select:focus{
   outline:2px solid #f28c2840;
   border-color:var(--orange);
 }
-button{
-  font:inherit;
-  cursor:pointer;
-}
+button{font:inherit;cursor:pointer}
 .submit-btn{
   width:100%;
   margin-top:22px;
@@ -115,7 +135,10 @@ button{
   font-size:16px;
   transition:transform .2s,background .2s;
 }
-.submit-btn:hover{background:var(--orange-dark);transform:translateY(-1px)}
+.submit-btn:hover{
+  background:var(--orange-dark);
+  transform:translateY(-1px);
+}
 .submit-btn:disabled{opacity:.65;cursor:wait;transform:none}
 .notice{
   display:none;
@@ -136,7 +159,11 @@ button{
   border-radius:12px;
   text-align:center;
 }
-.timer-box strong{display:block;color:var(--orange-dark);font-size:22px}
+.timer-box strong{
+  display:block;
+  color:var(--orange-dark);
+  font-size:22px;
+}
 .timer-box p{margin:3px 0 0;font-size:13px;color:var(--muted)}
 footer{
   text-align:center;
@@ -147,15 +174,31 @@ footer{
 }
 @media(max-width:540px){
   header{align-items:flex-start}
+  .brand{gap:8px}
+  .brand-logo{width:85px}
+  .brand-description{font-size:9px;letter-spacing:.5px}
+  .brand-description small{font-size:10px}
   nav{gap:10px}
+  nav a{font-size:12px}
   .form-grid{grid-template-columns:1fr}
   .field.full{grid-column:auto}
 }
 </style>
 </head>
+
 <body>
 <header>
-  <a class="logo" href="index.html">ConductriceFashion</a>
+  <a href="index.html" aria-label="Conductrice Fashion - Accueil" class="brand">
+    <img src="logo-conductrice-fashion.png"
+         alt="Logo Conductrice Fashion"
+         class="brand-logo">
+
+    <span class="brand-description">
+      STYLE • CONFIANCE • ÉLÉGANCE
+      <small>Afrique • Europe • Amérique — La mode n’a pas de frontières.</small>
+    </span>
+  </a>
+
   <nav aria-label="Navigation principale">
     <a href="index.html">Accueil</a>
     <a href="boutique.html">Boutique</a>
@@ -176,6 +219,7 @@ footer{
 
     <form id="reservation-form">
       <div class="form-grid">
+
         <div class="field full">
           <label for="produit">Article souhaité *</label>
           <select id="produit" name="produit" required>
@@ -228,6 +272,7 @@ footer{
                  maxlength="30" autocomplete="tel"
                  placeholder="Votre numéro joignable" required>
         </div>
+
       </div>
 
       <button class="submit-btn" id="submit-btn" type="submit">
@@ -244,7 +289,6 @@ footer{
     </div>
   </section>
 </main>
-
 <footer>
   © <span id="year"></span> ConductriceFashion — Votre style, votre élégance.
 </footer>
@@ -287,14 +331,24 @@ function updateCartCount() {
     const cart = JSON.parse(
       localStorage.getItem("conductricefashion_cart_v1") || "[]"
     );
+
     const count = Array.isArray(cart)
-      ? cart.reduce((sum, item) => sum + Math.max(0, Number(item.quantite || item.quantity || 1)), 0)
+      ? cart.reduce(
+          (sum, item) =>
+            sum + Math.max(
+              0,
+              Number(item.quantite || item.quantity || 1)
+            ),
+          0
+        )
       : 0;
+
     document.getElementById("cart-count").textContent = count;
   } catch (error) {
     document.getElementById("cart-count").textContent = "0";
   }
 }
+
 updateCartCount();
 
 /* Préremplir l’article transmis par la boutique */
@@ -308,9 +362,11 @@ if (productFromUrl && productNames[productFromUrl]) {
     const cart = JSON.parse(
       localStorage.getItem("conductricefashion_cart_v1") || "[]"
     );
+
     if (Array.isArray(cart) && cart.length) {
       const first = cart[0];
       const possibleId = first.produit_id || first.id || first.slug;
+
       if (possibleId && productNames[possibleId]) {
         produitInput.value = possibleId;
       }
@@ -355,6 +411,7 @@ async function callBackend(payload) {
   );
 
   let execution;
+
   try {
     execution = await response.json();
   } catch (error) {
@@ -388,9 +445,7 @@ async function callBackend(payload) {
 
   return result;
 }
-  </script>
-  
-<script>
+
 /* Enregistrement de la réservation */
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -404,14 +459,26 @@ form.addEventListener("submit", async function (event) {
   const nomClient = nomInput.value.trim();
   const telephone = telephoneInput.value.trim();
 
-  if (!produitId || !produitNom || !taille ||
-      !couleur || !nomClient || !telephone) {
-    showNotice("Vérifie les champs obligatoires avant de continuer.", "error");
+  if (
+    !produitId ||
+    !produitNom ||
+    !taille ||
+    !couleur ||
+    !nomClient ||
+    !telephone
+  ) {
+    showNotice(
+      "Vérifie les champs obligatoires avant de continuer.",
+      "error"
+    );
     return;
   }
 
   if (!Number.isInteger(quantite) || quantite < 1 || quantite > 50) {
-    showNotice("La quantité doit être comprise entre 1 et 50.", "error");
+    showNotice(
+      "La quantité doit être comprise entre 1 et 50.",
+      "error"
+    );
     return;
   }
 
@@ -436,7 +503,6 @@ form.addEventListener("submit", async function (event) {
       );
     }
 
-    /* L'identifiant reste enregistré en interne, sans être affiché. */
     const reservation = {
       id: result.reservation_id,
       expireLe: result.expire_le
@@ -452,12 +518,12 @@ form.addEventListener("submit", async function (event) {
     }
 
     showNotice("Réservation confirmée ! ❤️", "success");
-
     startCountdown(result.expire_le);
     form.reset();
 
   } catch (error) {
     console.error("Erreur de réservation :", error);
+
     showNotice(
       error.message ||
       "Impossible d’enregistrer la réservation. Vérifie ta connexion et réessaie.",
@@ -491,6 +557,7 @@ function startCountdown(expireLe) {
 
     if (restant <= 0) {
       timerElement.textContent = "00:00:00";
+
       timerBox.querySelector("p").textContent =
         "Le délai de 48 heures est terminé.";
 
@@ -508,6 +575,7 @@ function startCountdown(expireLe) {
       } catch (error) {
         /* Le décompte est déjà terminé. */
       }
+
       return;
     }
 
@@ -537,8 +605,6 @@ try {
 
     if (Number.isFinite(expiration) && expiration > Date.now()) {
       startCountdown(savedReservation.expireLe);
-
-      /* Ne jamais afficher l'identifiant technique au client. */
       showNotice("Réservation confirmée ! ❤️", "success");
     } else {
       localStorage.removeItem("conductricefashion_reservation_v1");
@@ -550,5 +616,3 @@ try {
 </script>
 </body>
 </html>
-
-              
