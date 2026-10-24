@@ -81,11 +81,6 @@ a.menu-lien{text-decoration:none;color:inherit}
 
 /* ===== Cartes, listes ===== */
 .carte{background:#fff;border-radius:var(--rayon);box-shadow:var(--ombre);padding:16px}
-.grille-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:700px){.grille-stats{grid-template-columns:repeat(4,1fr)}}
-.stat .valeur{font-size:1.9rem;font-weight:800;line-height:1.1}
-.stat .libelle{color:var(--muted);font-size:.85rem}
-.stat .detail{color:var(--orange-fonce);font-size:.85rem;font-weight:600}
 .titre-bloc{font-size:1.05rem;margin:24px 0 10px}
 .raccourcis{display:grid;grid-template-columns:1fr;gap:10px}
 @media(min-width:700px){.raccourcis{grid-template-columns:repeat(2,1fr)}}
@@ -127,6 +122,75 @@ a.menu-lien{text-decoration:none;color:inherit}
 .champ-statut{display:block;margin-top:12px;font-weight:600;font-size:.9rem}
 .champ-statut select{margin-top:4px}
 .vide,.charge{text-align:center;color:var(--muted);padding:32px 12px}
+.vide.petit{padding:12px}
+
+/* ===== Tableau de bord ===== */
+.tdb{display:grid;gap:14px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#252A34 0%,#3a4252 100%);color:#fff;border-radius:20px;padding:20px;box-shadow:var(--ombre)}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(242,140,40,.6),rgba(242,140,40,0) 70%)}
+.hero p{position:relative;z-index:1;margin:0}
+.hero .salut{font-size:1.15rem;font-weight:700}
+.hero .date{margin-bottom:14px;opacity:.75;font-size:.85rem;text-transform:capitalize}
+.hero .lib{opacity:.8;font-size:.85rem}
+.hero .montant{margin-top:2px;font-size:clamp(1.8rem,8vw,2.6rem);font-weight:800;line-height:1.1}
+.hero .unite{font-size:.5em;font-weight:700;opacity:.85;margin-left:6px}
+.hero .sous-ligne{margin-top:6px;font-size:.85rem;opacity:.85}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{display:flex;gap:10px;align-items:center;text-align:left;width:100%;background:#fff;border:0;border-radius:var(--rayon);box-shadow:var(--ombre);padding:14px}
+.kpi-val,.kpi-lib,.kpi-det{display:block}
+.kpi-val{font-size:1.5rem;font-weight:800;line-height:1.1}
+.kpi-lib{font-size:.85rem;color:var(--muted)}
+.kpi-det{font-size:.78rem;color:var(--orange-fonce);font-weight:700}
+.ico{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center}
+.ico.o{background:#FDF0E1;color:var(--orange-fonce)}
+.ico.b{background:#E3ECFB;color:#1F4E9E}
+.ico.v{background:#E2F4EA;color:var(--ok)}
+.ico.j{background:#FFF3D6;color:#8A5A00}
+.carte h2.titre-carte{margin:0 0 12px;font-size:.95rem}
+.grille-2{display:grid;gap:14px}
+@media(min-width:760px){.grille-2{grid-template-columns:1fr 1fr}}
+.alertes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.alerte{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:12px 14px;border:1.5px solid var(--bord);border-radius:12px;background:#fff;font-weight:600}
+.alerte .pt{width:10px;height:10px;border-radius:50%;flex:none;background:#8A94A6}
+.alerte.haute .pt{background:var(--danger)}
+.alerte.moyenne .pt{background:var(--orange)}
+.alerte .fleche{margin-left:auto;color:var(--muted);font-size:1.3rem;line-height:1}
+.ok-tout{margin:0;color:var(--ok);font-weight:700}
+.jauges{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(min-width:700px){.jauges{grid-template-columns:repeat(4,1fr)}}
+.jauge{text-align:center}
+.jauge svg{width:100%;max-width:110px}
+.jauge .piste{fill:none;stroke:#E9EDF3;stroke-width:10}
+.jauge .arc{fill:none;stroke-width:10;stroke-linecap:round}
+.jauge .pct{font-size:20px;font-weight:800;fill:#252A34}
+.jauge-libelle{font-weight:700;font-size:.88rem}
+.jauge-detail{font-size:.78rem;color:var(--muted)}
+.barres{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;padding-top:18px}
+.col{display:flex;flex-direction:column;align-items:center;gap:6px}
+.paire{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:128px;width:100%}
+.b{position:relative;display:block;width:34%;max-width:22px;border-radius:6px 6px 2px 2px}
+.b.cmd{background:var(--orange)}
+.b.res{background:var(--anthracite)}
+.b i{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-style:normal;font-size:.7rem;font-weight:700;color:var(--muted)}
+.jour{font-size:.72rem;color:var(--muted);text-transform:capitalize}
+.legende-graph{display:flex;gap:14px;margin:10px 0 0;font-size:.8rem;color:var(--muted)}
+.empile{display:flex;gap:2px;height:16px;border-radius:999px;overflow:hidden;background:#E9EDF3}
+.seg{display:block;min-width:6px}
+.legende{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted)}
+.pastille{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.seg.st-en_attente,.pastille.st-en_attente{background:#F5B83D}
+.seg.st-confirmee,.pastille.st-confirmee{background:#2FA866}
+.seg.st-livree,.pastille.st-livree{background:#1E7B46}
+.seg.st-expediee,.pastille.st-expediee{background:#4C7BD9}
+.seg.st-annulee,.pastille.st-annulee{background:#E5604F}
+.seg.st-expiree,.pastille.st-expiree{background:#B8BFCC}
+.top{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.top .ligne{display:flex;justify-content:space-between;gap:8px;font-size:.9rem}
+.top .nom{font-weight:700;overflow-wrap:anywhere}
+.top .nb{color:var(--muted);white-space:nowrap}
+.top .rail{height:8px;margin-top:4px;background:#E9EDF3;border-radius:999px;overflow:hidden}
+.top .rail span{display:block;height:100%;background:var(--orange);border-radius:999px}
 
 /* ===== Étoile et interrupteur ===== */
 .etoile{width:48px;height:48px;border:1.5px solid var(--bord);border-radius:14px;background:#fff;display:grid;place-items:center;color:var(--muted)}
@@ -296,13 +360,17 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     commandes: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['expediee', 'Expédiée'], ['livree', 'Livrée'], ['annulee', 'Annulée']],
     reservations: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['annulee', 'Annulée'], ['expiree', 'Expirée']]
   };
+  // Commandes comptées dans le chiffre d’affaires confirmé.
+  const STATUTS_CONFIRMES = ['confirmee', 'expediee', 'livree'];
 
-/* ============================ Outils ============================ */
+  /* ============================ Outils ============================ */
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const fmtPrix = (n) => new Intl.NumberFormat('fr-FR').format(Number(n) || 0) + ' ' + CONFIG.DEVISE;
+  const fmtNombre = (n) => new Intl.NumberFormat('fr-FR').format(Number(n) || 0);
+  const fmtPrix = (n) => fmtNombre(n) + ' ' + CONFIG.DEVISE;
   const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }); };
+  const pl = (n, singulier, pluriel) => n + ' ' + (n > 1 ? pluriel : singulier);
 
   // Photo : seul un lien complet en https:// est accepté (comme dans la boutique).
   function urlSure(valeur) {
@@ -355,7 +423,7 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     clearTimeout(tToast);
     tToast = setTimeout(() => { t.className = 'toast'; }, 3500);
   }
-
+  
   /* ====================== Appel du backend ======================
      Toutes les actions passent par la fonction Appwrite (le code et
      les droits d’écriture ne sont jamais dans cette page).          */
@@ -390,7 +458,8 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     if (!rep || typeof rep !== 'object') return { ok: false, message: 'Réponse inattendue du serveur. Réessaie.' };
     if (rep.expire) deconnecter('Session expirée. Reconnecte-toi.');
     return rep;
-                        }
+  }
+
   /* ============================ Connexion ============================ */
   const champCode = $('#code');
   const btnConnexion = $('#btnConnexion');
@@ -478,8 +547,7 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     messageConnexion(texte || '', texte ? 'info' : '');
     verifierVerrou();
   }
-
-  /* ============================== Menu ============================== */
+   /* ============================== Menu ============================== */
   function ouvrirMenu() {
     $('#menu').classList.add('ouvert'); $('#voile').classList.add('visible');
     $('#btnMenu').setAttribute('aria-expanded', 'true');
@@ -508,9 +576,8 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     window.scrollTo(0, 0);
     try {
       if (nom === 'accueil') {
-        const r = await appeler('admin_stats');
-        if (!r.ok) throw new Error(r.message || 'Chargement impossible.');
-        etat.stats = r.stats;
+        // Le tableau de bord calcule ses chiffres à partir des trois listes.
+        await Promise.all([charger('produits'), charger('reservations'), charger('commandes')]);
       } else if (nom === 'produits' || nom === 'vedettes' || nom === 'boutique') {
         await charger('produits');
       } else if (nom === 'reservations' || nom === 'commandes') {
@@ -540,30 +607,182 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
       '<button class="btn secondaire" data-action="rafraichir">Réessayer</button></div>';
   }
   const vide = (texte) => '<p class="vide">' + esc(texte) + '</p>';
+
   /* ========================= 1. Tableau de bord ========================= */
-  function carteStat(libelle, valeur, detail) {
-    return '<div class="carte stat"><div class="valeur">' + esc(valeur) + '</div><div class="libelle">' + esc(libelle) +
-      '</div><div class="detail">' + esc(detail) + '</div></div>';
+  function kpi(icone, teinte, valeur, libelle, detail, cible) {
+    return '<button class="kpi" data-action="aller" data-cible="' + cible + '">' +
+      '<span class="ico ' + teinte + '"><svg class="ic" aria-hidden="true"><use href="#i-' + icone + '"/></svg></span>' +
+      '<span><span class="kpi-val">' + esc(valeur) + '</span><span class="kpi-lib">' + esc(libelle) + '</span>' +
+      '<span class="kpi-det">' + esc(detail) + '</span></span></button>';
   }
+
+  // Jauge circulaire : pct = pourcentage (ou null s’il n’y a pas de données).
+  function jauge(libelle, pct, couleur, detail) {
+    const c = 2 * Math.PI * 38;
+    const val = pct == null ? 0 : Math.max(0, Math.min(100, pct));
+    const texte = pct == null ? '—' : Math.round(pct) + '%';
+    return '<div class="jauge">' +
+      '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(libelle) + ' : ' + (pct == null ? 'aucune donnée' : Math.round(pct) + ' pour cent') + '">' +
+      '<circle class="piste" cx="50" cy="50" r="38"/>' +
+      '<circle class="arc" cx="50" cy="50" r="38" stroke="' + couleur + '" stroke-dasharray="' + (val / 100 * c).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 50 50)"/>' +
+      '<text class="pct" x="50" y="56" text-anchor="middle">' + texte + '</text></svg>' +
+      '<div class="jauge-libelle">' + esc(libelle) + '</div><div class="jauge-detail">' + esc(detail) + '</div></div>';
+  }
+
+  // Barre empilée : répartition des lignes par statut.
+  function barreStatuts(table, lignes) {
+    if (!lignes.length) return '<p class="vide petit">Aucune donnée pour le moment.</p>';
+    const comptes = STATUTS[table].map((s) => [s[0], s[1], lignes.filter((x) => x.statut === s[0]).length]);
+    const segments = comptes.filter((c) => c[2] > 0).map((c) =>
+      '<span class="seg st-' + c[0] + '" style="flex:' + c[2] + '" title="' + esc(c[1]) + ' : ' + c[2] + '"></span>').join('');
+    const resume = comptes.map((c) => c[1] + ' : ' + c[2]).join(', ');
+    const legende = comptes.map((c) =>
+      '<li><span class="pastille st-' + c[0] + '"></span>' + esc(c[1]) + ' <strong>' + c[2] + '</strong></li>').join('');
+    return '<div class="empile" role="img" aria-label="' + esc(resume) + '">' + segments + '</div><ul class="legende">' + legende + '</ul>';
+  }
+
+  // Activité des 7 derniers jours : commandes et réservations créées par jour.
+  function cleJour(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function graphiqueSemaine() {
+    const jours = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i);
+      jours.push({ cle: cleJour(d), nom: d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', ''), cmd: 0, res: 0 });
+    }
+    const compter = (liste, champ) => liste.forEach((x) => {
+      const d = new Date(x.cree_le);
+      if (isNaN(d)) return;
+      const j = jours.find((y) => y.cle === cleJour(d));
+      if (j) j[champ]++;
+    });
+    compter(etat.commandes, 'cmd');
+    compter(etat.reservations, 'res');
+
+    const max = Math.max(1, ...jours.map((j) => Math.max(j.cmd, j.res)));
+    const haut = (n) => (n ? Math.max(6, Math.round(n / max * 110)) : 0);
+    const total = jours.reduce((s, j) => s + j.cmd + j.res, 0);
+    const resume = jours.map((j) => j.nom + ' : ' + pl(j.cmd, 'commande', 'commandes') + ', ' + pl(j.res, 'réservation', 'réservations')).join(' ; ');
+
+    return '<div class="barres" role="img" aria-label="' + esc(resume) + '">' + jours.map((j) =>
+      '<div class="col"><div class="paire">' +
+        '<span class="b cmd" style="height:' + haut(j.cmd) + 'px">' + (j.cmd ? '<i>' + j.cmd + '</i>' : '') + '</span>' +
+        '<span class="b res" style="height:' + haut(j.res) + 'px">' + (j.res ? '<i>' + j.res + '</i>' : '') + '</span>' +
+      '</div><span class="jour">' + esc(j.nom) + '</span></div>').join('') + '</div>' +
+      '<p class="legende-graph"><span><span class="pastille" style="background:#F28C28"></span>Commandes</span>' +
+      '<span><span class="pastille" style="background:#252A34"></span>Réservations</span></p>' +
+      (total ? '' : '<p class="vide petit">Aucune activité ces 7 derniers jours.</p>');
+  }
+
+  // Produits les plus réservés (top 5).
+  function topReserves() {
+    const m = new Map();
+    etat.reservations.forEach((r) => {
+      const nom = String(r.produit_nom || '').trim();
+      if (!nom) return;
+      const e = m.get(nom) || { nom: nom, fois: 0, qte: 0 };
+      e.fois++; e.qte += Number(r.quantite) || 0;
+      m.set(nom, e);
+    });
+    const liste = Array.from(m.values()).sort((a, b) => b.fois - a.fois || b.qte - a.qte).slice(0, 5);
+    if (!liste.length) return '<p class="vide petit">Aucune réservation pour le moment.</p>';
+    const max = liste[0].fois;
+    return '<ol class="top">' + liste.map((e) =>
+      '<li><div class="ligne"><span class="nom">' + esc(e.nom) + '</span><span class="nb">' + pl(e.fois, 'réservation', 'réservations') + ' · ' + e.qte + ' pièce' + (e.qte > 1 ? 's' : '') + '</span></div>' +
+      '<div class="rail"><span style="width:' + Math.round(e.fois / max * 100) + '%"></span></div></li>').join('') + '</ol>';
+  }
+
+  // Liste « À traiter » : chaque ligne ouvre la rubrique concernée.
+  function blocAlertes() {
+    const a = [];
+    const cmdAttente = etat.commandes.filter((c) => c.statut === 'en_attente').length;
+    if (cmdAttente) a.push({ niveau: 'haute', texte: pl(cmdAttente, 'commande à confirmer', 'commandes à confirmer'), cible: 'commandes', filtre: 'en_attente' });
+
+    const enAttente = etat.reservations.filter((r) => r.statut === 'en_attente');
+    const restes = enAttente.map((r) => Date.parse(r.cree_le) + CONFIG.DELAI_RESERVATION_H * 3600000 - Date.now());
+    const depassees = restes.filter((x) => x <= 0).length;
+    const bientot = restes.filter((x) => x > 0 && x <= 6 * 3600000).length;
+    const autres = enAttente.length - depassees - bientot;
+    if (depassees) a.push({ niveau: 'haute', texte: pl(depassees, 'réservation dont le délai est dépassé', 'réservations dont le délai est dépassé'), cible: 'reservations', filtre: 'en_attente' });
+    if (bientot) a.push({ niveau: 'haute', texte: bientot + (bientot > 1 ? ' réservations expirent' : ' réservation expire') + ' dans moins de 6 h', cible: 'reservations', filtre: 'en_attente' });
+    if (autres > 0) a.push({ niveau: 'moyenne', texte: pl(autres, 'réservation en attente', 'réservations en attente'), cible: 'reservations', filtre: 'en_attente' });
+
+    const actifs = etat.produits.filter((p) => p.actif === true);
+    const ruptures = actifs.filter((p) => (Number(p.stock) || 0) <= 0).length;
+    if (ruptures) a.push({ niveau: 'haute', texte: pl(ruptures, 'produit visible en rupture de stock', 'produits visibles en rupture de stock'), cible: 'produits' });
+    const sansPhoto = actifs.filter((p) => !urlSure(p.photo_url)).length;
+    if (sansPhoto) a.push({ niveau: 'moyenne', texte: pl(sansPhoto, 'produit visible sans photo', 'produits visibles sans photo'), cible: 'produits' });
+    const vedettes = etat.produits.filter((p) => p.vedette === true).length;
+    if (actifs.length && vedettes < CONFIG.MAX_VEDETTES) {
+      const libres = CONFIG.MAX_VEDETTES - vedettes;
+      a.push({ niveau: 'info', texte: pl(libres, 'place libre', 'places libres') + ' en vedette sur l’accueil', cible: 'vedettes' });
+    }
+
+    if (!a.length) return '<p class="ok-tout">Tout est à jour. Rien à traiter pour le moment.</p>';
+    return '<ul class="alertes">' + a.map((x) =>
+      '<li><button class="alerte ' + x.niveau + '" data-action="alerte" data-cible="' + x.cible + '"' + (x.filtre ? ' data-filtre="' + x.filtre + '"' : '') + '>' +
+      '<span class="pt" aria-hidden="true"></span><span>' + esc(x.texte) + '</span><span class="fleche" aria-hidden="true">›</span></button></li>').join('') + '</ul>';
+  }
+
   function vueAccueil() {
-    const s = etat.stats || {};
-    vue.innerHTML =
-      '<section class="grille-stats" aria-label="Aperçu">' +
-        carteStat('Produits actifs', s.produits_actifs || 0, 'sur ' + (s.produits_total || 0)) +
-        carteStat('Produits en vedette', s.vedettes || 0, 'sur ' + CONFIG.MAX_VEDETTES + ' maximum') +
-        carteStat('Réservations en attente', s.reservations_en_attente || 0, 'sur ' + (s.reservations_total || 0)) +
-        carteStat('Commandes en attente', s.commandes_en_attente || 0, 'sur ' + (s.commandes_total || 0)) +
+    const cmd = etat.commandes, res = etat.reservations, prod = etat.produits;
+    const somme = (liste) => liste.reduce((s, c) => s + (Number(c.montant_total) || 0), 0);
+    const nb = (liste, st) => liste.filter((x) => x.statut === st).length;
+    const pct = (a, b) => (b ? a / b * 100 : null);
+
+    const confirmees = cmd.filter((c) => STATUTS_CONFIRMES.indexOf(c.statut) !== -1);
+    const ca = somme(confirmees);
+    const caAttente = somme(cmd.filter((c) => c.statut === 'en_attente'));
+    const actifs = prod.filter((p) => p.actif === true).length;
+    const vedettes = prod.filter((p) => p.vedette === true).length;
+    const dispos = prod.filter((p) => (Number(p.stock) || 0) > 0).length;
+    const resConf = nb(res, 'confirmee');
+    const annulees = nb(cmd, 'annulee');
+
+    const h = new Date().getHours();
+    const dateTxt = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+    vue.innerHTML = '<div class="tdb">' +
+      '<section class="hero" aria-label="Chiffre d’affaires">' +
+        '<p class="salut">' + (h >= 18 ? 'Bonsoir' : 'Bonjour') + '</p><p class="date">' + esc(dateTxt) + '</p>' +
+        '<p class="lib">Chiffre d’affaires confirmé</p>' +
+        '<p class="montant">' + fmtNombre(ca) + '<span class="unite">' + CONFIG.DEVISE + '</span></p>' +
+        '<p class="sous-ligne">' + (caAttente ? '+ ' + fmtPrix(caAttente) + ' en attente de confirmation' : 'Aucune commande en attente de confirmation') + '</p>' +
       '</section>' +
-      '<h2 class="titre-bloc">Raccourcis</h2>' +
-      '<div class="raccourcis">' +
+
+      '<section class="kpis" aria-label="Chiffres clés">' +
+        kpi('cart', 'o', cmd.length, 'Commandes', nb(cmd, 'en_attente') + ' en attente', 'commandes') +
+        kpi('cal', 'b', res.length, 'Réservations', nb(res, 'en_attente') + ' en attente', 'reservations') +
+        kpi('box', 'v', actifs, 'Produits actifs', 'sur ' + prod.length + ' au total', 'produits') +
+        kpi('star', 'j', vedettes + '/' + CONFIG.MAX_VEDETTES, 'Vedettes', 'sur l’accueil', 'vedettes') +
+      '</section>' +
+
+      '<section class="carte"><h2 class="titre-carte">À traiter</h2>' + blocAlertes() + '</section>' +
+
+      '<section class="carte"><h2 class="titre-carte">Taux</h2><div class="jauges">' +
+        jauge('Commandes confirmées', pct(confirmees.length, cmd.length), '#2FA866', confirmees.length + ' sur ' + cmd.length) +
+        jauge('Commandes annulées', pct(annulees, cmd.length), '#E5604F', annulees + ' sur ' + cmd.length) +
+        jauge('Réservations confirmées', pct(resConf, res.length), '#F28C28', resConf + ' sur ' + res.length) +
+        jauge('Produits disponibles', pct(dispos, prod.length), '#4C7BD9', dispos + ' sur ' + prod.length) +
+      '</div></section>' +
+
+      '<section class="carte"><h2 class="titre-carte">Activité des 7 derniers jours</h2>' + graphiqueSemaine() + '</section>' +
+
+      '<div class="grille-2">' +
+        '<section class="carte"><h2 class="titre-carte">Commandes par statut</h2>' + barreStatuts('commandes', cmd) + '</section>' +
+        '<section class="carte"><h2 class="titre-carte">Réservations par statut</h2>' + barreStatuts('reservations', res) + '</section>' +
+      '</div>' +
+
+      '<section class="carte"><h2 class="titre-carte">Produits les plus réservés</h2>' + topReserves() + '</section>' +
+
+      '<section class="carte"><h2 class="titre-carte">Raccourcis</h2><div class="raccourcis">' +
         '<button class="btn primaire" data-action="ajouter-rapide"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Ajouter un produit</button>' +
         '<button class="btn secondaire" data-action="aller" data-cible="vedettes"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>Choisir les vedettes</button>' +
         '<button class="btn secondaire" data-action="aller" data-cible="reservations"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Voir les réservations</button>' +
         '<button class="btn secondaire" data-action="aller" data-cible="commandes"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg>Voir les commandes</button>' +
-      '</div>';
+      '</div></section>' +
+    '</div>';
   }
-
-  /* ============================ 2. Produits ============================ */
+   /* ============================ 2. Produits ============================ */
   function vignette(p) {
     const u = urlSure(p.photo_url);
     return '<div class="vignette">' + (u
@@ -719,7 +938,8 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     listeVedettes();
     toast(nouveau ? 'Ajouté aux vedettes.' : 'Retiré des vedettes.');
   }
-   /* ============================ 4. Boutique ============================ */
+
+  /* ============================ 4. Boutique ============================ */
   function itemBoutique(p) {
     const visible = p.actif === true;
     const stock = Number(p.stock) || 0;
@@ -746,7 +966,6 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     if (texte) texte.textContent = nouveau ? 'Visible' : 'Masqué';
     toast(nouveau ? 'Produit visible dans la boutique.' : 'Produit masqué.');
   }
-
   /* ================== 5 et 6. Réservations et commandes ================== */
   const labelStatut = (table, v) => { const t = STATUTS[table].find((s) => s[0] === v); return t ? t[1] : (v || '—'); };
   const badgeStatut = (table, v) => '<span class="badge st-' + esc(v) + '">' + esc(labelStatut(table, v)) + '</span>';
@@ -835,6 +1054,10 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     const id = b.dataset.id;
     switch (b.dataset.action) {
       case 'aller': ouvrirSection(b.dataset.cible); break;
+      case 'alerte':
+        if (b.dataset.filtre && etat.filtre[b.dataset.cible] !== undefined) etat.filtre[b.dataset.cible] = b.dataset.filtre;
+        ouvrirSection(b.dataset.cible);
+        break;
       case 'ajouter-rapide': ouvrirSection('produits').then(() => ouvrirFormulaire(null)); break;
       case 'ajouter': ouvrirFormulaire(null); break;
       case 'modifier': ouvrirFormulaire(etat.produits.find((p) => p.id === id)); break;
