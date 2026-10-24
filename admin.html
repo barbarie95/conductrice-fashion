@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#252A34">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' https: data:; connect-src https://fra.cloud.appwrite.io; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:,">
+<title>Administration · CONDUCTRICE FASHION</title>
+<style>
+/* ===== Variables de la charte (orange, anthracite, blanc, gris clair) ===== */
+:root{
+  --orange:#F28C28; --orange-fonce:#B45309; --anthracite:#252A34;
+  --gris:#F1F4F9; --muted:#5B6472; --bord:#E1E6EE;
+  --ok:#1E7B46; --danger:#B42318; --rayon:14px; --haut:56px;
+  --ombre:0 1px 2px rgba(37,42,52,.06),0 6px 18px rgba(37,42,52,.07);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--gris);color:var(--anthracite)}
+.hidden{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ===== Champs et boutons ===== */
+input[type=text],input[type=password],input[type=search],input[type=number],textarea,select{width:100%;padding:12px 14px;border:1.5px solid var(--bord);border-radius:12px;background:#fff}
+input:disabled{background:#eef0f4}
+textarea{min-height:90px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:12px;font-weight:700}
+.btn.primaire{background:var(--orange);color:var(--anthracite)}
+.btn.secondaire{background:#fff;border:1.5px solid var(--bord)}
+.btn.danger{background:#fff;border:1.5px solid #f2c4bf;color:var(--danger)}
+.btn.plein{width:100%}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-icone{display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:inherit}
+.btn-icone.clair{background:#fff;border:1.5px solid var(--bord)}
+
+/* ===== Connexion ===== */
+.connexion{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#252A34 0%,#343b49 100%)}
+.carte-connexion{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center}
+.logo{width:64px;height:64px;margin:0 auto 12px;border-radius:18px;background:var(--orange);color:var(--anthracite);display:grid;place-items:center;font-weight:800;font-size:24px;letter-spacing:1px}
+.logo.petit{width:40px;height:40px;border-radius:12px;font-size:16px;margin:0}
+.logo-img{display:block;width:150px;height:auto;margin:0 auto 12px}
+.logo-img.gauche{margin:0 0 4px}
+.carte-connexion h1{margin:0;font-size:1.35rem}
+.sous{margin:2px 0 20px;color:var(--muted);font-size:.85rem;letter-spacing:.12em}
+.carte-connexion label{display:block;text-align:left;font-weight:600;margin-bottom:6px}
+.champ-code{display:flex;gap:8px}
+.champ-code input{flex:1;min-width:0}
+.msg{min-height:1.4em;margin:10px 0;font-size:.92rem;text-align:left}
+.msg.erreur{color:var(--danger)}
+.msg.info{color:var(--muted)}
+.decompte{min-height:2.4rem;font-size:2rem;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;margin:0 0 8px;color:var(--danger)}
+
+/* ===== Structure ===== */
+.topbar{position:sticky;top:0;z-index:15;height:var(--haut);display:flex;align-items:center;gap:6px;padding:0 8px;background:var(--anthracite);color:#fff}
+.topbar h1{flex:1;margin:0;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu{position:fixed;inset:0 auto 0 0;z-index:30;width:min(84vw,320px);background:#fff;padding:16px 12px;overflow-y:auto;transform:translateX(-100%);visibility:hidden;transition:transform .25s ease,visibility .25s}
+.menu.ouvert{transform:none;visibility:visible}
+.menu-tete{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:4px 8px 16px;border-bottom:1px solid var(--bord);margin-bottom:8px}
+.menu-tete small{display:block;color:var(--muted)}
+.menu ol{list-style:none;margin:0;padding:0}
+.menu-lien{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:12px;background:transparent;text-align:left;font-weight:600}
+a.menu-lien{text-decoration:none;color:inherit}
+.menu-lien .num{color:var(--orange-fonce);font-weight:800;min-width:1.4em}
+.menu-lien[aria-current=page]{background:#FDF0E1}
+.menu-pied{margin-top:12px;padding-top:12px;border-top:1px solid var(--bord)}
+.voile{position:fixed;inset:0;z-index:20;background:rgba(37,42,52,.5);opacity:0;pointer-events:none;transition:opacity .25s}
+.voile.visible{opacity:1;pointer-events:auto}
+.vue{padding:16px;max-width:980px;margin:0 auto;outline:none}
+@media(min-width:960px){
+  .corps{display:grid;grid-template-columns:280px 1fr;align-items:start}
+  .menu{position:sticky;top:var(--haut);height:calc(100vh - var(--haut));width:auto;transform:none;visibility:visible;z-index:5;border-right:1px solid var(--bord)}
+  .voile{display:none}
+  #btnMenu{display:none}
+}
+
+/* ===== Cartes, listes ===== */
+.carte{background:#fff;border-radius:var(--rayon);box-shadow:var(--ombre);padding:16px}
+.grille-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.grille-stats{grid-template-columns:repeat(4,1fr)}}
+.stat .valeur{font-size:1.9rem;font-weight:800;line-height:1.1}
+.stat .libelle{color:var(--muted);font-size:.85rem}
+.stat .detail{color:var(--orange-fonce);font-size:.85rem;font-weight:600}
+.titre-bloc{font-size:1.05rem;margin:24px 0 10px}
+.raccourcis{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:700px){.raccourcis{grid-template-columns:repeat(2,1fr)}}
+.raccourcis .btn{justify-content:flex-start}
+.intro{color:var(--muted);margin:0 0 12px}
+.compteur{margin:0 0 12px;font-size:1.05rem}
+.outils{position:sticky;top:var(--haut);z-index:10;display:flex;gap:8px;align-items:center;padding:8px 0;margin-bottom:8px;background:var(--gris)}
+.outils input[type=search]{flex:1;min-width:0}
+.puces{flex:1;display:flex;gap:8px;overflow-x:auto;padding:2px}
+.puce{flex:none;min-height:40px;padding:0 14px;border:1.5px solid var(--bord);border-radius:999px;background:#fff;font-weight:600}
+.puce[aria-pressed=true]{background:var(--anthracite);border-color:var(--anthracite);color:#fff}
+.liste{display:grid;gap:12px}
+.item{background:#fff;border-radius:var(--rayon);box-shadow:var(--ombre);padding:12px;display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center}
+.item.avec-controle{grid-template-columns:72px 1fr auto}
+.item.bloc{display:block}
+.vignette{width:72px;height:72px;border-radius:12px;overflow:hidden;background:#FDF0E1;display:grid;place-items:center}
+.vignette img{width:100%;height:100%;object-fit:cover}
+.sans-photo{font-weight:800;color:var(--orange-fonce)}
+.item h3{margin:0;font-size:1rem;overflow-wrap:anywhere}
+.prix{margin:0;font-weight:700}
+.meta{margin:4px 0 0;color:var(--muted);font-size:.88rem;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.item-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.item-actions .btn{flex:1;min-height:40px}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:700;background:#eef0f4}
+.badge.ok{background:#E2F4EA;color:var(--ok)}
+.badge.off{background:#FBE4E1;color:var(--danger)}
+.badge.vedette{background:#FDF0E1;color:var(--orange-fonce)}
+.badge.cat{background:#E3ECFB;color:#1F4E9E}
+.st-en_attente{background:#FFF3D6;color:#8A5A00}
+.st-confirmee,.st-livree{background:#E2F4EA;color:var(--ok)}
+.st-annulee,.st-expiree{background:#FBE4E1;color:var(--danger)}
+.st-expediee{background:#E3ECFB;color:#1F4E9E}
+.entete{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px}
+.infos{margin:0;display:grid;gap:6px}
+.infos div{display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:.92rem}
+.infos dt{color:var(--muted)}
+.infos dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.infos a{color:var(--orange-fonce);font-weight:700}
+.champ-statut{display:block;margin-top:12px;font-weight:600;font-size:.9rem}
+.champ-statut select{margin-top:4px}
+.vide,.charge{text-align:center;color:var(--muted);padding:32px 12px}
+
+/* ===== Étoile et interrupteur ===== */
+.etoile{width:48px;height:48px;border:1.5px solid var(--bord);border-radius:14px;background:#fff;display:grid;place-items:center;color:var(--muted)}
+.etoile .ic{width:26px;height:26px}
+.etoile.on{border-color:var(--orange);color:var(--orange)}
+.etoile.on .ic{fill:var(--orange)}
+.interrupteur{position:relative;display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem}
+.interrupteur input{position:absolute;left:0;top:50%;transform:translateY(-50%);opacity:0;width:48px;height:28px;margin:0}
+.curseur{position:relative;width:48px;height:28px;border-radius:999px;background:#c9cfda;transition:background .2s;flex:none}
+.curseur::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.interrupteur input:checked+.curseur{background:var(--ok)}
+.interrupteur input:checked+.curseur::after{transform:translateX(20px)}
+.interrupteur input:focus-visible+.curseur{outline:3px solid var(--orange);outline-offset:2px}
+
+/* ===== Fenêtres (dialog) ===== */
+dialog{border:0;padding:0;border-radius:20px;width:min(94vw,520px);max-height:92vh;box-shadow:0 20px 60px rgba(0,0,0,.35);color:var(--anthracite)}
+dialog::backdrop{background:rgba(37,42,52,.6)}
+.dlg-corps{padding:20px;display:grid;gap:12px}
+.dlg-corps h2{margin:0;font-size:1.15rem}
+.dlg-corps label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+.dlg-corps label.interrupteur{display:flex;margin:0}
+.dlg-corps p{margin:0}
+.dlg-corps .aide{font-size:.85rem;color:var(--muted);margin-top:4px}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dlg-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.apercu{width:96px;height:96px;border-radius:12px;overflow:hidden;background:#FDF0E1;display:grid;place-items:center}
+.apercu img{width:100%;height:100%;object-fit:cover}
+
+/* ===== Message flottant ===== */
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);z-index:60;max-width:92vw;padding:12px 18px;border-radius:12px;background:var(--anthracite);color:#fff;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.visible{opacity:1;transform:translate(-50%,0)}
+.toast.erreur{background:var(--danger)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<!-- Icônes (sprite SVG intégré) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9a2.7 2.7 0 005.3 0 2.7 2.7 0 005.4 0A2.7 2.7 0 0020 9"/><path d="M5 12v8h14v-8"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M9 15l2 2 4-4"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 7H6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></symbol>
+</svg>
+
+<!-- ===== Écran de connexion ===== -->
+<main id="connexion" class="connexion">
+  <div class="carte-connexion">
+    <img class="logo-img" data-logo src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
+    <h1>Espace administrateur</h1>
+    <p class="sous">CONDUCTRICE FASHION</p>
+    <form id="formConnexion" novalidate>
+      <label for="code">Code d’accès</label>
+      <div class="champ-code">
+        <input id="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
+        <button type="button" id="voirCode" class="btn secondaire" aria-pressed="false">Afficher</button>
+      </div>
+      <p id="msgConnexion" class="msg" role="alert"></p>
+      <p id="decompte" class="decompte" role="timer"></p>
+      <button type="submit" id="btnConnexion" class="btn primaire plein">Se connecter</button>
+    </form>
+  </div>
+</main>
+
+<!-- ===== Application ===== -->
+<div id="app" class="hidden">
+  <header class="topbar">
+    <button id="btnMenu" class="btn-icone" aria-label="Ouvrir le menu" aria-controls="menu" aria-expanded="false"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    <h1 id="titreSection">Tableau de bord</h1>
+    <button id="btnDeconnexion" class="btn-icone" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg></button>
+  </header>
+  <div class="corps">
+    <nav id="menu" class="menu" aria-label="Rubriques de l’administration">
+      <div class="menu-tete">
+        <img class="logo-img gauche" data-logo src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
+        <small>Administration</small>
+      </div>
+      <ol id="listeMenu"></ol>
+      <div class="menu-pied">
+        <a class="menu-lien" href="boutique.html" target="_blank" rel="noopener">Voir la boutique ↗</a>
+      </div>
+    </nav>
+    <div id="voile" class="voile"></div>
+    <main id="vue" class="vue" tabindex="-1"></main>
+  </div>
+</div>
+
+<!-- ===== Fenêtre produit ===== -->
+<dialog id="dlgProduit" aria-labelledby="dlgProduitTitre">
+  <form id="formProduit" class="dlg-corps" novalidate>
+    <h2 id="dlgProduitTitre">Nouveau produit</h2>
+    <input type="hidden" id="pId">
+    <div><label for="pNom">Nom du produit *</label><input id="pNom" type="text" maxlength="200"></div>
+    <div>
+      <label for="pDescription">Description</label>
+      <textarea id="pDescription" maxlength="2000"></textarea>
+      <p id="pCategorie" class="aide"></p>
+    </div>
+    <div class="deux">
+      <div><label for="pPrix">Prix (FCFA) *</label><input id="pPrix" type="number" min="0" step="any" inputmode="decimal"></div>
+      <div><label for="pStock">Stock</label><input id="pStock" type="number" min="0" step="1" inputmode="numeric" value="0"></div>
+    </div>
+    <div>
+      <label for="pPhoto">Lien de la photo</label>
+      <input id="pPhoto" type="text" maxlength="1000" autocapitalize="off" placeholder="https://…">
+      <p class="aide">Lien complet commençant par https://. Les chemins comme images/robe.jpg ne s’affichent pas dans la boutique.</p>
+    </div>
+    <div id="pApercu" class="apercu" aria-hidden="true"></div>
+    <label class="interrupteur"><input type="checkbox" id="pActif" checked><span class="curseur"></span><span>Visible dans la boutique</span></label>
+    <p id="msgProduit" class="msg erreur" role="alert"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn secondaire" id="pAnnuler">Annuler</button>
+      <button type="submit" class="btn primaire" id="pEnregistrer">Enregistrer</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ===== Fenêtre de confirmation ===== -->
+<dialog id="dlgConfirm" aria-labelledby="confTitre">
+  <div class="dlg-corps">
+    <h2 id="confTitre"></h2>
+    <p id="confTexte"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn secondaire" id="confNon">Annuler</button>
+      <button type="button" class="btn primaire" id="confOui">Confirmer</button>
+    </div>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+(() => {
+  /* =====================================================================
+     CONFIGURATION (mêmes valeurs que boutique.html)
+     ===================================================================== */
+  const CONFIG = {
+    ENDPOINT: 'https://fra.cloud.appwrite.io/v1',
+    PROJET: '6ad7761700274f3ae4b1',
+    FONCTION: 'conductrice-backend',
+    DEVISE: 'FCFA',
+    MAX_VEDETTES: 4,
+    DELAI_RESERVATION_H: 48,
+    CLE_SESSION: 'cf_admin_session',
+    CLE_VERROU: 'cf_admin_verrou'
+  };
+
+  const SECTIONS = {
+    accueil:      { num: 1, titre: 'Tableau de bord',              icone: 'grid'  },
+    produits:     { num: 2, titre: 'Produits',                     icone: 'box'   },
+    vedettes:     { num: 3, titre: 'Mise en avant sur l’accueil',  icone: 'star'  },
+    boutique:     { num: 4, titre: 'Boutique',                     icone: 'store' },
+    reservations: { num: 5, titre: 'Réservations',                 icone: 'cal'   },
+    commandes:    { num: 6, titre: 'Commandes',                    icone: 'cart'  },
+    avis:         { num: 7, titre: 'Avis et recommandations',      icone: 'chat'  }
+  };
+
+  const STATUTS = {
+    commandes: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['expediee', 'Expédiée'], ['livree', 'Livrée'], ['annulee', 'Annulée']],
+    reservations: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['annulee', 'Annulée'], ['expiree', 'Expirée']]
+  };
+
+/* ============================ Outils ============================ */
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmtPrix = (n) => new Intl.NumberFormat('fr-FR').format(Number(n) || 0) + ' ' + CONFIG.DEVISE;
+  const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }); };
+
+  // Photo : seul un lien complet en https:// est accepté (comme dans la boutique).
+  function urlSure(valeur) {
+    const v = String(valeur || '').trim();
+    if (!/^https:\/\//i.test(v)) return '';
+    try { return new URL(v).href; } catch (e) { return ''; }
+  }
+
+  /* Catégorie : mêmes règles que categoryFor() et styleFor() de boutique.html.
+     Si tu modifies ces mots dans la boutique, copie-les ici aussi. */
+  const LABELS_CAT = { robes: 'Robes', ensembles: 'Ensembles', accessoires: 'Accessoires', vetements: 'Vêtements' };
+  function categorieProduit(p) {
+    const t = (String(p.nom || '') + ' ' + String(p.description || '')).toLocaleLowerCase('fr');
+    let cat = 'vetements';
+    if (/sac|chaussure|bijou|accessoire|montre|lunette/.test(t)) cat = 'accessoires';
+    else if (/robe|jupe/.test(t)) cat = 'robes';
+    else if (/ensemble|complet|costume|tenue/.test(t)) cat = 'ensembles';
+    return { cat: cat, africaine: /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(t) };
+  }
+  function badgesCategorie(p) {
+    const c = categorieProduit(p);
+    return '<span class="badge cat">' + esc(LABELS_CAT[c.cat]) + '</span>' +
+      (c.africaine ? '<span class="badge cat">Inspiration africaine</span>' : '');
+  }
+
+  const session = {
+    lire() { try { return JSON.parse(sessionStorage.getItem(CONFIG.CLE_SESSION)); } catch (e) { return null; } },
+    ecrire(v) { try { sessionStorage.setItem(CONFIG.CLE_SESSION, JSON.stringify(v)); } catch (e) { /* ignoré */ } },
+    effacer() { try { sessionStorage.removeItem(CONFIG.CLE_SESSION); } catch (e) { /* ignoré */ } }
+  };
+  // Mémorise la fin du blocage (confort d’affichage uniquement : le serveur reste maître).
+  const verrouStock = {
+    lire() { try { return Number(localStorage.getItem(CONFIG.CLE_VERROU)) || 0; } catch (e) { return 0; } },
+    ecrire(fin) { try { localStorage.setItem(CONFIG.CLE_VERROU, String(fin)); } catch (e) { /* ignoré */ } },
+    effacer() { try { localStorage.removeItem(CONFIG.CLE_VERROU); } catch (e) { /* ignoré */ } }
+  };
+
+  const etat = {
+    jeton: '', fin: 0, section: 'accueil',
+    produits: [], reservations: [], commandes: [], stats: null,
+    recherche: '', filtre: { reservations: 'tous', commandes: 'tous' }
+  };
+
+  const vue = $('#vue');
+  let tToast = null;
+  function toast(texte, type) {
+    const t = $('#toast');
+    t.textContent = texte;
+    t.className = 'toast visible' + (type === 'erreur' ? ' erreur' : '');
+    clearTimeout(tToast);
+    tToast = setTimeout(() => { t.className = 'toast'; }, 3500);
+  }
+
+  /* ====================== Appel du backend ======================
+     Toutes les actions passent par la fonction Appwrite (le code et
+     les droits d’écriture ne sont jamais dans cette page).          */
+  async function appeler(action, donnees) {
+    const corps = Object.assign({ action: action }, donnees || {});
+    if (action !== 'admin_login') corps.jeton = etat.jeton;
+
+    const ctrl = new AbortController();
+    const delai = setTimeout(() => ctrl.abort(), 20000);
+    let reponse, execution;
+    try {
+      reponse = await fetch(CONFIG.ENDPOINT + '/functions/' + CONFIG.FONCTION + '/executions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Appwrite-Project': CONFIG.PROJET },
+        body: JSON.stringify({
+          body: JSON.stringify(corps), async: false, path: '/', method: 'POST',
+          headers: { 'content-type': 'application/json' }
+        }),
+        signal: ctrl.signal
+      });
+      execution = await reponse.json();
+    } catch (e) {
+      return { ok: false, message: 'Connexion impossible. Vérifie ta connexion Internet.' };
+    } finally {
+      clearTimeout(delai);
+    }
+
+    if (!reponse.ok) return { ok: false, message: (execution && execution.message) || 'Erreur du serveur.' };
+
+    let rep;
+    try { rep = JSON.parse(execution.responseBody); } catch (e) { rep = null; }
+    if (!rep || typeof rep !== 'object') return { ok: false, message: 'Réponse inattendue du serveur. Réessaie.' };
+    if (rep.expire) deconnecter('Session expirée. Reconnecte-toi.');
+    return rep;
+                        }
+  /* ============================ Connexion ============================ */
+  const champCode = $('#code');
+  const btnConnexion = $('#btnConnexion');
+  const msgConnexion = $('#msgConnexion');
+  const decompte = $('#decompte');
+  let minuteurVerrou = null;
+
+  function messageConnexion(texte, type) {
+    msgConnexion.textContent = texte || '';
+    msgConnexion.className = 'msg' + (type ? ' ' + type : '');
+  }
+  function hms(s) {
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+    return [h, m, x].map((n) => String(n).padStart(2, '0')).join(':');
+  }
+
+  function demarrerVerrou(fin) {
+    verrouStock.ecrire(fin);
+    champCode.disabled = true; btnConnexion.disabled = true; $('#voirCode').disabled = true;
+    messageConnexion('Accès bloqué après plusieurs codes incorrects. Réessaie dans :', 'erreur');
+    clearInterval(minuteurVerrou);
+    const maj = () => {
+      const reste = Math.ceil((fin - Date.now()) / 1000);
+      if (reste <= 0) { finVerrou(); return; }
+      decompte.textContent = hms(reste);
+    };
+    maj();
+    minuteurVerrou = setInterval(maj, 1000);
+  }
+  function finVerrou() {
+    clearInterval(minuteurVerrou);
+    verrouStock.effacer();
+    decompte.textContent = '';
+    champCode.disabled = false; btnConnexion.disabled = false; $('#voirCode').disabled = false;
+    messageConnexion('Tu peux réessayer.', 'info');
+  }
+  function verifierVerrou() {
+    const fin = verrouStock.lire();
+    if (fin > Date.now()) demarrerVerrou(fin); else verrouStock.effacer();
+  }
+
+  async function connecter(e) {
+    e.preventDefault();
+    const code = champCode.value;
+    if (!code) { messageConnexion('Saisis ton code d’accès.', 'erreur'); return; }
+    btnConnexion.disabled = true;
+    messageConnexion('Vérification…', 'info');
+    const r = await appeler('admin_login', { code: code });
+    champCode.value = '';
+    btnConnexion.disabled = false;
+
+    if (r.ok && r.jeton) {
+      etat.jeton = r.jeton;
+      etat.fin = Date.now() + (Number(r.duree) || 3600) * 1000;
+      session.ecrire({ jeton: etat.jeton, fin: etat.fin });
+      verrouStock.effacer();
+      messageConnexion('');
+      entrerApp();
+      return;
+    }
+    if (r.bloque) { demarrerVerrou(Date.now() + (Number(r.restant) || 0) * 1000); return; }
+    if (r.essais_restants) {
+      const n = r.essais_restants;
+      messageConnexion('Code incorrect. Il te reste ' + n + ' essai' + (n > 1 ? 's' : '') + ' avant le blocage.', 'erreur');
+    } else {
+      messageConnexion(r.message || 'Connexion impossible.', 'erreur');
+    }
+    champCode.focus();
+  }
+
+  function entrerApp() {
+    $('#connexion').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    ouvrirSection('accueil');
+  }
+
+  function deconnecter(texte) {
+    etat.jeton = ''; etat.fin = 0;
+    etat.produits = []; etat.reservations = []; etat.commandes = []; etat.stats = null;
+    session.effacer();
+    ['dlgProduit', 'dlgConfirm'].forEach((id) => { const d = $('#' + id); if (d.open) d.close(); });
+    fermerMenu();
+    $('#app').classList.add('hidden');
+    $('#connexion').classList.remove('hidden');
+    messageConnexion(texte || '', texte ? 'info' : '');
+    verifierVerrou();
+  }
+
+  /* ============================== Menu ============================== */
+  function ouvrirMenu() {
+    $('#menu').classList.add('ouvert'); $('#voile').classList.add('visible');
+    $('#btnMenu').setAttribute('aria-expanded', 'true');
+  }
+  function fermerMenu() {
+    $('#menu').classList.remove('ouvert'); $('#voile').classList.remove('visible');
+    $('#btnMenu').setAttribute('aria-expanded', 'false');
+  }
+
+  /* ====================== Chargement des données ====================== */
+  async function charger(table) {
+    const r = await appeler('admin_liste', { table: table });
+    if (!r.ok) throw new Error(r.message || 'Chargement impossible.');
+    etat[table] = Array.isArray(r.lignes) ? r.lignes : [];
+  }
+
+  async function ouvrirSection(nom) {
+    if (!etat.jeton) return;
+    etat.section = nom;
+    $('#titreSection').textContent = SECTIONS[nom].titre;
+    $$('.menu-lien').forEach((b) => {
+      if (b.dataset.section === nom) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    fermerMenu();
+    vue.innerHTML = '<p class="charge" role="status">Chargement…</p>';
+    window.scrollTo(0, 0);
+    try {
+      if (nom === 'accueil') {
+        const r = await appeler('admin_stats');
+        if (!r.ok) throw new Error(r.message || 'Chargement impossible.');
+        etat.stats = r.stats;
+      } else if (nom === 'produits' || nom === 'vedettes' || nom === 'boutique') {
+        await charger('produits');
+      } else if (nom === 'reservations' || nom === 'commandes') {
+        await charger(nom);
+      }
+    } catch (err) {
+      if (etat.jeton && etat.section === nom) erreurVue(err.message);
+      return;
+    }
+    if (etat.jeton && etat.section === nom) { rendreSection(); vue.focus({ preventScroll: true }); }
+  }
+
+  function rendreSection() {
+    switch (etat.section) {
+      case 'accueil': return vueAccueil();
+      case 'produits': return vueProduits();
+      case 'vedettes': return vueVedettes();
+      case 'boutique': return vueBoutique();
+      case 'reservations': return vueListeStatut('reservations');
+      case 'commandes': return vueListeStatut('commandes');
+      default: return vueAvis();
+    }
+  }
+
+  function erreurVue(texte) {
+    vue.innerHTML = '<div class="carte"><p>' + esc(texte || 'Une erreur est survenue.') + '</p>' +
+      '<button class="btn secondaire" data-action="rafraichir">Réessayer</button></div>';
+  }
+  const vide = (texte) => '<p class="vide">' + esc(texte) + '</p>';
+  /* ========================= 1. Tableau de bord ========================= */
+  function carteStat(libelle, valeur, detail) {
+    return '<div class="carte stat"><div class="valeur">' + esc(valeur) + '</div><div class="libelle">' + esc(libelle) +
+      '</div><div class="detail">' + esc(detail) + '</div></div>';
+  }
+  function vueAccueil() {
+    const s = etat.stats || {};
+    vue.innerHTML =
+      '<section class="grille-stats" aria-label="Aperçu">' +
+        carteStat('Produits actifs', s.produits_actifs || 0, 'sur ' + (s.produits_total || 0)) +
+        carteStat('Produits en vedette', s.vedettes || 0, 'sur ' + CONFIG.MAX_VEDETTES + ' maximum') +
+        carteStat('Réservations en attente', s.reservations_en_attente || 0, 'sur ' + (s.reservations_total || 0)) +
+        carteStat('Commandes en attente', s.commandes_en_attente || 0, 'sur ' + (s.commandes_total || 0)) +
+      '</section>' +
+      '<h2 class="titre-bloc">Raccourcis</h2>' +
+      '<div class="raccourcis">' +
+        '<button class="btn primaire" data-action="ajouter-rapide"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Ajouter un produit</button>' +
+        '<button class="btn secondaire" data-action="aller" data-cible="vedettes"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>Choisir les vedettes</button>' +
+        '<button class="btn secondaire" data-action="aller" data-cible="reservations"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Voir les réservations</button>' +
+        '<button class="btn secondaire" data-action="aller" data-cible="commandes"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg>Voir les commandes</button>' +
+      '</div>';
+  }
+
+  /* ============================ 2. Produits ============================ */
+  function vignette(p) {
+    const u = urlSure(p.photo_url);
+    return '<div class="vignette">' + (u
+      ? '<img src="' + esc(u) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
+      : '<span class="sans-photo" aria-hidden="true">CF</span>') + '</div>';
+  }
+  function itemProduit(p) {
+    const stock = Number(p.stock) || 0;
+    return '<article class="item">' + vignette(p) +
+      '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
+      '<p class="meta">Stock : ' + stock + ' ' +
+        (p.actif === true ? '<span class="badge ok">Visible</span>' : '<span class="badge off">Masqué</span>') +
+        (p.vedette === true ? '<span class="badge vedette">★ Vedette</span>' : '') +
+        (stock <= 0 ? '<span class="badge off">Rupture</span>' : '') +
+        badgesCategorie(p) +
+        (urlSure(p.photo_url) ? '' : '<span class="badge">Sans photo</span>') + '</p></div>' +
+      '<div class="item-actions">' +
+        '<button class="btn secondaire" data-action="modifier" data-id="' + esc(p.id) + '">Modifier</button>' +
+        '<button class="btn danger" data-action="supprimer" data-id="' + esc(p.id) + '">Supprimer</button>' +
+      '</div></article>';
+  }
+  function vueProduits() {
+    vue.innerHTML =
+      '<div class="outils">' +
+        '<input id="recherche" type="search" placeholder="Rechercher un produit…" aria-label="Rechercher un produit" value="' + esc(etat.recherche) + '">' +
+        '<button class="btn primaire" data-action="ajouter"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Produit</button>' +
+        '<button class="btn-icone clair" data-action="rafraichir" aria-label="Actualiser"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button>' +
+      '</div><div id="liste" class="liste"></div>';
+    listeProduits();
+  }
+  function listeProduits() {
+    const q = etat.recherche.trim().toLowerCase();
+    const l = etat.produits.filter((p) => !q || String(p.nom || '').toLowerCase().indexOf(q) !== -1);
+    $('#liste').innerHTML = l.length ? l.map(itemProduit).join('') : vide('Aucun produit.');
+  }
+
+  /* --- Formulaire produit --- */
+  function apercuPhoto() {
+    const u = urlSure($('#pPhoto').value);
+    $('#pApercu').innerHTML = u
+      ? '<img src="' + esc(u) + '" alt="" referrerpolicy="no-referrer">'
+      : '<span class="sans-photo">CF</span>';
+  }
+  function majCategorie() {
+    const c = categorieProduit({ nom: $('#pNom').value, description: $('#pDescription').value });
+    $('#pCategorie').textContent = 'Filtre de la boutique : ' + LABELS_CAT[c.cat] +
+      (c.africaine ? ' · Inspiration africaine' : '') +
+      '. La catégorie est déduite des mots du nom et de la description (robe, ensemble, sac, wax…).';
+  }
+  function ouvrirFormulaire(p) {
+    p = p || null;
+    $('#dlgProduitTitre').textContent = p ? 'Modifier le produit' : 'Nouveau produit';
+    $('#pId').value = p ? p.id : '';
+    $('#pNom').value = p ? (p.nom || '') : '';
+    $('#pDescription').value = p ? (p.description || '') : '';
+    $('#pPrix').value = p ? (p.prix == null ? '' : p.prix) : '';
+    $('#pStock').value = p ? (Number(p.stock) || 0) : 0;
+    $('#pPhoto').value = p ? (p.photo_url || '') : '';
+    $('#pActif').checked = p ? p.actif === true : true;
+    $('#msgProduit').textContent = '';
+    apercuPhoto();
+    majCategorie();
+    $('#dlgProduit').showModal();
+    $('#pNom').focus();
+  }
+  async function enregistrerProduit(e) {
+    e.preventDefault();
+    const msg = $('#msgProduit');
+    const nom = $('#pNom').value.trim();
+    const prixTexte = $('#pPrix').value.trim();
+    const prix = Number(prixTexte);
+    const photo = $('#pPhoto').value.trim();
+    if (!nom) { msg.textContent = 'Le nom du produit est obligatoire.'; return; }
+    if (prixTexte === '' || !(prix >= 0)) { msg.textContent = 'Indique un prix valide.'; return; }
+    if (photo && !urlSure(photo)) { msg.textContent = 'Le lien de la photo doit commencer par https:// (lien complet).'; return; }
+    const stock = parseInt($('#pStock').value || '0', 10);
+    const charge = {
+      nom: nom,
+      description: $('#pDescription').value.trim(),
+      prix: prix,
+      stock: isNaN(stock) || stock < 0 ? 0 : stock,
+      photo_url: photo,
+      actif: $('#pActif').checked
+    };
+    const id = $('#pId').value;
+    if (id) charge.id = id;
+
+    const bouton = $('#pEnregistrer');
+    bouton.disabled = true; msg.textContent = '';
+    const r = await appeler('admin_produit', charge);
+    bouton.disabled = false;
+    if (!r.ok) { msg.textContent = r.message || 'Enregistrement impossible.'; return; }
+
+    $('#dlgProduit').close();
+    toast(r.message || 'Produit enregistré.');
+    try { await charger('produits'); if (etat.section === 'produits') vueProduits(); }
+    catch (err) { toast(err.message, 'erreur'); }
+  }
+  async function supprimerProduit(id) {
+    const p = etat.produits.find((x) => x.id === id);
+    if (!p) return;
+    const oui = await confirmer('Supprimer « ' + (p.nom || 'ce produit') + ' » ?', 'Cette action est définitive.');
+    if (!oui) return;
+    const r = await appeler('admin_produit_supprimer', { id: id });
+    if (!r.ok) { toast(r.message || 'Suppression impossible.', 'erreur'); return; }
+    etat.produits = etat.produits.filter((x) => x.id !== id);
+    listeProduits();
+    toast('Produit supprimé.');
+  }
+  function confirmer(titre, texte) {
+    return new Promise((resolve) => {
+      const d = $('#dlgConfirm');
+      $('#confTitre').textContent = titre;
+      $('#confTexte').textContent = texte;
+      const fin = (v) => { d.oncancel = null; d.close(); resolve(v); };
+      $('#confOui').onclick = () => fin(true);
+      $('#confNon').onclick = () => fin(false);
+      d.oncancel = () => { d.oncancel = null; resolve(false); };
+      d.showModal();
+    });
+  }
+
+  /* ================= 3. Mise en avant sur l’accueil ================= */
+  function itemVedette(p) {
+    const on = p.vedette === true;
+    return '<article class="item avec-controle">' + vignette(p) +
+      '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
+      (p.actif === true ? '' : '<p class="meta"><span class="badge off">Masqué dans la boutique</span></p>') + '</div>' +
+      '<button class="etoile' + (on ? ' on' : '') + '" data-action="etoile" data-id="' + esc(p.id) + '" aria-pressed="' + on + '" ' +
+        'aria-label="' + (on ? 'Retirer des vedettes : ' : 'Mettre en vedette : ') + esc(p.nom) + '">' +
+        '<svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button></article>';
+  }
+  function vueVedettes() {
+    vue.innerHTML =
+      '<p class="intro">Choisis jusqu’à ' + CONFIG.MAX_VEDETTES + ' produits à afficher sur l’accueil.</p>' +
+      '<p class="compteur" id="cptVedettes"></p><div id="liste" class="liste"></div>';
+    listeVedettes();
+  }
+  function listeVedettes() {
+    const n = etat.produits.filter((p) => p.vedette === true).length;
+    $('#cptVedettes').innerHTML = '<strong>' + n + '</strong> / ' + CONFIG.MAX_VEDETTES + ' produits en vedette';
+    const tri = etat.produits.slice().sort((a, b) => (b.vedette === true) - (a.vedette === true));
+    $('#liste').innerHTML = tri.length ? tri.map(itemVedette).join('') : vide('Aucun produit pour le moment.');
+  }
+  async function basculerVedette(id, bouton) {
+    const p = etat.produits.find((x) => x.id === id);
+    if (!p) return;
+    const nouveau = !(p.vedette === true);
+    bouton.disabled = true;
+    const r = await appeler('admin_produit', { id: id, vedette: nouveau });
+    if (!r.ok) { bouton.disabled = false; toast(r.message || 'Action impossible.', 'erreur'); return; }
+    p.vedette = nouveau;
+    listeVedettes();
+    toast(nouveau ? 'Ajouté aux vedettes.' : 'Retiré des vedettes.');
+  }
+   /* ============================ 4. Boutique ============================ */
+  function itemBoutique(p) {
+    const visible = p.actif === true;
+    const stock = Number(p.stock) || 0;
+    return '<article class="item avec-controle">' + vignette(p) +
+      '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
+      '<p class="meta">Stock : ' + stock + (stock <= 0 ? ' <span class="badge off">Rupture</span>' : '') + '</p></div>' +
+      '<label class="interrupteur"><input type="checkbox" data-visible data-id="' + esc(p.id) + '"' + (visible ? ' checked' : '') + '>' +
+        '<span class="curseur"></span><span class="texte">' + (visible ? 'Visible' : 'Masqué') + '</span></label></article>';
+  }
+  function vueBoutique() {
+    vue.innerHTML = '<p class="intro">Active ou masque les produits affichés dans la boutique.</p><div id="liste" class="liste">' +
+      (etat.produits.length ? etat.produits.map(itemBoutique).join('') : vide('Aucun produit pour le moment.')) + '</div>';
+  }
+  async function basculerVisible(input) {
+    const p = etat.produits.find((x) => x.id === input.dataset.id);
+    if (!p) return;
+    const nouveau = input.checked;
+    input.disabled = true;
+    const r = await appeler('admin_produit', { id: p.id, actif: nouveau });
+    input.disabled = false;
+    if (!r.ok) { input.checked = !nouveau; toast(r.message || 'Action impossible.', 'erreur'); return; }
+    p.actif = nouveau;
+    const texte = input.closest('.interrupteur').querySelector('.texte');
+    if (texte) texte.textContent = nouveau ? 'Visible' : 'Masqué';
+    toast(nouveau ? 'Produit visible dans la boutique.' : 'Produit masqué.');
+  }
+
+  /* ================== 5 et 6. Réservations et commandes ================== */
+  const labelStatut = (table, v) => { const t = STATUTS[table].find((s) => s[0] === v); return t ? t[1] : (v || '—'); };
+  const badgeStatut = (table, v) => '<span class="badge st-' + esc(v) + '">' + esc(labelStatut(table, v)) + '</span>';
+  function selectStatut(table, ligne) {
+    const options = STATUTS[table].map((s) => '<option value="' + s[0] + '"' + (ligne.statut === s[0] ? ' selected' : '') + '>' + s[1] + '</option>').join('');
+    return '<label class="champ-statut">Statut<select data-statut data-table="' + table + '" data-id="' + esc(ligne.id) + '" data-ancien="' + esc(ligne.statut) + '">' + options + '</select></label>';
+  }
+
+  // Téléphones : 8 chiffres = numéro local du Burkina, on ajoute l’indicatif 226 pour WhatsApp.
+  function blocTelephone(t) {
+    const tel = String(t || '').replace(/[^\d+]/g, '');
+    let n = String(t || '').replace(/\D/g, '');
+    if (n.length === 8) n = '226' + n;
+    return esc(t) +
+      (tel ? ' · <a href="tel:' + esc(tel) + '">Appeler</a>' : '') +
+      (n ? ' · <a href="https://wa.me/' + esc(n) + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>' : '');
+  }
+  function texteDelai(cree, statut) {
+    if (statut !== 'en_attente') return '—';
+    const fin = Date.parse(cree) + CONFIG.DELAI_RESERVATION_H * 3600000;
+    if (isNaN(fin)) return '—';
+    const reste = fin - Date.now();
+    if (reste <= 0) return 'Délai de ' + CONFIG.DELAI_RESERVATION_H + ' h dépassé';
+    const h = Math.floor(reste / 3600000), m = Math.floor((reste % 3600000) / 60000);
+    return 'Expire dans ' + h + ' h ' + String(m).padStart(2, '0') + ' min';
+  }
+  function itemReservation(r) {
+    return '<article class="item bloc">' +
+      '<div class="entete"><h3>' + esc(r.produit_nom) + '</h3>' + badgeStatut('reservations', r.statut) + '</div>' +
+      '<dl class="infos">' +
+        '<div><dt>Client</dt><dd>' + esc(r.nom_client) + '</dd></div>' +
+        '<div><dt>Téléphone</dt><dd>' + blocTelephone(r.telephone) + '</dd></div>' +
+        '<div><dt>Article</dt><dd>Taille ' + esc(r.taille) + ' · ' + esc(r.couleur) + ' · Qté ' + esc(r.quantite) + '</dd></div>' +
+        '<div><dt>Réservée le</dt><dd>' + esc(fmtDate(r.cree_le)) + '</dd></div>' +
+        '<div><dt>Délai</dt><dd class="delai" data-cree="' + esc(r.cree_le) + '" data-statut="' + esc(r.statut) + '">' + esc(texteDelai(r.cree_le, r.statut)) + '</dd></div>' +
+        (r.notes ? '<div><dt>Notes</dt><dd>' + esc(r.notes) + '</dd></div>' : '') +
+      '</dl>' + selectStatut('reservations', r) + '</article>';
+  }
+  function itemCommande(c) {
+    return '<article class="item bloc">' +
+      '<div class="entete"><h3>' + esc(c.reference) + '</h3>' + badgeStatut('commandes', c.statut) + '</div>' +
+      '<dl class="infos">' +
+        '<div><dt>Client</dt><dd>' + esc(c.nom_client) + '</dd></div>' +
+        '<div><dt>Téléphone</dt><dd>' + blocTelephone(c.telephone) + '</dd></div>' +
+        (c.adresse ? '<div><dt>Adresse</dt><dd>' + esc(c.adresse) + '</dd></div>' : '') +
+        '<div><dt>Articles</dt><dd>' + esc(c.articles) + '</dd></div>' +
+        '<div><dt>Montant</dt><dd><strong>' + fmtPrix(c.montant_total) + '</strong></dd></div>' +
+        (c.mode_paiement ? '<div><dt>Paiement</dt><dd>' + esc(c.mode_paiement) + '</dd></div>' : '') +
+        '<div><dt>Passée le</dt><dd>' + esc(fmtDate(c.cree_le)) + '</dd></div>' +
+        (c.notes ? '<div><dt>Notes</dt><dd>' + esc(c.notes) + '</dd></div>' : '') +
+      '</dl>' + selectStatut('commandes', c) + '</article>';
+  }
+  function vueListeStatut(table) {
+    const puces = [['tous', 'Toutes']].concat(STATUTS[table]).map((s) =>
+      '<button class="puce" data-action="filtre" data-valeur="' + s[0] + '" aria-pressed="' + (etat.filtre[table] === s[0]) + '">' + s[1] + '</button>').join('');
+    vue.innerHTML =
+      '<div class="outils"><div class="puces" role="group" aria-label="Filtrer par statut">' + puces + '</div>' +
+      '<button class="btn-icone clair" data-action="rafraichir" aria-label="Actualiser"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button></div>' +
+      '<div id="liste" class="liste"></div>';
+    const f = etat.filtre[table];
+    const l = etat[table].filter((x) => f === 'tous' || x.statut === f);
+    $('#liste').innerHTML = l.length ? l.map(table === 'reservations' ? itemReservation : itemCommande).join('') : vide('Aucun élément.');
+  }
+  async function changerStatut(sel) {
+    const table = sel.dataset.table, id = sel.dataset.id, ancien = sel.dataset.ancien;
+    sel.disabled = true;
+    const r = await appeler('admin_statut', { table: table, id: id, statut: sel.value });
+    sel.disabled = false;
+    if (!r.ok) { sel.value = ancien; toast(r.message || 'Mise à jour impossible.', 'erreur'); return; }
+    const ligne = etat[table].find((x) => x.id === id);
+    if (ligne) ligne.statut = sel.value;
+    toast('Statut mis à jour.');
+    vueListeStatut(table);
+  }
+
+  /* ================= 7. Avis et recommandations ================= */
+  function vueAvis() {
+    vue.innerHTML = '<div class="carte"><h2 style="margin-top:0">Bientôt disponible</h2>' +
+      '<p>Cette rubrique est préparée pour une intégration future : les avis et recommandations des clientes pourront y être consultés et modérés.</p></div>';
+  }
+
+  /* ============================ Évènements ============================ */
+  vue.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-action]');
+    if (!b || b.disabled) return;
+    const id = b.dataset.id;
+    switch (b.dataset.action) {
+      case 'aller': ouvrirSection(b.dataset.cible); break;
+      case 'ajouter-rapide': ouvrirSection('produits').then(() => ouvrirFormulaire(null)); break;
+      case 'ajouter': ouvrirFormulaire(null); break;
+      case 'modifier': ouvrirFormulaire(etat.produits.find((p) => p.id === id)); break;
+      case 'supprimer': supprimerProduit(id); break;
+      case 'etoile': basculerVedette(id, b); break;
+      case 'filtre': etat.filtre[etat.section] = b.dataset.valeur; vueListeStatut(etat.section); break;
+      case 'rafraichir': ouvrirSection(etat.section); break;
+    }
+  });
+  vue.addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.matches('select[data-statut]')) changerStatut(t);
+    else if (t.matches('input[data-visible]')) basculerVisible(t);
+  });
+  vue.addEventListener('input', (e) => {
+    if (e.target.id === 'recherche') { etat.recherche = e.target.value; listeProduits(); }
+  });
+  // Image introuvable : le logo ou la photo est remplacé par le monogramme CF.
+  document.addEventListener('error', (e) => {
+    const t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    const s = document.createElement('span');
+    if (t.hasAttribute('data-logo')) {
+      s.className = 'logo' + (t.classList.contains('gauche') ? ' petit' : '');
+    } else {
+      s.className = 'sans-photo';
+    }
+    s.textContent = 'CF';
+    s.setAttribute('aria-hidden', 'true');
+    t.replaceWith(s);
+  }, true);
+
+  $('#formConnexion').addEventListener('submit', connecter);
+  $('#voirCode').addEventListener('click', (e) => {
+    const visible = champCode.type === 'password';
+    champCode.type = visible ? 'text' : 'password';
+    e.currentTarget.textContent = visible ? 'Masquer' : 'Afficher';
+    e.currentTarget.setAttribute('aria-pressed', String(visible));
+  });
+  $('#btnMenu').addEventListener('click', ouvrirMenu);
+  $('#voile').addEventListener('click', fermerMenu);
+  $('#btnDeconnexion').addEventListener('click', () => deconnecter('Tu es déconnecté.'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerMenu(); });
+  $('#listeMenu').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-section]');
+    if (b) ouvrirSection(b.dataset.section);
+  });
+  $('#formProduit').addEventListener('submit', enregistrerProduit);
+  $('#pAnnuler').addEventListener('click', () => $('#dlgProduit').close());
+  $('#pPhoto').addEventListener('input', apercuPhoto);
+  $('#pNom').addEventListener('input', majCategorie);
+  $('#pDescription').addEventListener('input', majCategorie);
+
+  /* ============================ Démarrage ============================ */
+  function init() {
+    $('#listeMenu').innerHTML = Object.keys(SECTIONS).map((cle) => {
+      const s = SECTIONS[cle];
+      return '<li><button class="menu-lien" data-section="' + cle + '"><span class="num">' + s.num + '.</span>' +
+        '<svg class="ic" aria-hidden="true"><use href="#i-' + s.icone + '"/></svg><span>' + s.titre + '</span></button></li>';
+    }).join('');
+
+    const s = session.lire();
+    if (s && s.jeton && s.fin > Date.now()) {
+      etat.jeton = s.jeton; etat.fin = s.fin;
+      entrerApp();
+    } else {
+      session.effacer();
+      verifierVerrou();
+    }
+
+    // Déconnexion automatique à la fin de la session (1 h).
+    setInterval(() => { if (etat.jeton && Date.now() > etat.fin) deconnecter('Session expirée. Reconnecte-toi.'); }, 15000);
+    // Mise à jour du délai restant des réservations.
+    setInterval(() => {
+      $$('.delai').forEach((el) => { el.textContent = texteDelai(el.dataset.cree, el.dataset.statut); });
+    }, 30000);
+  }
+  init();
+})();
+</script>
+</body>
+</html>
