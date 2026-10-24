@@ -137,10 +137,11 @@ button{cursor:pointer}
   </label>
   <div class="filters" aria-label="Filtrer les produits">
    <button class="filter active" data-filter="tout" type="button">Tout voir</button>
-   <button class="filter" data-filter="robes" type="button">Robes</button>
-   <button class="filter" data-filter="ensembles" type="button">Ensembles</button>
-   <button class="filter" data-filter="vetements" type="button">Vêtements</button>
-   <button class="filter" data-filter="accessoires" type="button">Accessoires</button>
+   <button class="filter" data-filter="ensemble_homme" type="button">Ensemble homme</button>
+   <button class="filter" data-filter="ensemble_femme" type="button">Ensemble femme</button>
+   <button class="filter" data-filter="robe" type="button">Robe</button>
+   <button class="filter" data-filter="accessoires_homme" type="button">Accessoires homme</button>
+   <button class="filter" data-filter="accessoires_femme" type="button">Accessoires femme</button>
    <button class="filter" data-filter="africaine" type="button">Inspiration africaine</button>
   </div>
   <div class="results">
@@ -212,6 +213,16 @@ let toastTimer;
 
 const money=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0});
 
+/* Étiquettes affichées sur les cartes, selon la rubrique */
+const CATEGORY_LABELS={
+ ensemble_homme:"ENSEMBLE HOMME",
+ ensemble_femme:"ENSEMBLE FEMME",
+ robe:"ROBES",
+ accessoires_homme:"ACCESSOIRES HOMME",
+ accessoires_femme:"ACCESSOIRES FEMME",
+ autre:"VÊTEMENTS"
+};
+
 function notify(message){
  toast.textContent=message;
  toast.classList.add("show");
@@ -237,15 +248,25 @@ function escapeHTML(value){
  }[char]));
 }
 
+/* Rubrique du produit :
+   1) la catégorie choisie dans l'espace administrateur (colonne "categorie"), si elle existe ;
+   2) sinon, déduction par mots-clés dans le nom et la description. */
 function categoryFor(product){
+ const chosen=String(product.categorie||"").trim();
+ if(chosen&&chosen!=="autre"&&Object.prototype.hasOwnProperty.call(CATEGORY_LABELS,chosen))return chosen;
  const text=(String(product.nom||"")+" "+String(product.description||"")).toLocaleLowerCase("fr");
- if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return "accessoires";
- if(/robe|jupe/.test(text))return "robes";
- if(/ensemble|complet|costume|tenue/.test(text))return "ensembles";
- return "vetements";
+ const homme=/homme|masculin/.test(text);
+ if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return homme?"accessoires_homme":"accessoires_femme";
+ if(/robe|jupe/.test(text))return "robe";
+ if(/ensemble|complet|costume|tenue/.test(text))return homme?"ensemble_homme":"ensemble_femme";
+ return "autre";
 }
 
+/* Inspiration africaine :
+   1) la case cochée dans l'espace administrateur (colonne "africaine"), si la catégorie a été choisie ;
+   2) sinon, déduction par mots-clés. */
 function styleFor(product){
+ if(String(product.categorie||"").trim())return product.africaine===true?"africaine":"international";
  const text=(String(product.nom||"")+" "+String(product.description||"")).toLocaleLowerCase("fr");
  return /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(text)?"africaine":"international";
 }
@@ -309,9 +330,7 @@ function render(){
   const safeImage=/^https?:\/\//i.test(image)?image:"";
   const category=categoryFor(product);
 
-  const label=category==="robes"?"ROBES":
-   category==="ensembles"?"ENSEMBLES":
-   category==="accessoires"?"ACCESSOIRES":"VÊTEMENTS";
+  const label=CATEGORY_LABELS[category]||"VÊTEMENTS";
 
   const article=document.createElement("article");
   article.className="card";
@@ -405,4 +424,3 @@ loadProducts();
 })();
 </script>
 </body>
-</html>
