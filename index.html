@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,33 +15,24 @@
 <meta property="og:image" content="https://barbarie95.github.io/conductrice-fashion/logo-conductrice-fashion.png">
 <link rel="canonical" href="https://barbarie95.github.io/conductrice-fashion/">
 <title>Conductrice Fashion | Boutique de vêtements et accessoires</title>
-
 <style>
-:root{
- --orange:#F28C28;--orange2:#ffad55;--dark:#252A34;
- --cream:#fffaf4;--white:#fff;--muted:#747781;
- --line:#eee7df;--radius:18px;--shadow:0 12px 35px #252a3410
-}
+:root{--orange:#F28C28;--orange2:#ffad55;--dark:#252A34;--cream:#fffaf4;--white:#fff;--muted:#747781;--line:#eee7df;--radius:18px;--shadow:0 12px 35px #252a3410}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--dark);font-family:Arial,Helvetica,sans-serif;line-height:1.6;padding-bottom:90px}
+body{margin:0;background:var(--cream);color:var(--dark);font-family:Arial,Helvetica,sans-serif;line-height:1.6;padding-bottom:88px}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%;object-fit:cover}
 button{font:inherit;cursor:pointer}
 .container{width:min(1160px,92%);margin:auto}
 .announcement{background:var(--dark);color:white;text-align:center;padding:8px 12px;font-size:12px;letter-spacing:.5px}
 .header{background:white;position:sticky;top:0;z-index:20;box-shadow:0 3px 18px #00000008}
-.header-main{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.header-main{min-height:100px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .header-main img,.footer-inner img{width:150px;height:auto;object-fit:contain}
 .header-actions{display:flex;align-items:center;gap:9px}
-.cart-link{display:flex;align-items:center;gap:7px;background:var(--dark);color:white;padding:11px 13px;border-radius:12px;font-weight:700;font-size:13px}
+.cart-link{display:flex;align-items:center;gap:7px;background:var(--dark);color:white;padding:11px 13px;border-radius:18px;font-weight:700;font-size:13px}
 .cart-count,.bottom-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:50px;background:var(--orange);color:white}
-.menu{display:flex;align-items:center;justify-content:center;gap:5px;padding:0 0 12px;overflow-x:auto}
-.menu a{font-size:13px;font-weight:700;white-space:nowrap;padding:9px 13px;border-radius:9px}
-.menu a:hover,.menu a.active{background:#fff0df;color:#b85c00}
 .btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:0;border-radius:12px;background:var(--orange);color:white;padding:13px 18px;font-weight:800;font-size:14px;transition:transform .2s,background .2s}
 .btn:hover{background:#e97812;transform:translateY(-2px)}
-.btn-dark{background:var(--dark)}
 .btn-outline{background:transparent;color:var(--dark);border:1px solid #d9c6b4}
 .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:800;color:#b85c00}
 .section{padding:48px 0}
@@ -50,7 +40,6 @@ button{font:inherit;cursor:pointer}
 .section-heading h2{font-size:clamp(25px,4vw,35px);line-height:1.15;margin:5px 0 0;letter-spacing:-1px}
 .section-heading p{color:var(--muted);margin:8px 0 0;font-size:14px}
 .text-link{color:#b85c00;font-weight:800;font-size:13px;white-space:nowrap}
-
 .hero{background:linear-gradient(120deg,#fff0df,#fffaf4);padding:30px 0 42px;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
 .hero-copy{padding:15px 0}
@@ -117,23 +106,18 @@ button{font:inherit;cursor:pointer}
 .footer-links a,.footer-inner>small{font-size:11px;color:var(--muted)}
 #toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--dark);color:white;padding:13px 18px;border-radius:12px;font-size:13px;font-weight:700;box-shadow:var(--shadow);z-index:120;transition:.25s;max-width:90%;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* Navigation fixe en bas */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;display:flex;justify-content:space-around;align-items:center;background:white;border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #252a3410}
 .bottom-link{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#747781;font-size:22px;line-height:1.2}
 .bottom-link small{font-size:10px;font-weight:700}
 .bottom-link.active,.bottom-link:hover{color:var(--orange)}
 .bottom-count{min-width:15px;height:15px;padding:0 3px;font-size:9px}
-
 @media(min-width:761px){
  .bottom-nav{left:50%;right:auto;bottom:15px;transform:translateX(-50%);width:min(480px,90%);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 5px 25px #252a3420}
  body{padding-bottom:100px}
 }
 @media(max-width:760px){
- .header-main{min-height:68px}
- .header-main img{width:130px}
- .menu{justify-content:flex-start}
- .menu a{padding:9px 11px}
+ .header-main{min-height:100px}
+ .header-main img{width:150px}
  .hero{padding:22px 0 30px}
  .hero-grid{grid-template-columns:1fr;gap:24px}
  .hero-copy{padding:4px 0}
@@ -154,18 +138,17 @@ button{font:inherit;cursor:pointer}
  .category-text strong{font-size:17px}
  .category-text small{font-size:8px}
  .product-grid{grid-template-columns:1fr 1fr;gap:11px}
- .product-image img{height:205px}
- .no-photo{height:205px}
+ .product-image img,.no-photo{height:205px}
  .product-info{padding:11px}
  .product-info h3{font-size:14px}
  .product-info .btn{font-size:11px}
  .brand-inner{align-items:flex-start;flex-direction:column}
  .steps-grid{grid-template-columns:1fr;gap:11px}
  .footer-inner{align-items:flex-start;flex-direction:column}
- .bottom-link{font-size:20px}
 }
 @media(max-width:360px){
  .cart-link{font-size:11px;padding:9px}
+ .header-main img{width:125px}
  .product-image img,.no-photo{height:170px}
  .hero-buttons .btn{padding:12px;font-size:12px}
  .bottom-link small{font-size:9px}
@@ -185,12 +168,6 @@ button{font:inherit;cursor:pointer}
     <a class="cart-link" href="panier.html" aria-label="Ouvrir le panier">🛍 Panier <span class="cart-count">0</span></a>
    </div>
   </div>
-  <nav class="menu" aria-label="Navigation principale">
-   <a class="active" href="index.html">Accueil</a>
-   <a href="boutique.html">Boutique</a>
-   <a href="reservation.html">Réservation</a>
-   <a href="panier.html">Panier</a>
-  </nav>
  </div>
 </header>
 
@@ -288,8 +265,8 @@ button{font:inherit;cursor:pointer}
 </footer>
 
 <div id="toast" role="status" aria-live="polite"></div>
+    
 <script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
-
 <script>
 (function(){
 "use strict";
@@ -340,11 +317,8 @@ document.addEventListener("click",function(e){
  const panier=lirePanier();
  const existant=panier.find(p=>p.id===item.id);
 
- if(existant){
-  existant.quantity=(Number(existant.quantity)||0)+1;
- }else{
-  panier.push(item);
- }
+ if(existant)existant.quantity=(Number(existant.quantity)||0)+1;
+ else panier.push(item);
 
  try{
   localStorage.setItem(CART_KEY,JSON.stringify(panier));
@@ -368,7 +342,6 @@ if(year)year.textContent=new Date().getFullYear();
 <script>
 (function(){
 "use strict";
-
 const ENDPOINT="https://fra.cloud.appwrite.io/v1";
 const PROJECT_ID="6ad7761700274f3ae4b1";
 const DATABASE_ID="6ad7a426000ad1659f6b";
@@ -411,14 +384,11 @@ function carte(product){
 
  return `<article class="product-card">
 <a class="product-image" href="boutique.html">${visuel}<span class="product-tag">À LA UNE</span></a>
-<div class="product-info">
-<small>${categoryLabel(product)}</small>
-<h3>${escapeHTML(product.nom)}</h3>
-${description}
+<div class="product-info"><small>${categoryLabel(product)}</small>
+<h3>${escapeHTML(product.nom)}</h3>${description}
 <p class="price">${money.format(prix)} FCFA</p>
 <button class="btn add-cart" type="button" ${disponible?"":"disabled"} data-id="${escapeHTML(product.$id)}" data-name="${escapeHTML(product.nom)}" data-price="${prix}" data-image="${escapeHTML(photo)}">${disponible?"＋ Ajouter au panier":"Indisponible"}</button>
-</div>
-</article>`;
+</div></article>`;
 }
 
 async function charger(){
@@ -430,7 +400,6 @@ async function charger(){
    .setProject(PROJECT_ID);
 
   const tablesDB=new Appwrite.TablesDB(client);
-
   const response=await tablesDB.listRows({
    databaseId:DATABASE_ID,
    tableId:TABLE_ID,
@@ -442,7 +411,6 @@ async function charger(){
   });
 
   const produits=Array.isArray(response.rows)?response.rows:[];
-
   if(!produits.length){
    note.textContent="Les pièces mises en avant par la boutique apparaîtront ici.";
    return;
@@ -450,34 +418,27 @@ async function charger(){
 
   grid.innerHTML=produits.map(carte).join("");
   note.textContent="";
-
  }catch(error){
   console.error("Erreur Appwrite :",error);
   note.textContent="Les pièces à découvrir ne sont pas disponibles pour le moment.";
  }
 }
-
 charger();
 })();
 </script>
 
-<!-- Navigation fixe en bas de l'écran -->
-<nav class="bottom-nav" aria-label="Navigation principale en bas">
+<nav class="bottom-nav" aria-label="Navigation principale">
  <a href="index.html" class="bottom-link active" aria-current="page">
-  <span aria-hidden="true">⌂</span>
-  <small>Accueil</small>
+  <span aria-hidden="true">⌂</span><small>Accueil</small>
  </a>
  <a href="boutique.html" class="bottom-link">
-  <span aria-hidden="true">▦</span>
-  <small>Boutique</small>
+  <span aria-hidden="true">▦</span><small>Boutique</small>
  </a>
  <a href="reservation.html" class="bottom-link">
-  <span aria-hidden="true">♡</span>
-  <small>Réservation</small>
+  <span aria-hidden="true">♡</span><small>Réservation</small>
  </a>
  <a href="panier.html" class="bottom-link">
-  <span aria-hidden="true">🛍</span>
-  <small>Panier <b class="bottom-count">0</b></small>
+  <span aria-hidden="true">🛍</span><small>Panier <b class="bottom-count">0</b></small>
  </a>
 </nav>
 
