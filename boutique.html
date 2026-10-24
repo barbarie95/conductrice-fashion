@@ -4,14 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F28C28">
-<meta name="description" content="Découvrez les vêtements et accessoires ConductriceFashion.">
-<title>Boutique | ConductriceFashion</title>
+<meta name="description" content="Découvrez la boutique Conductrice Fashion : robes, ensembles tendance, vêtements et accessoires inspirés des modes africaine, européenne et américaine. Consultez les prix et réservez vos articles.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://barbarie95.github.io/conductrice-fashion/boutique.html">
+<link rel="icon" href="logo-conductrice-fashion.png">
+<title>Boutique de vêtements et accessoires | Conductrice Fashion</title>
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Conductrice Fashion">
+<meta property="og:title" content="Boutique de mode | Conductrice Fashion">
+<meta property="og:description" content="Explorez nos robes, vêtements, ensembles et accessoires inspirés des styles africains, européens et américains.">
+<meta property="og:url" content="https://barbarie95.github.io/conductrice-fashion/boutique.html">
+<meta property="og:image" content="https://barbarie95.github.io/conductrice-fashion/logo-conductrice-fashion.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Boutique | Conductrice Fashion">
+<meta name="twitter:description" content="Votre style, votre histoire. La mode n’a pas de frontières.">
+<meta name="twitter:image" content="https://barbarie95.github.io/conductrice-fashion/logo-conductrice-fashion.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Boutique Conductrice Fashion",
+  "url": "https://barbarie95.github.io/conductrice-fashion/boutique.html",
+  "description": "Boutique de robes, vêtements, ensembles et accessoires inspirés des modes africaine, européenne et américaine.",
+  "inLanguage": "fr"
+}
+</script>
 
 <style>
 :root{--orange:#F28C28;--dark:#252A34;--cream:#fffaf4;--muted:#747781;--line:#eee7df}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--dark);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+html{scroll-behavior:smooth;scroll-padding-bottom:90px}
+body{margin:0;background:var(--cream);color:var(--dark);font-family:Arial,Helvetica,sans-serif;line-height:1.6;padding-bottom:78px}
 a{color:inherit;text-decoration:none}
 button,input,select{font:inherit}
 button{cursor:pointer}
@@ -19,14 +45,8 @@ button{cursor:pointer}
 .announcement{background:var(--dark);color:white;text-align:center;padding:8px;font-size:11px;letter-spacing:.6px}
 .header{position:sticky;top:0;background:white;z-index:20;box-shadow:0 3px 18px #00000008}
 .header-main{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:21px;font-weight:900;letter-spacing:-1px}
-.logo strong{color:var(--orange)}
-.logo small{display:block;color:var(--muted);font-size:9px;letter-spacing:3px}
 .cart-link{background:var(--dark);color:white;padding:10px 13px;border-radius:11px;font-size:13px;font-weight:bold}
 .cart-count{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:30px;background:var(--orange);margin-left:4px}
-.menu{display:flex;justify-content:center;gap:5px;padding:0 0 12px;overflow-x:auto}
-.menu a{padding:9px 13px;border-radius:9px;white-space:nowrap;font-size:13px;font-weight:700}
-.menu a.active,.menu a:hover{background:#fff0df;color:#b85c00}
 .btn{display:inline-flex;justify-content:center;align-items:center;gap:7px;border:0;border-radius:11px;background:var(--orange);color:white;padding:12px 15px;font-size:13px;font-weight:800}
 .btn:hover{background:#e97812}
 .hero{padding:34px 0 30px;background:linear-gradient(120deg,#fff0df,#fffaf4)}
@@ -67,116 +87,118 @@ button{cursor:pointer}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
 .footer-links{display:flex;gap:14px;flex-wrap:wrap}
 .footer-links a,.footer small{font-size:11px;color:var(--muted)}
-#toast{position:fixed;z-index:99;bottom:22px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:var(--dark);color:white;padding:12px 17px;border-radius:12px;font-size:13px;transition:.2s;max-width:90%;text-align:center}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid #eee7df;box-shadow:0 -4px 18px #252a3410;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;color:#747781;font-size:10px;font-weight:700;padding:4px 1px}
+.bottom-nav a .nav-icon{font-size:19px;line-height:1.2}
+.bottom-nav a.active{color:#c7670c}
+.bottom-nav a.active .nav-icon{background:#fff0df;border-radius:10px;padding:3px 12px}
+#toast{position:fixed;z-index:99;bottom:88px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:var(--dark);color:white;padding:12px 17px;border-radius:12px;font-size:13px;transition:.2s;max-width:90%;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:760px){
- .container{width:92%}.header-main{min-height:68px}.logo{font-size:18px}.logo small{font-size:8px;letter-spacing:2px}
- .menu{justify-content:flex-start}.menu a{padding:9px 11px}
+ .container{width:92%}.header-main{min-height:68px}
  .hero{padding:27px 0}.hero h1{font-size:40px}
  .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
  .photo img{height:205px}.info{padding:10px}.info h2{font-size:14px}.price{font-size:15px}
  .card-actions .btn{font-size:10px}.footer-inner{align-items:flex-start;flex-direction:column}
 }
-@media(max-width:360px){.logo{font-size:16px}.cart-link{font-size:11px;padding:8px}.photo img{height:170px}}
+@media(max-width:360px){
+ .cart-link{font-size:11px;padding:8px}.photo img{height:170px}
+ .bottom-nav a{font-size:9px}
+}
 </style>
 </head>
 <body>
 <div class="announcement">AFRIQUE · EUROPE · AMÉRIQUE — LE STYLE N’A PAS DE FRONTIÈRES</div>
 
 <header class="header">
-<div class="container">
-<div class="header-main">
-<a href="index.html" aria-label="Conductrice Fashion - Accueil">
-<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
-</a>
-<a class="cart-link" href="panier.html">🛍 Panier <span class="cart-count">0</span></a>
-</div>
-<nav class="menu" aria-label="Navigation principale">
-<a href="index.html">Accueil</a>
-<a class="active" href="boutique.html">Boutique</a>
-<a href="reservation.html">Réservation</a>
-<a href="panier.html">Panier</a>
-</nav>
-</div>
+ <div class="container header-main">
+  <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+   <img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
+  </a>
+  <a class="cart-link" href="panier.html">🛍 Panier <span class="cart-count">0</span></a>
+ </div>
 </header>
 
 <section class="hero">
-<div class="container">
-<span class="eyebrow">LA SÉLECTION DU MOMENT</span>
-<h1>Trouvez votre prochain<br><em>coup de cœur.</em></h1>
-<p>Robes, ensembles, vêtements et accessoires : explorez des inspirations africaines, européennes et américaines, puis choisissez les pièces qui vous ressemblent.</p>
-<a class="btn" href="#catalogue">Explorer les articles ↓</a>
-</div>
+ <div class="container">
+  <span class="eyebrow">LA SÉLECTION DU MOMENT</span>
+  <h1>Découvrez la boutique<br><em>qui vous ressemble.</em></h1>
+  <p>Robes, ensembles, vêtements et accessoires : explorez des inspirations africaines, européennes et américaines, puis choisissez les pièces qui vous ressemblent.</p>
+  <a class="btn" href="#catalogue">Explorer les articles ↓</a>
+ </div>
 </section>
 
 <main class="container" id="catalogue">
-<div id="connection-status" class="status" role="status">Connexion à la boutique en cours…</div>
+ <div id="connection-status" class="status" role="status">Connexion à la boutique en cours…</div>
+ <section class="tools" aria-label="Rechercher et filtrer les articles">
+  <label class="searchbox">
+   <span aria-hidden="true">⌕</span>
+   <input id="search" type="search" placeholder="Rechercher un vêtement, une robe, un sac..." aria-label="Rechercher un produit">
+  </label>
+  <div class="filters" aria-label="Filtrer les produits">
+   <button class="filter active" data-filter="tout" type="button">Tout voir</button>
+   <button class="filter" data-filter="robes" type="button">Robes</button>
+   <button class="filter" data-filter="ensembles" type="button">Ensembles</button>
+   <button class="filter" data-filter="vetements" type="button">Vêtements</button>
+   <button class="filter" data-filter="accessoires" type="button">Accessoires</button>
+   <button class="filter" data-filter="africaine" type="button">Inspiration africaine</button>
+  </div>
+  <div class="results">
+   <span id="result-count">Chargement…</span>
+   <select id="sort" aria-label="Trier les produits">
+    <option value="featured">Sélection de la boutique</option>
+    <option value="low">Prix : du moins cher au plus cher</option>
+    <option value="high">Prix : du plus cher au moins cher</option>
+    <option value="az">Nom : A à Z</option>
+   </select>
+  </div>
+ </section>
 
-<section class="tools">
-<label class="searchbox">
-<span>⌕</span>
-<input id="search" type="search" placeholder="Rechercher un vêtement, une robe, un sac..." aria-label="Rechercher un produit">
-</label>
-<div class="filters" aria-label="Filtrer les produits">
-<button class="filter active" data-filter="tout">Tout voir</button>
-<button class="filter" data-filter="robes">Robes</button>
-<button class="filter" data-filter="ensembles">Ensembles</button>
-<button class="filter" data-filter="vetements">Vêtements</button>
-<button class="filter" data-filter="accessoires">Accessoires</button>
-<button class="filter" data-filter="africaine">Inspiration africaine</button>
-</div>
-<div class="results">
-<span id="result-count">Chargement…</span>
-<select id="sort" aria-label="Trier les produits">
-<option value="featured">Sélection de la boutique</option>
-<option value="low">Prix : du moins cher au plus cher</option>
-<option value="high">Prix : du plus cher au moins cher</option>
-<option value="az">Nom : A à Z</option>
-</select>
-</div>
-</section>
-
-<section class="products" id="products" aria-live="polite"></section>
-
-<div class="empty" id="empty">
-<strong id="empty-title">Aucun produit trouvé</strong>
-<p id="empty-description">Les produits actifs ajoutés dans l’espace Appwrite apparaîtront ici.</p>
-<button class="btn" id="reset">Voir tous les articles</button>
-</div>
+ <section class="products" id="products" aria-label="Articles disponibles" aria-live="polite"></section>
+ <div class="empty" id="empty">
+  <strong id="empty-title">Aucun produit trouvé</strong>
+  <p id="empty-description">Les produits actifs ajoutés dans l’espace Appwrite apparaîtront ici.</p>
+  <button class="btn" id="reset" type="button">Voir tous les articles</button>
+ </div>
 </main>
+
 <footer class="footer">
-<div class="container footer-inner">
-<div>
-<a href="index.html" aria-label="Conductrice Fashion - Accueil">
-<img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
-</a>
-<p style="margin:5px 0;color:#747781;font-size:12px">Le style, sans frontières.</p>
-</div>
-<div class="footer-links">
-<a href="index.html">Accueil</a>
-<a href="boutique.html">Boutique</a>
-<a href="reservation.html">Réservation</a>
-<a href="panier.html">Panier</a>
-</div>
-<small>© <span id="year"></span> ConductriceFashion</small>
-</div>
+ <div class="container footer-inner">
+  <div>
+   <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+    <img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" style="width:150px;height:auto;display:block">
+   </a>
+   <p style="margin:5px 0;color:#747781;font-size:12px">Votre style, votre histoire — la mode n’a pas de frontières.</p>
+  </div>
+  <div class="footer-links">
+   <a href="index.html">Accueil</a>
+   <a href="boutique.html">Boutique</a>
+   <a href="reservation.html">Réservation</a>
+   <a href="panier.html">Panier</a>
+  </div>
+  <small>© <span id="year"></span> Conductrice Fashion</small>
+ </div>
 </footer>
 
-<div id="toast" role="status" aria-live="polite"></div>
+<nav class="bottom-nav" aria-label="Navigation principale">
+ <a href="index.html"><span class="nav-icon" aria-hidden="true">⌂</span><span>Accueil</span></a>
+ <a href="boutique.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span><span>Boutique</span></a>
+ <a href="reservation.html"><span class="nav-icon" aria-hidden="true">♡</span><span>Réservation</span></a>
+ <a href="panier.html"><span class="nav-icon" aria-hidden="true">🛍</span><span>Panier</span></a>
+</nav>
 
+<div id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
 <script>
 (function(){
 "use strict";
 
-/* Configuration du projet ConductriceFashion */
 const ENDPOINT="https://fra.cloud.appwrite.io/v1";
 const PROJECT_ID="6ad7761700274f3ae4b1";
 const DATABASE_ID="6ad7a426000ad1659f6b";
 const TABLE_ID="produits";
 const CART_KEY="conductricefashion_cart_v1";
 
-const status=document.getElementById("connection-status");
 const productsNode=document.getElementById("products");
 const search=document.getElementById("search");
 const filters=[...document.querySelectorAll(".filter")];
@@ -196,32 +218,38 @@ function notify(message){
  clearTimeout(toastTimer);
  toastTimer=setTimeout(()=>toast.classList.remove("show"),2400);
 }
+
 function getCart(){
  try{
   const value=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
   return Array.isArray(value)?value:[];
  }catch(e){return []}
 }
+
 function updateCartCount(){
  const total=getCart().reduce((sum,item)=>sum+Math.max(0,Number(item.quantity)||0),0);
  document.querySelectorAll(".cart-count").forEach(node=>node.textContent=total);
 }
+
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,char=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  }[char]));
 }
+
 function categoryFor(product){
- const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+ const text=(String(product.nom||"")+" "+String(product.description||"")).toLocaleLowerCase("fr");
  if(/sac|chaussure|bijou|accessoire|montre|lunette/.test(text))return "accessoires";
  if(/robe|jupe/.test(text))return "robes";
  if(/ensemble|complet|costume|tenue/.test(text))return "ensembles";
  return "vetements";
 }
+
 function styleFor(product){
- const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+ const text=(String(product.nom||"")+" "+String(product.description||"")).toLocaleLowerCase("fr");
  return /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(text)?"africaine":"international";
 }
+
 function addToCart(product){
  const price=Number(product.prix);
  if(!product.$id||!product.nom||!Number.isFinite(price)){
@@ -232,8 +260,10 @@ function addToCart(product){
   notify("Cet article est actuellement indisponible.");
   return;
  }
+
  const cart=getCart();
  const old=cart.find(item=>item.id===product.$id);
+
  if(old)old.quantity=(Number(old.quantity)||0)+1;
  else cart.push({
   id:product.$id,
@@ -242,6 +272,7 @@ function addToCart(product){
   image:product.photo_url||"",
   quantity:1
  });
+
  try{
   localStorage.setItem(CART_KEY,JSON.stringify(cart));
   updateCartCount();
@@ -250,20 +281,25 @@ function addToCart(product){
   notify("Le panier n’a pas pu être enregistré sur cet appareil.");
  }
 }
+
 function render(){
  const term=search.value.trim().toLocaleLowerCase("fr");
+
  let visible=allProducts.filter(product=>{
   const category=categoryFor(product);
   const style=styleFor(product);
-  const text=(product.nom+" "+(product.description||"")).toLocaleLowerCase("fr");
+  const text=(String(product.nom||"")+" "+String(product.description||"")).toLocaleLowerCase("fr");
+
   const matchesCategory=activeFilter==="tout"||
    category===activeFilter||
    (activeFilter==="africaine"&&style==="africaine");
+
   return matchesCategory&&(!term||text.includes(term));
  });
+
  if(sort.value==="low")visible.sort((a,b)=>Number(a.prix)-Number(b.prix));
  if(sort.value==="high")visible.sort((a,b)=>Number(b.prix)-Number(a.prix));
- if(sort.value==="az")visible.sort((a,b)=>a.nom.localeCompare(b.nom,"fr"));
+ if(sort.value==="az")visible.sort((a,b)=>String(a.nom||"").localeCompare(String(b.nom||""),"fr"));
 
  count.textContent=visible.length+(visible.length>1?" articles":" article");
  productsNode.innerHTML="";
@@ -272,18 +308,23 @@ function render(){
   const image=String(product.photo_url||"").trim();
   const safeImage=/^https?:\/\//i.test(image)?image:"";
   const category=categoryFor(product);
-  const label=category==="robes"?"ROBES":category==="ensembles"?"ENSEMBLES":category==="accessoires"?"ACCESSOIRES":"VÊTEMENTS";
+
+  const label=category==="robes"?"ROBES":
+   category==="ensembles"?"ENSEMBLES":
+   category==="accessoires"?"ACCESSOIRES":"VÊTEMENTS";
+
   const article=document.createElement("article");
   article.className="card";
+
   article.innerHTML=`
-   <a class="photo" href="reservation.html?produit=${encodeURIComponent(product.$id)}">
+   <a class="photo" href="reservation.html?produit=${encodeURIComponent(product.$id)}" aria-label="Réserver ${escapeHTML(product.nom)}">
     ${safeImage
-      ?`<img src="${escapeHTML(safeImage)}" alt="${escapeHTML(product.nom)}" loading="lazy">`
-      :`<div style="height:255px;display:grid;place-items:center;color:#8a7664;padding:20px;text-align:center">Photo à ajouter depuis l’administration</div>`}
+     ?`<img src="${escapeHTML(safeImage)}" alt="${escapeHTML(product.nom)} - Conductrice Fashion" loading="lazy">`
+     :`<div style="height:255px;display:grid;place-items:center;color:#8a7664;padding:20px;text-align:center">Photo à ajouter depuis l’administration</div>`}
     <span class="tag">${label}</span>
    </a>
    <div class="info">
-    <small>${label} · CONDUCTRICEFASHION</small>
+    <small>${label} · CONDUCTRICE FASHION</small>
     <h2>${escapeHTML(product.nom)}</h2>
     ${product.description?`<p class="description">${escapeHTML(product.description)}</p>`:""}
     <p class="price">${money.format(Number(product.prix)||0)} FCFA</p>
@@ -293,6 +334,7 @@ function render(){
      <a class="reserve" href="reservation.html?produit=${encodeURIComponent(product.$id)}">Réserver cet article ↗</a>
     </div>
    </div>`;
+
   article.querySelector(".add-cart").addEventListener("click",()=>addToCart(product));
   productsNode.appendChild(article);
  });
@@ -302,43 +344,53 @@ function render(){
 
  if(allProducts.length===0){
   document.getElementById("empty-title").textContent="La boutique attend ses premiers produits";
-  document.getElementById("empty-description").textContent="Aucun produit actif n’est encore enregistré dans Appwrite. Ajoute tes produits depuis l’administration lorsque cette partie sera disponible.";
+  document.getElementById("empty-description").textContent="Aucun produit actif n’est encore enregistré dans Appwrite. Les articles actifs apparaîtront ici lorsqu’ils seront ajoutés.";
  }else if(visible.length===0){
   document.getElementById("empty-title").textContent="Aucun article trouvé";
   document.getElementById("empty-description").textContent="Essaie un autre mot ou choisis une autre catégorie.";
  }
 }
+
 async function loadProducts(){
  try{
   if(!window.Appwrite)throw new Error("Le SDK Appwrite ne s’est pas chargé.");
+
   const client=new Appwrite.Client()
    .setEndpoint(ENDPOINT)
    .setProject(PROJECT_ID);
+
   const tablesDB=new Appwrite.TablesDB(client);
+
   const response=await tablesDB.listRows({
    databaseId:DATABASE_ID,
    tableId:TABLE_ID,
    queries:[Appwrite.Query.equal("actif",true)],
    total:true
   });
+
   allProducts=Array.isArray(response.rows)?response.rows:[];
-  status.textContent="Boutique connectée à Appwrite.";
+
   render();
  }catch(error){
   console.error("Erreur Appwrite :",error);
-  status.textContent="Connexion impossible : vérifie les permissions de lecture de la table produits et la configuration Appwrite.";
   count.textContent="Produits non chargés";
   allProducts=[];
   render();
+
+  document.getElementById("empty-title").textContent="Impossible de charger la boutique";
+  document.getElementById("empty-description").textContent="Vérifie la connexion Internet, les permissions de lecture Appwrite et la configuration de la table produits.";
  }
 }
+
 filters.forEach(button=>button.addEventListener("click",()=>{
  activeFilter=button.dataset.filter;
  filters.forEach(item=>item.classList.toggle("active",item===button));
  render();
 }));
+
 search.addEventListener("input",render);
 sort.addEventListener("change",render);
+
 document.getElementById("reset").addEventListener("click",()=>{
  search.value="";
  activeFilter="tout";
@@ -346,6 +398,7 @@ document.getElementById("reset").addEventListener("click",()=>{
  filters.forEach(item=>item.classList.toggle("active",item.dataset.filter==="tout"));
  render();
 });
+
 document.getElementById("year").textContent=new Date().getFullYear();
 updateCartCount();
 loadProducts();
