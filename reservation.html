@@ -4,879 +4,456 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F28C28">
-<title>Réservation | ConductriceFashion</title>
+<meta name="description" content="Réservez votre robe, ensemble, vêtement ou accessoire chez Conductrice Fashion. Choisissez votre article et contactez notre boutique pour préparer votre réservation.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://barbarie95.github.io/conductrice-fashion/reservation.html">
+<link rel="icon" href="logo-conductrice-fashion.png">
+<title>Réserver un article | Conductrice Fashion</title>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Conductrice Fashion">
+<meta property="og:title" content="Réservez votre article | Conductrice Fashion">
+<meta property="og:description" content="Réservez vos vêtements et accessoires inspirés des modes africaine, européenne et américaine.">
+<meta property="og:url" content="https://barbarie95.github.io/conductrice-fashion/reservation.html">
 
 <style>
-:root{
-  --orange:#F28C28;
-  --orange-dark:#d97516;
-  --cream:#fffaf4;
-  --white:#ffffff;
-  --dark:#252A34;
-  --muted:#707782;
-  --border:#eee5db;
-  --success:#188754;
-  --danger:#c43d3d;
-}
-*{
-  box-sizing:border-box;
-}
-html{
-  scroll-behavior:smooth;
-}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--cream);
-  color:var(--dark);
-  line-height:1.6;
-}
-a{
-  -webkit-tap-highlight-color:transparent;
-}
-
-/* EN-TÊTE ET IDENTITÉ DE LA MARQUE */
-header{
-  position:relative;
-  z-index:5;
-  width:100%;
-  padding:15px clamp(16px,5%,65px);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:22px;
-  background:var(--white);
-  border-bottom:1px solid #f1e8dd;
-  box-shadow:0 4px 18px rgba(37,42,52,.045);
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  flex-shrink:0;
-  text-decoration:none;
-  min-width:0;
-}
-.brand-logo{
-  display:block;
-  width:112px;
-  max-height:82px;
-  height:auto;
-  object-fit:contain;
-}
-.brand-description{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  color:var(--orange-dark);
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:1.1px;
-  line-height:1.4;
-}
-.brand-description small{
-  display:block;
-  max-width:265px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:0;
-  line-height:1.5;
-}
-
-/* NAVIGATION */
-nav{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  flex-wrap:wrap;
-  gap:7px;
-}
-nav a{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  padding:9px 12px;
-  border-radius:9px;
-  color:var(--dark);
-  text-decoration:none;
-  font-size:13px;
-  font-weight:700;
-  white-space:nowrap;
-  transition:background .2s,color .2s;
-}
-nav a:hover{
-  color:var(--orange-dark);
-  background:#fff3e5;
-}
-nav a[href="reservation.html"]{
-  background:#fff0dd;
-  color:var(--orange-dark);
-}
-#cart-count{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:20px;
-  height:20px;
-  padding:0 5px;
-  border-radius:50px;
-  background:var(--orange);
-  color:white;
-  font-size:11px;
-  font-weight:800;
-}
-
-/* BANNIÈRE DE RÉSERVATION */
-.hero{
-  position:relative;
-  overflow:hidden;
-  padding:48px 20px 43px;
-  text-align:center;
-  background:
-    radial-gradient(ellipse at top right,rgba(242,140,40,.15),transparent 45%),
-    linear-gradient(135deg,#fff0dc 0%,#fffaf4 55%,#fff4e8 100%);
-  border-bottom:1px solid #f4e5d4;
-}
-.hero::before{
-  content:"";
-  display:block;
-  width:48px;
-  height:4px;
-  margin:0 auto 17px;
-  border-radius:10px;
-  background:var(--orange);
-}
-.hero h1{
-  margin:0 0 10px;
-  color:var(--dark);
-  font-size:clamp(27px,4vw,39px);
-  font-weight:800;
-  line-height:1.2;
-  letter-spacing:-.7px;
-}
-.hero p{
-  max-width:540px;
-  margin:0 auto;
-  color:#737783;
-  font-size:15px;
-  line-height:1.7;
-}
-
-/* CONTENU PRINCIPAL */
-main{
-  width:min(760px,92%);
-  margin:36px auto 60px;
-}
-.card{
-  padding:clamp(22px,4.5vw,38px);
-  background:var(--white);
-  border:1px solid #f0e7dc;
-  border-radius:20px;
-  box-shadow:0 12px 38px rgba(37,42,52,.065);
-}
-.card h2{
-  margin:0 0 7px;
-  color:var(--dark);
-  font-size:25px;
-  font-weight:800;
-  line-height:1.3;
-}
-.intro{
-  margin:0 0 27px;
-  color:var(--muted);
-  font-size:14px;
-}
-
-/* CHAMPS DU FORMULAIRE */
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px 18px;
-}
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  min-width:0;
-}
-.field.full{
-  grid-column:1/-1;
-}
-label{
-  color:#333945;
-  font-size:13px;
-  font-weight:700;
-}
-input,select{
-  display:block;
-  width:100%;
-  min-width:0;
-  min-height:50px;
-  padding:12px 14px;
-  border:1px solid #e5e0d9;
-  border-radius:11px;
-  outline:none;
-  background:#fff;
-  color:var(--dark);
-  font-family:inherit;
-  font-size:14px;
-  transition:border-color .2s,box-shadow .2s,background .2s;
-}
-input::placeholder{
-  color:#a0a3aa;
-}
-input:hover,select:hover{
-  border-color:#e7b77f;
-}
-input:focus,select:focus{
-  border-color:var(--orange);
-  background:#fffdf9;
-  box-shadow:0 0 0 4px rgba(242,140,40,.12);
-}
-select{
-  cursor:pointer;
-}
-button{
-  font:inherit;
-  cursor:pointer;
-}
-
-/* BOUTON PRINCIPAL */
-.submit-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  min-height:54px;
-  margin-top:27px;
-  padding:15px 20px;
-  border:0;
-  border-radius:12px;
-  background:linear-gradient(135deg,#f59a3c,#e77d19);
-  color:#fff;
-  font-size:15px;
-  font-weight:800;
-  box-shadow:0 6px 15px rgba(242,140,40,.22);
-  transition:transform .2s,box-shadow .2s,filter .2s;
-}
-.submit-btn:hover{
-  filter:brightness(.97);
-  transform:translateY(-2px);
-  box-shadow:0 9px 20px rgba(242,140,40,.28);
-}
-.submit-btn:active{
-  transform:translateY(0);
-}
-.submit-btn:disabled{
-  opacity:.65;
-  cursor:wait;
-  transform:none;
-  box-shadow:none;
-}
-
-/* MESSAGES DE RÉSULTAT */
-.notice{
-  display:none;
-  margin-top:20px;
-  padding:15px 17px;
-  border-radius:12px;
-  font-size:14px;
-  overflow-wrap:anywhere;
-}
-.notice.success{
-  display:block;
-  background:#eaf8f0;
-  border:1px solid #ccebd8;
-  color:#176b42;
-}
-.notice.error{
-  display:block;
-  background:#fff0f0;
-  border:1px solid #f3d0d0;
-  color:#9f2929;
-}
-
-/* DÉCOMPTE DE 48 HEURES */
-.timer-box{
-  display:none;
-  margin-top:20px;
-  padding:21px 16px;
-  background:linear-gradient(135deg,#fff7e9,#fffaf3);
-  border:1px solid #f3d6ad;
-  border-radius:15px;
-  text-align:center;
-}
-.timer-box strong{
-  display:block;
-  margin:7px 0;
-  color:var(--orange-dark);
-  font-size:clamp(25px,5vw,32px);
-  font-weight:800;
-  font-variant-numeric:tabular-nums;
-  letter-spacing:2px;
-}
-.timer-box p{
-  margin:3px 0 0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* PIED DE PAGE */
-footer{
-  padding:25px 16px;
-  background:var(--dark);
-  color:#f5f5f5;
-  text-align:center;
-  font-size:13px;
-}
-  /* ADAPTATION AUX TÉLÉPHONES ET TABLETTES */
-@media(max-width:850px){
-  header{
-    gap:15px;
-    padding:14px 4%;
-  }
-  .brand-logo{
-    width:95px;
-  }
-  .brand-description small{
-    max-width:220px;
-  }
-  nav{
-    gap:3px;
-  }
-  nav a{
-    padding:8px 9px;
-    font-size:12px;
-  }
-}
+:root{--orange:#F28C28;--orange-dark:#D96F0B;--cream:#fffaf4;--white:#fff;--dark:#252A34;--muted:#747781;--line:#eee7df;--success:#188754;--danger:#c43d3d}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-bottom:95px}
+body{margin:0;padding-bottom:82px;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--dark);line-height:1.6}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.announcement{background:var(--dark);color:white;text-align:center;padding:8px;font-size:11px;letter-spacing:.6px}
+.header{position:sticky;top:0;z-index:20;background:white;box-shadow:0 3px 18px #00000008}
+.header-main{width:min(1160px,92%);min-height:72px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:block;width:150px;height:auto}
+.cart-link{background:var(--dark);color:white;padding:10px 13px;border-radius:11px;font-size:13px;font-weight:bold}
+.cart-count{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:30px;background:var(--orange);margin-left:4px}
+.hero{padding:38px 16px 35px;text-align:center;background:linear-gradient(120deg,#fff0df,#fffaf4);border-bottom:1px solid #f4e5d4}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:2px;color:#b85c00}
+.hero h1{font-size:clamp(29px,5vw,43px);line-height:1.15;letter-spacing:-1px;margin:10px 0}
+.hero h1 em{font-style:normal;color:#d87819}
+.hero p{max-width:570px;margin:0 auto;color:#69666a;font-size:14px;line-height:1.8}
+main{width:min(760px,92%);margin:28px auto 42px}
+.card{padding:clamp(20px,4vw,34px);background:white;border:1px solid var(--line);border-radius:17px;box-shadow:0 8px 26px #252a3408}
+.card h2{margin:0 0 7px;font-size:24px;line-height:1.3}
+.intro{margin:0 0 24px;color:var(--muted);font-size:13px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 15px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:700;color:#333945}
+input,select{width:100%;min-width:0;min-height:49px;padding:12px 13px;border:1px solid #e5e0d9;border-radius:11px;outline:none;background:white;color:var(--dark);font-size:14px;transition:border-color .2s,box-shadow .2s}
+input::placeholder{color:#a0a3aa}
+input:focus,select:focus{border-color:var(--orange);background:#fffdf9;box-shadow:0 0 0 3px #f28c281f}
+select{cursor:pointer}
+.submit-btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;margin-top:24px;padding:14px 18px;border:0;border-radius:11px;background:linear-gradient(135deg,#F28C28,#D96F0B);color:white;font-size:14px;font-weight:800;box-shadow:0 5px 14px #f28c2826;transition:transform .2s}
+.submit-btn:hover{transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.65;cursor:wait;transform:none}
+.notice{display:none;margin-top:18px;padding:14px 15px;border-radius:11px;font-size:13px;overflow-wrap:anywhere}
+.notice.success{display:block;background:#eaf8f0;border:1px solid #ccebd8;color:#176b42}
+.notice.error{display:block;background:#fff0f0;border:1px solid #f3d0d0;color:#9f2929}
+.timer-box{display:none;margin-top:18px;padding:20px 15px;background:linear-gradient(135deg,#fff7e9,#fffaf3);border:1px solid #f3d6ad;border-radius:14px;text-align:center}
+.timer-box strong{display:block;margin:7px 0;color:var(--orange-dark);font-size:clamp(25px,5vw,32px);font-variant-numeric:tabular-nums;letter-spacing:2px}
+.timer-box p{margin:3px 0;color:var(--muted);font-size:13px}
+.footer{background:white;border-top:1px solid var(--line);padding:24px 15px 32px;text-align:center}
+.footer img{width:140px;height:auto}
+.footer p{margin:5px 0;color:var(--muted);font-size:12px}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin:12px 0}
+.footer-links a,.footer small{font-size:11px;color:var(--muted)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:white;border-top:1px solid var(--line);box-shadow:0 -4px 18px #252a3410;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:4px 1px;color:var(--muted);font-size:10px;font-weight:700}
+.bottom-nav .nav-icon{font-size:19px;line-height:1.2}
+.bottom-nav a.active{color:#c7670c}
+.bottom-nav a.active .nav-icon{padding:3px 12px;background:#fff0df;border-radius:10px}
+#toast{position:fixed;z-index:99;bottom:88px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:var(--dark);color:white;padding:12px 17px;border-radius:12px;font-size:13px;transition:.2s;max-width:90%;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){
-  header{
-    flex-direction:column;
-    align-items:stretch;
-    gap:13px;
-    padding:13px 15px 12px;
-  }
-  .brand{
-    justify-content:flex-start;
-    gap:11px;
-  }
-  .brand-logo{
-    width:83px;
-    max-height:67px;
-  }
-  .brand-description{
-    font-size:10px;
-    letter-spacing:.7px;
-  }
-  .brand-description small{
-    max-width:none;
-    font-size:10px;
-  }
-  nav{
-    display:grid;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:4px;
-    width:100%;
-  }
-  nav a{
-    padding:9px 3px;
-    font-size:11px;
-    text-align:center;
-  }
-  .hero{
-    padding:36px 18px 32px;
-  }
-  .hero h1{
-    font-size:29px;
-  }
-  .hero p{
-    font-size:14px;
-  }
-  main{
-    width:calc(100% - 26px);
-    margin:23px auto 38px;
-  }
-  .card{
-    padding:22px 17px;
-    border-radius:17px;
-  }
-  .card h2{
-    font-size:22px;
-  }
-  .intro{
-    margin-bottom:23px;
-    font-size:13px;
-  }
-  .form-grid{
-    grid-template-columns:1fr;
-    gap:17px;
-  }
-  .field.full{
-    grid-column:auto;
-  }
-  input,select{
-    min-height:49px;
-    font-size:14px;
-  }
-  .submit-btn{
-    min-height:52px;
-    margin-top:24px;
-    font-size:14px;
-  }
+ .header-main{min-height:66px}
+ .logo{width:135px}
+ .hero{padding:29px 15px}
+ .hero h1{font-size:30px}
+ main{width:calc(100% - 26px);margin:20px auto 30px}
+ .card{padding:22px 16px;border-radius:15px}
+ .card h2{font-size:22px}
+ .form-grid{grid-template-columns:1fr;gap:16px}
+ .field.full{grid-column:auto}
+ input,select{min-height:49px}
+ .submit-btn{margin-top:22px}
+ .bottom-nav a{font-size:10px}
 }
 @media(max-width:360px){
-  .brand-logo{
-    width:70px;
-  }
-  .brand-description{
-    font-size:9px;
-  }
-  .brand-description small{
-    font-size:9px;
-  }
-  nav a{
-    font-size:10px;
-  }
+ .logo{width:115px}
+ .cart-link{font-size:11px;padding:8px}
+ .bottom-nav a{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    scroll-behavior:auto!important;
-    transition:none!important;
-  }
+ *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
 </style>
 </head>
-
 <body>
-<header>
-  <a href="index.html" aria-label="Conductrice Fashion - Accueil" class="brand">
-    <img src="logo-conductrice-fashion.png"
-         alt="Logo Conductrice Fashion"
-         class="brand-logo">
+<div class="announcement">AFRIQUE · EUROPE · AMÉRIQUE — LE STYLE N’A PAS DE FRONTIÈRES</div>
 
-    <span class="brand-description">
-      STYLE • CONFIANCE • ÉLÉGANCE
-      <small>Afrique • Europe • Amérique — La mode n’a pas de frontières.</small>
-    </span>
+<header class="header">
+ <div class="header-main">
+  <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+   <img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion" class="logo">
   </a>
-
-  <nav aria-label="Navigation principale">
-    <a href="index.html">Accueil</a>
-    <a href="boutique.html">Boutique</a>
-    <a href="reservation.html">Réservation</a>
-    <a href="panier.html">Panier <span id="cart-count">0</span></a>
-  </nav>
+  <a class="cart-link" href="panier.html">🛍 Panier <span class="cart-count" id="cart-count">0</span></a>
+ </div>
 </header>
 
 <section class="hero">
-  <h1>Réservez votre article 🧡</h1>
-  <p>Choisissez votre tenue et indiquez vos coordonnées pour envoyer votre réservation.</p>
+ <span class="eyebrow">CONDUCTRICE FASHION</span>
+ <h1>Réservez votre article <em>🧡</em></h1>
+ <p>Choisissez votre tenue et indiquez vos coordonnées pour envoyer votre réservation. Votre style, votre histoire — la mode n’a pas de frontières.</p>
 </section>
 
 <main>
-  <section class="card">
-    <h2>Votre réservation</h2>
-    <p class="intro">Les champs marqués d’un * sont obligatoires.</p>
+ <section class="card" aria-labelledby="reservation-title">
+  <h2 id="reservation-title">Votre réservation</h2>
+  <p class="intro">Remplissez les informations ci-dessous. Les champs marqués d’un * sont obligatoires.</p>
 
-    <form id="reservation-form">
-      <div class="form-grid">
-
-        <div class="field full">
-          <label for="produit">Article souhaité *</label>
-          <select id="produit" name="produit" required>
-            <option value="">-- Choisir un article --</option>
-            <option value="robe-elegante">Robe élégante — 7 500 FCFA</option>
-            <option value="ensemble-tendance">Ensemble tendance — 10 000 FCFA</option>
-            <option value="sac-a-main">Sac à main — 5 000 FCFA</option>
-            <option value="chemise-chic">Chemise chic — 6 000 FCFA</option>
-            <option value="tenue-inspiration-africaine">Tenue inspiration africaine — 8 500 FCFA</option>
-            <option value="autre">Autre article / demande particulière</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="taille">Taille *</label>
-          <select id="taille" name="taille" required>
-            <option value="">-- Choisir --</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-            <option value="Taille unique">Taille unique</option>
-            <option value="À préciser">À préciser</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="couleur">Couleur souhaitée *</label>
-          <input id="couleur" name="couleur" maxlength="50"
-                 placeholder="Ex. : noir, blanc, rouge" required>
-        </div>
-
-        <div class="field">
-          <label for="quantite">Quantité *</label>
-          <input id="quantite" name="quantite" type="number"
-                 min="1" max="50" value="1" required>
-        </div>
-
-        <div class="field">
-          <label for="nom">Nom complet *</label>
-          <input id="nom" name="nom" maxlength="150"
-                 autocomplete="name" placeholder="Votre nom" required>
-        </div>
-
-        <div class="field full">
-          <label for="telephone">Numéro de téléphone *</label>
-          <input id="telephone" name="telephone" type="tel"
-                 maxlength="30" autocomplete="tel"
-                 placeholder="Votre numéro joignable" required>
-        </div>
-
-      </div>
-
-      <button class="submit-btn" id="submit-btn" type="submit">
-        Confirmer ma réservation
-      </button>
-    </form>
-
-    <div id="notice" class="notice" role="status" aria-live="polite"></div>
-
-    <div id="timer-box" class="timer-box">
-      <p>Temps restant avant l’expiration de la réservation</p>
-      <strong id="timer">48:00:00</strong>
-      <p>Le décompte commence après l’enregistrement confirmé.</p>
+  <form id="reservation-form">
+   <div class="form-grid">
+    <div class="field full">
+     <label for="produit">Article souhaité *</label>
+     <select id="produit" name="produit" required>
+      <option value="">-- Choisir un article --</option>
+      <option value="robe-elegante">Robe élégante — 7 500 FCFA</option>
+      <option value="ensemble-tendance">Ensemble tendance — 10 000 FCFA</option>
+      <option value="sac-a-main">Sac à main — 5 000 FCFA</option>
+      <option value="chemise-chic">Chemise chic — 6 000 FCFA</option>
+      <option value="tenue-inspiration-africaine">Tenue inspiration africaine — 8 500 FCFA</option>
+      <option value="autre">Autre article / demande particulière</option>
+     </select>
     </div>
-  </section>
+    <div class="field">
+     <label for="taille">Taille *</label>
+     <select id="taille" name="taille" required>
+      <option value="">-- Choisir --</option>
+      <option value="XS">XS</option><option value="S">S</option>
+      <option value="M">M</option><option value="L">L</option>
+      <option value="XL">XL</option><option value="XXL">XXL</option>
+      <option value="Taille unique">Taille unique</option>
+      <option value="À préciser">À préciser</option>
+     </select>
+    </div>
+    <div class="field">
+     <label for="couleur">Couleur souhaitée *</label>
+     <input id="couleur" name="couleur" maxlength="50" placeholder="Ex. : noir, blanc, rouge" required>
+    </div>
+    <div class="field">
+     <label for="quantite">Quantité *</label>
+     <input id="quantite" name="quantite" type="number" min="1" max="50" value="1" required>
+    </div>
+    <div class="field">
+     <label for="nom">Nom complet *</label>
+     <input id="nom" name="nom" maxlength="150" autocomplete="name" placeholder="Votre nom" required>
+    </div>
+    <div class="field full">
+     <label for="telephone">Numéro de téléphone *</label>
+     <input id="telephone" name="telephone" type="tel" maxlength="30" autocomplete="tel" placeholder="Votre numéro joignable" required>
+    </div>
+   </div>
+   <button class="submit-btn" id="submit-btn" type="submit">Confirmer ma réservation</button>
+  </form>
+
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <div id="timer-box" class="timer-box">
+   <p>Temps restant avant l’expiration de la réservation</p>
+   <strong id="timer">48:00:00</strong>
+   <p id="timer-message">Le décompte commence après l’enregistrement confirmé.</p>
+  </div>
+ </section>
 </main>
 
-<footer>
-  © <span id="year"></span> ConductriceFashion — Votre style, votre élégance.
+<footer class="footer">
+ <a href="index.html" aria-label="Conductrice Fashion - Accueil">
+  <img src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
+ </a>
+ <p>Votre style, votre histoire — la mode n’a pas de frontières.</p>
+ <div class="footer-links">
+  <a href="index.html">Accueil</a>
+  <a href="boutique.html">Boutique</a>
+  <a href="reservation.html">Réservation</a>
+  <a href="panier.html">Panier</a>
+ </div>
+ <small>© <span id="year"></span> Conductrice Fashion</small>
 </footer>
 
+<nav class="bottom-nav" aria-label="Navigation principale">
+ <a href="index.html"><span class="nav-icon" aria-hidden="true">⌂</span><span>Accueil</span></a>
+ <a href="boutique.html"><span class="nav-icon" aria-hidden="true">▦</span><span>Boutique</span></a>
+ <a href="reservation.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">♡</span><span>Réservation</span></a>
+ <a href="panier.html"><span class="nav-icon" aria-hidden="true">🛍</span><span>Panier</span></a>
+</nav>
 <script>
 "use strict";
 
-/* Configuration Appwrite */
-const APPWRITE_ENDPOINT = "https://fra.cloud.appwrite.io/v1";
-const APPWRITE_PROJECT_ID = "6ad7761700274f3ae4b1";
-const APPWRITE_FUNCTION_ID = "conductrice-backend";
+const APPWRITE_ENDPOINT="https://fra.cloud.appwrite.io/v1";
+const APPWRITE_PROJECT_ID="6ad7761700274f3ae4b1";
+const APPWRITE_FUNCTION_ID="conductrice-backend";
 
-/* Articles proposés */
-const productNames = {
-  "robe-elegante": "Robe élégante",
-  "ensemble-tendance": "Ensemble tendance",
-  "sac-a-main": "Sac à main",
-  "chemise-chic": "Chemise chic",
-  "tenue-inspiration-africaine": "Tenue inspiration africaine",
-  "autre": "Autre article / demande particulière"
+const productNames={
+ "robe-elegante":"Robe élégante",
+ "ensemble-tendance":"Ensemble tendance",
+ "sac-a-main":"Sac à main",
+ "chemise-chic":"Chemise chic",
+ "tenue-inspiration-africaine":"Tenue inspiration africaine",
+ "autre":"Autre article / demande particulière"
 };
 
-const form = document.getElementById("reservation-form");
-const produitInput = document.getElementById("produit");
-const tailleInput = document.getElementById("taille");
-const couleurInput = document.getElementById("couleur");
-const quantiteInput = document.getElementById("quantite");
-const nomInput = document.getElementById("nom");
-const telephoneInput = document.getElementById("telephone");
-const submitBtn = document.getElementById("submit-btn");
-const notice = document.getElementById("notice");
-const timerBox = document.getElementById("timer-box");
-const timerElement = document.getElementById("timer");
+const form=document.getElementById("reservation-form");
+const produitInput=document.getElementById("produit");
+const tailleInput=document.getElementById("taille");
+const couleurInput=document.getElementById("couleur");
+const quantiteInput=document.getElementById("quantite");
+const nomInput=document.getElementById("nom");
+const telephoneInput=document.getElementById("telephone");
+const submitBtn=document.getElementById("submit-btn");
+const notice=document.getElementById("notice");
+const timerBox=document.getElementById("timer-box");
+const timerElement=document.getElementById("timer");
+const timerMessage=document.getElementById("timer-message");
 
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent=new Date().getFullYear();
 
-/* Compteur du panier partagé avec les autres pages */
-function updateCartCount() {
-  try {
-    const cart = JSON.parse(
-      localStorage.getItem("conductricefashion_cart_v1") || "[]"
-    );
-
-    const count = Array.isArray(cart)
-      ? cart.reduce(
-          (sum, item) =>
-            sum + Math.max(
-              0,
-              Number(item.quantite || item.quantity || 1)
-            ),
-          0
-        )
-      : 0;
-
-    document.getElementById("cart-count").textContent = count;
-  } catch (error) {
-    document.getElementById("cart-count").textContent = "0";
-  }
+function updateCartCount(){
+ try{
+  const cart=JSON.parse(localStorage.getItem("conductricefashion_cart_v1")||"[]");
+  const total=Array.isArray(cart)?cart.reduce((sum,item)=>{
+   return sum+Math.max(0,Number(item.quantity||item.quantite||1)||0);
+  },0):0;
+  document.querySelectorAll(".cart-count").forEach(el=>el.textContent=total);
+ }catch(error){
+  document.querySelectorAll(".cart-count").forEach(el=>el.textContent="0");
+ }
 }
-
 updateCartCount();
 
-/* Préremplir l’article transmis par la boutique */
-const params = new URLSearchParams(window.location.search);
-const productFromUrl = params.get("produit");
+function showNotice(message,type){
+ notice.textContent=message;
+ notice.className="notice "+type;
+}
+function hideNotice(){
+ notice.textContent="";
+ notice.className="notice";
+}
 
-if (productFromUrl && productNames[productFromUrl]) {
-  produitInput.value = productFromUrl;
-} else {
-  try {
-    const cart = JSON.parse(
-      localStorage.getItem("conductricefashion_cart_v1") || "[]"
-    );
+/* Préremplir un article si son identifiant correspond aux options disponibles. */
+const params=new URLSearchParams(window.location.search);
+const productFromUrl=params.get("produit");
 
-    if (Array.isArray(cart) && cart.length) {
-      const first = cart[0];
-      const possibleId = first.produit_id || first.id || first.slug;
-
-      if (possibleId && productNames[possibleId]) {
-        produitInput.value = possibleId;
-      }
-    }
-  } catch (error) {
-    /* Le panier est facultatif pour une réservation. */
+if(productFromUrl&&productNames[productFromUrl]){
+ produitInput.value=productFromUrl;
+}else{
+ try{
+  const cart=JSON.parse(localStorage.getItem("conductricefashion_cart_v1")||"[]");
+  if(Array.isArray(cart)&&cart.length){
+   const first=cart[0];
+   const possibleId=first.produit_id||first.id||first.slug;
+   if(possibleId&&productNames[possibleId])produitInput.value=possibleId;
   }
+ }catch(error){}
 }
 
-/* Messages affichés dans la page */
-function showNotice(message, type) {
-  notice.textContent = message;
-  notice.className = "notice " + type;
+async function callBackend(payload){
+ const response=await fetch(
+  APPWRITE_ENDPOINT+"/functions/"+
+  encodeURIComponent(APPWRITE_FUNCTION_ID)+"/executions",
+  {
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "X-Appwrite-Project":APPWRITE_PROJECT_ID
+   },
+   body:JSON.stringify({
+    body:JSON.stringify(payload),
+    async:false,
+    path:"/",
+    method:"POST",
+    headers:{"Content-Type":"application/json"}
+   })
+  }
+ );
+
+ let execution;
+ try{
+  execution=await response.json();
+ }catch(error){
+  throw new Error("Réponse Appwrite illisible. Réessaie dans un instant.");
+ }
+
+ if(!response.ok){
+  throw new Error(
+   execution.message||
+   "Appwrite a refusé la demande (HTTP "+response.status+")."
+  );
+ }
+
+ let result=execution.responseBody;
+
+ if(typeof result==="string"){
+  try{result=JSON.parse(result);}
+  catch(error){throw new Error("Le serveur a renvoyé une réponse inattendue.");}
+ }
+
+ if(!result||result.ok!==true){
+  throw new Error(
+   (result&&result.message)||
+   execution.errors||
+   "La réservation n’a pas été confirmée par le serveur."
+  );
+ }
+
+ return result;
 }
 
-function hideNotice() {
-  notice.textContent = "";
-  notice.className = "notice";
-}
+/* Envoyer la réservation au serveur */
+form.addEventListener("submit",async function(event){
+ event.preventDefault();
+ hideNotice();
 
-/* Appeler la fonction Appwrite sans exposer de clé secrète */
-async function callBackend(payload) {
-  const response = await fetch(
-    APPWRITE_ENDPOINT + "/functions/" +
-    encodeURIComponent(APPWRITE_FUNCTION_ID) + "/executions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Appwrite-Project": APPWRITE_PROJECT_ID
-      },
-      body: JSON.stringify({
-        body: JSON.stringify(payload),
-        async: false,
-        path: "/",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    }
+ const produitId=produitInput.value;
+ const produitNom=productNames[produitId];
+ const taille=tailleInput.value.trim();
+ const couleur=couleurInput.value.trim();
+ const quantite=Number(quantiteInput.value);
+ const nomClient=nomInput.value.trim();
+ const telephone=telephoneInput.value.trim();
+
+ if(!produitId||!produitNom||!taille||!couleur||!nomClient||!telephone){
+  showNotice("Vérifie les champs obligatoires avant de continuer.","error");
+  return;
+ }
+
+ if(!Number.isInteger(quantite)||quantite<1||quantite>50){
+  showNotice("La quantité doit être comprise entre 1 et 50.","error");
+  return;
+ }
+
+ submitBtn.disabled=true;
+ submitBtn.textContent="Enregistrement en cours…";
+
+ try{
+  const result=await callBackend({
+   action:"reservation",
+   produit_id:produitId,
+   produit_nom:produitNom,
+   taille:taille,
+   couleur:couleur,
+   quantite:quantite,
+   nom_client:nomClient,
+   telephone:telephone
+  });
+
+  if(!result.reservation_id||!result.expire_le){
+   throw new Error("Le serveur n’a pas fourni les informations nécessaires à la réservation.");
+  }
+
+  const reservation={
+   id:result.reservation_id,
+   expireLe:result.expire_le
+  };
+
+  try{
+   localStorage.setItem(
+    "conductricefashion_reservation_v1",
+    JSON.stringify(reservation)
+   );
+  }catch(error){}
+
+  showNotice(
+   "Réservation confirmée ! Votre article est réservé pour une durée maximale de 48 heures.",
+   "success"
   );
 
-  let execution;
+  startCountdown(result.expire_le);
+  form.reset();
 
-  try {
-    execution = await response.json();
-  } catch (error) {
-    throw new Error("Réponse Appwrite illisible. Réessaie dans un instant.");
-  }
-
-  if (!response.ok) {
-    throw new Error(
-      execution.message ||
-      "Appwrite a refusé la demande (HTTP " + response.status + ")."
-    );
-  }
-
-  let result = execution.responseBody;
-
-  if (typeof result === "string") {
-    try {
-      result = JSON.parse(result);
-    } catch (error) {
-      throw new Error("Le serveur a renvoyé une réponse inattendue.");
-    }
-  }
-
-  if (!result || result.ok !== true) {
-    throw new Error(
-      (result && result.message) ||
-      execution.errors ||
-      "La réservation n’a pas été confirmée par le serveur."
-    );
-  }
-
-  return result;
-}
-
-/* Enregistrement de la réservation */
-form.addEventListener("submit", async function (event) {
-  event.preventDefault();
-  hideNotice();
-
-  const produitId = produitInput.value;
-  const produitNom = productNames[produitId];
-  const taille = tailleInput.value.trim();
-  const couleur = couleurInput.value.trim();
-  const quantite = Number(quantiteInput.value);
-  const nomClient = nomInput.value.trim();
-  const telephone = telephoneInput.value.trim();
-
-  if (
-    !produitId ||
-    !produitNom ||
-    !taille ||
-    !couleur ||
-    !nomClient ||
-    !telephone
-  ) {
-    showNotice(
-      "Vérifie les champs obligatoires avant de continuer.",
-      "error"
-    );
-    return;
-  }
-
-  if (!Number.isInteger(quantite) || quantite < 1 || quantite > 50) {
-    showNotice(
-      "La quantité doit être comprise entre 1 et 50.",
-      "error"
-    );
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Enregistrement en cours…";
-
-  try {
-    const result = await callBackend({
-      action: "reservation",
-      produit_id: produitId,
-      produit_nom: produitNom,
-      taille: taille,
-      couleur: couleur,
-      quantite: quantite,
-      nom_client: nomClient,
-      telephone: telephone
-    });
-
-    if (!result.reservation_id || !result.expire_le) {
-      throw new Error(
-        "Le serveur n’a pas fourni les informations nécessaires à la réservation."
-      );
-    }
-
-    const reservation = {
-      id: result.reservation_id,
-      expireLe: result.expire_le
-    };
-
-    try {
-      localStorage.setItem(
-        "conductricefashion_reservation_v1",
-        JSON.stringify(reservation)
-      );
-    } catch (error) {
-      /* La réservation reste enregistrée même si le stockage local échoue. */
-    }
-
-    showNotice("Réservation confirmée ! ❤️", "success");
-    startCountdown(result.expire_le);
-    form.reset();
-
-  } catch (error) {
-    console.error("Erreur de réservation :", error);
-
-    showNotice(
-      error.message ||
-      "Impossible d’enregistrer la réservation. Vérifie ta connexion et réessaie.",
-      "error"
-    );
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Confirmer ma réservation";
-  }
+ }catch(error){
+  console.error("Erreur de réservation :",error);
+  showNotice(
+   error.message||"Impossible d’enregistrer la réservation. Vérifie ta connexion et réessaie.",
+   "error"
+  );
+ }finally{
+  submitBtn.disabled=false;
+  submitBtn.textContent="Confirmer ma réservation";
+ }
 });
 
-/* Décompte basé sur la date d'expiration renvoyée par Appwrite */
-let countdownInterval = null;
+/* Décompte de la date d'expiration fournie par Appwrite */
+let countdownInterval=null;
 
-function startCountdown(expireLe) {
-  const expiration = new Date(expireLe).getTime();
+function startCountdown(expireLe){
+ const expiration=new Date(expireLe).getTime();
 
-  if (!Number.isFinite(expiration)) {
-    timerBox.style.display = "none";
-    return;
-  }
+ if(!Number.isFinite(expiration)){
+  timerBox.style.display="none";
+  return;
+ }
 
-  timerBox.style.display = "block";
+ timerBox.style.display="block";
+ timerMessage.textContent="Pense à acheter ou récupérer ton article avant la fin du délai.";
 
-  if (countdownInterval) {
-    clearInterval(countdownInterval);
-  }
+ if(countdownInterval)clearInterval(countdownInterval);
 
-  function updateCountdown() {
-    const restant = expiration - Date.now();
+ function updateCountdown(){
+  const restant=expiration-Date.now();
 
-    if (restant <= 0) {
-      timerElement.textContent = "00:00:00";
+  if(restant<=0){
+   timerElement.textContent="00:00:00";
+   timerMessage.textContent="Le délai de réservation de 48 heures est terminé.";
 
-      timerBox.querySelector("p").textContent =
-        "Le délai de 48 heures est terminé.";
+   if(countdownInterval)clearInterval(countdownInterval);
+   countdownInterval=null;
 
-      clearInterval(countdownInterval);
-      countdownInterval = null;
-
-      try {
-        const saved = JSON.parse(
-          localStorage.getItem("conductricefashion_reservation_v1") || "null"
-        );
-
-        if (saved && saved.expireLe === expireLe) {
-          localStorage.removeItem("conductricefashion_reservation_v1");
-        }
-      } catch (error) {
-        /* Le décompte est déjà terminé. */
-      }
-
-      return;
+   try{
+    const saved=JSON.parse(
+     localStorage.getItem("conductricefashion_reservation_v1")||"null"
+    );
+    if(saved&&saved.expireLe===expireLe){
+     localStorage.removeItem("conductricefashion_reservation_v1");
     }
+   }catch(error){}
 
-    const totalSeconds = Math.floor(restant / 1000);
-    const heures = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const secondes = totalSeconds % 60;
-
-    timerElement.textContent =
-      String(heures).padStart(2, "0") + ":" +
-      String(minutes).padStart(2, "0") + ":" +
-      String(secondes).padStart(2, "0");
+   return;
   }
 
-  updateCountdown();
-  countdownInterval = setInterval(updateCountdown, 1000);
+  const totalSeconds=Math.floor(restant/1000);
+  const heures=Math.floor(totalSeconds/3600);
+  const minutes=Math.floor((totalSeconds%3600)/60);
+  const secondes=totalSeconds%60;
+
+  timerElement.textContent=
+   String(heures).padStart(2,"0")+":"+
+   String(minutes).padStart(2,"0")+":"+
+   String(secondes).padStart(2,"0");
+ }
+
+ updateCountdown();
+ countdownInterval=setInterval(updateCountdown,1000);
 }
 
-/* Restaurer le décompte après rechargement de la page */
-try {
-  const savedReservation = JSON.parse(
-    localStorage.getItem("conductricefashion_reservation_v1") || "null"
-  );
+/* Restaurer le décompte si la page est rechargée */
+try{
+ const savedReservation=JSON.parse(
+  localStorage.getItem("conductricefashion_reservation_v1")||"null"
+ );
 
-  if (savedReservation && savedReservation.expireLe) {
-    const expiration = new Date(savedReservation.expireLe).getTime();
+ if(savedReservation&&savedReservation.expireLe){
+  const expiration=new Date(savedReservation.expireLe).getTime();
 
-    if (Number.isFinite(expiration) && expiration > Date.now()) {
-      startCountdown(savedReservation.expireLe);
-      showNotice("Réservation confirmée ! ❤️", "success");
-    } else {
-      localStorage.removeItem("conductricefashion_reservation_v1");
-    }
+  if(Number.isFinite(expiration)&&expiration>Date.now()){
+   startCountdown(savedReservation.expireLe);
+  }else{
+   localStorage.removeItem("conductricefashion_reservation_v1");
   }
-} catch (error) {
-  /* Aucun décompte sauvegardé : la page reste utilisable. */
-}
+ }
+}catch(error){}
 </script>
 </body>
 </html>
