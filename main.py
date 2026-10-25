@@ -8,7 +8,9 @@ from datetime import datetime, timedelta, timezone
 
 from appwrite.client import Client
 from appwrite.services.tables_db import TablesDB
+from appwrite.services.storage import Storage
 from appwrite.id import ID
+from appwrite.input_file import InputFile
 from appwrite.query import Query
 
 DATABASE_ID = "6ad7a426000ad1659f6b"
@@ -99,7 +101,7 @@ def date_compatible(valeur):
 
 
 # =====================================================================
-# ESPACE ADMINISTRATEUR (ajouts)
+# ESPACE ADMINISTRATEUR
 # Le code d'accès est vérifié ICI, côté serveur. Il n'apparaît jamais
 # dans le code public : il est lu dans la variable ADMIN_CODE.
 # =====================================================================
@@ -108,6 +110,17 @@ LIGNE_SECURITE = "main"             # ID de cette ligne
 DUREE_JETON = 3600                  # validité de la session : 1 heure
 SEUIL_BLOCAGE = 3                   # blocage aux erreurs n° 3, 5, 7, 9...
 MAX_VEDETTES = 4                    # produits vedettes de l'accueil
+
+# --- AJOUT : photos des produits (zone de stockage lisible par tous) ---
+BUCKET_PHOTOS = "photos-produits"
+URL_PUBLIQUE = "https://fra.cloud.appwrite.io/v1"
+PHOTO_MAX_OCTETS = 3000000          # 3 Mo, comme la zone de stockage
+
+# --- AJOUT : rubriques de la boutique (valeurs de la colonne « categorie ») ---
+CATEGORIES_VALIDES = [
+    "ensemble_homme", "ensemble_femme", "robe",
+    "accessoires_homme", "accessoires_femme"
+]
 
 # Statuts acceptés pour le suivi (à adapter si besoin)
 STATUTS_VALIDES = {
@@ -396,10 +409,79 @@ def preparer_produit(corps, creation):
     if creation or "vedette" in corps:
         data["vedette"] = en_bool(corps.get("vedette", False))
 
+    # --- AJOUT : rubrique de la boutique et case « Inspiration africaine » ---
+    if "categorie" in corps:
+        categorie = nettoyer(corps.get("categorie"), 30)
+        if categorie not in CATEGORIES_VALIDES:
+            raise ValueError("Choisis une rubrique pour ce produit.")
+        data["categorie"] = categorie
+
+    if "africaine" in corps:
+        data["africaine"] = en_bool(corps.get("africaine"))
+
     return data
 
 
-def traiter_admin(context, db, action, corps):
+# --- AJOUT : envoi d'une photo de produit ---
+def detecter_image(octets):
+    """Reconnaît le vrai format à partir du contenu (pas du nom du fichier)."""
+    if octets[:3] == b"\xff\xd8\xff":
+        return "image/jpeg", ".jpg"
+    if octets[:8] == b"\x89PNG\r\n\x1a\n":
+        return "image/png", ".png"
+    if octets[:4] == b"RIFF" and octets[8:12] == b"WEBP":
+        return "image/webp", ".webp"
+    return None, None
+
+
+def envoyer_photo(context, client, corps):
+    """Reçoit une photo (en base64), la vérifie, la range dans la zone
+    publique et renvoie son lien. Lève ValueError si la photo est refusée."""
+    if client is None:
+        raise ValueError("Envoi de photo indisponible.")
+
+    contenu = str(corps.get("contenu") or "")
+    # Retire l'éventuel préfixe « data:image/jpeg;base64, »
+    if "," in contenu[:100]:
+        contenu = contenu.split(",", 1)[1]
+
+    try:
+        octets = base64.b64decode(contenu, validate=True)
+    except Exception:
+        raise ValueError("Photo illisible.")
+
+    if not octets:
+        raise ValueError("Photo vide.")
+    if len(octets) > PHOTO_MAX_OCTETS:
+        raise ValueError("Photo trop lourde (3 Mo maximum).")
+
+    type_mime, extension = detecter_image(octets)
+    if not type_mime:
+        raise ValueError("Format non accepté. Utilise une photo JPEG, PNG ou WebP.")
+
+    fichier_id = ID.unique()
+    storage = Storage(client)
+    storage.create_file(
+        bucket_id=BUCKET_PHOTOS,
+        file_id=fichier_id,
+        file=InputFile.from_bytes(
+            octets, "produit-" + str(fichier_id) + extension, type_mime
+        )
+    )
+
+    url = (
+        URL_PUBLIQUE + "/storage/buckets/" + BUCKET_PHOTOS
+        + "/files/" + str(fichier_id) + "/view?project="
+        + os.environ["APPWRITE_FUNCTION_PROJECT_ID"]
+    )
+    return reponse(context, {
+        "ok": True,
+        "message": "Photo envoyée.",
+        "url": url
+    })
+
+
+def traiter_admin(context, db, action, corps, client=None):
     """Point d'entrée de toutes les actions « admin_* »."""
     if action == "admin_login":
         return connexion_admin(context, db, corps)
@@ -517,7 +599,11 @@ def traiter_admin(context, db, action, corps):
                 "message": "Produit supprimé."
             })
 
-        # ---------- Changer le statut d'une commande / réservation ----------
+        # ---------- AJOUT : envoyer une photo de produit ----------
+        if action == "admin_photo":
+            return envoyer_photo(context, client, corps)
+            
+# ---------- Changer le statut d'une commande / réservation ----------
         if action == "admin_statut":
             nom_table = str(corps.get("table") or "")
             statut = nettoyer(corps.get("statut"), 50)
@@ -605,8 +691,8 @@ def main(context):
 
         db = TablesDB(client)
         action = corps.get("action")
-        
-# ---------------- RESERVATION ----------------
+
+        # ---------------- RESERVATION ----------------
         if action == "reservation":
             obligatoires = [
                 "produit_id",
@@ -750,7 +836,7 @@ def main(context):
 
         # ---------------- ESPACE ADMINISTRATEUR ----------------
         if isinstance(action, str) and action.startswith("admin_"):
-            return traiter_admin(context, db, action, corps)
+            return traiter_admin(context, db, action, corps, client)
 
         return reponse(context, {
             "ok": False,
