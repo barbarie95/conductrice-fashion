@@ -5,336 +5,251 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#252A34">
+<meta name="theme-color" content="#CFE5FB">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' https: data:; connect-src https://fra.cloud.appwrite.io; base-uri 'none'; form-action 'none'">
 <link rel="icon" href="data:,">
-<title>Administration · CONDUCTRICE FASHION</title>
+<title>Administration · Conductrice Fashion</title>
 <style>
-/* ===== Variables de la charte (orange, anthracite, blanc, gris clair) ===== */
-:root{
-  --orange:#F28C28; --orange-fonce:#B45309; --anthracite:#252A34;
-  --gris:#F1F4F9; --muted:#5B6472; --bord:#E1E6EE;
-  --ok:#1E7B46; --danger:#B42318; --rayon:14px; --haut:56px;
-  --ombre:0 1px 2px rgba(37,42,52,.06),0 6px 18px rgba(37,42,52,.07);
-}
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--gris);color:var(--anthracite)}
-.hidden{display:none!important}
+/* ===== Couleurs (modèle Afrilova) : bleu clair, or, gris très clair, blanc ===== */
+:root{--side:#CFE5FB;--ink:#17406B;--gold:#D6B15E;--gold2:#B8923A;--bg:#F3F5F9;--card:#fff;--line:#E3E8F0;--mut:#6B7C93;--danger:#D64545;--ok:#2E9E6B;--haut:64px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:#1d2b3a;min-height:100vh;line-height:1.5}
 button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
-.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-
-/* ===== Champs et boutons ===== */
-input[type=text],input[type=password],input[type=search],input[type=number],textarea,select{width:100%;padding:12px 14px;border:1.5px solid var(--bord);border-radius:12px;background:#fff}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+.muted{color:var(--mut);font-size:13px}
+label{display:block;font-size:12px;color:var(--mut);margin:12px 0 5px}
+input[type=text],input[type=password],input[type=search],input[type=number],textarea,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
 input:disabled{background:#eef0f4}
 textarea{min-height:90px;resize:vertical}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:12px;font-weight:700}
-.btn.primaire{background:var(--orange);color:var(--anthracite)}
-.btn.secondaire{background:#fff;border:1.5px solid var(--bord)}
-.btn.danger{background:#fff;border:1.5px solid #f2c4bf;color:var(--danger)}
-.btn.plein{width:100%}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.btn-icone{display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:inherit}
-.btn-icone.clair{background:#fff;border:1.5px solid var(--bord)}
 
 /* ===== Connexion ===== */
-.connexion{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#252A34 0%,#343b49 100%)}
-.carte-connexion{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center}
-.logo{width:64px;height:64px;margin:0 auto 12px;border-radius:18px;background:var(--orange);color:var(--anthracite);display:grid;place-items:center;font-weight:800;font-size:24px;letter-spacing:1px}
-.logo.petit{width:40px;height:40px;border-radius:12px;font-size:16px;margin:0}
-.logo-img{display:block;width:150px;height:auto;margin:0 auto 12px}
-.logo-img.gauche{margin:0 0 4px}
-.carte-connexion h1{margin:0;font-size:1.35rem}
-.sous{margin:2px 0 20px;color:var(--muted);font-size:.85rem;letter-spacing:.12em}
-.carte-connexion label{display:block;text-align:left;font-weight:600;margin-bottom:6px}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(160deg,var(--side),#fff)}
+.lbox{width:100%;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 12px 40px #17406b1a;text-align:center}
+.lbox h1{font-size:20px;margin:6px 0 2px;color:var(--ink)}
+.lbox label{text-align:left}
+.sous{color:var(--mut);font-size:12px;letter-spacing:.14em;margin-bottom:10px}
+.logo-img{display:block;width:150px;height:auto;margin:0 auto 8px;border-radius:12px}
+.logo-img.gauche{width:130px;margin:0 0 4px 10px}
+.logo{width:64px;height:64px;margin:0 auto 8px;border-radius:18px;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:24px}
+.logo.petit{width:40px;height:40px;border-radius:12px;font-size:16px;margin:0 0 4px 10px}
 .champ-code{display:flex;gap:8px}
 .champ-code input{flex:1;min-width:0}
-.msg{min-height:1.4em;margin:10px 0;font-size:.92rem;text-align:left}
-.msg.erreur{color:var(--danger)}
-.msg.info{color:var(--muted)}
-.decompte{min-height:2.4rem;font-size:2rem;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;margin:0 0 8px;color:var(--danger)}
+.go{width:100%;margin-top:14px;padding:13px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:800;font-size:15px}
+.go:disabled{opacity:.6}
+.err{color:var(--danger);font-size:13px;margin-top:10px;text-align:left;min-height:1.3em}
+.err.info{color:var(--mut)}
+.decompte{font-size:30px;font-weight:800;color:var(--danger);font-variant-numeric:tabular-nums;min-height:38px}
 
-/* ===== Structure ===== */
-.topbar{position:sticky;top:0;z-index:15;height:var(--haut);display:flex;align-items:center;gap:6px;padding:0 8px;background:var(--anthracite);color:#fff}
-.topbar h1{flex:1;margin:0;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.menu{position:fixed;inset:0 auto 0 0;z-index:30;width:min(84vw,320px);background:#fff;padding:16px 12px;overflow-y:auto;transform:translateX(-100%);visibility:hidden;transition:transform .25s ease,visibility .25s}
-.menu.ouvert{transform:none;visibility:visible}
-.menu-tete{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:4px 8px 16px;border-bottom:1px solid var(--bord);margin-bottom:8px}
-.menu-tete small{display:block;color:var(--muted)}
-.menu ol{list-style:none;margin:0;padding:0}
-.menu-lien{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:12px;background:transparent;text-align:left;font-weight:600}
-a.menu-lien{text-decoration:none;color:inherit}
-.menu-lien .num{color:var(--orange-fonce);font-weight:800;min-width:1.4em}
-.menu-lien[aria-current=page]{background:#FDF0E1}
-.menu-pied{margin-top:12px;padding-top:12px;border-top:1px solid var(--bord)}
-.voile{position:fixed;inset:0;z-index:20;background:rgba(37,42,52,.5);opacity:0;pointer-events:none;transition:opacity .25s}
-.voile.visible{opacity:1;pointer-events:auto}
-.vue{padding:16px;max-width:980px;margin:0 auto;outline:none}
-@media(min-width:960px){
-  .corps{display:grid;grid-template-columns:280px 1fr;align-items:start}
-  .menu{position:sticky;top:var(--haut);height:calc(100vh - var(--haut));width:auto;transform:none;visibility:visible;z-index:5;border-right:1px solid var(--bord)}
-  .voile{display:none}
-  #btnMenu{display:none}
+/* ===== Menu à gauche (tiroir sur téléphone, fixe sur ordinateur) ===== */
+aside{position:fixed;top:0;bottom:0;left:0;width:260px;background:var(--side);padding:18px 12px;overflow-y:auto;z-index:30;transform:translateX(-100%);visibility:hidden;transition:transform .25s,visibility .25s}
+body.open aside{transform:none;visibility:visible}
+.ov{display:none;position:fixed;inset:0;background:#0007;z-index:20}
+body.open .ov{display:block}
+.mi{display:flex;align-items:center;gap:10px;width:100%;padding:12px;margin-bottom:4px;border-radius:12px;background:transparent;color:var(--ink);text-align:left;font-size:15px}
+.mi:hover{background:#ffffff80}
+.mi.on{background:#fff;font-weight:700;box-shadow:inset 3px 0 var(--gold)}
+.mi.out{color:var(--danger);margin-top:10px}
+a.mi{text-decoration:none}
+.nb{margin-left:auto;min-width:24px;padding:2px 8px;border-radius:20px;background:var(--danger);color:#fff;font-size:12px;font-weight:800;text-align:center}
+.nb.pulse{animation:pulse .8s ease 4}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+
+/* ===== Barre du haut et bandeau ===== */
+.top{position:sticky;top:0;z-index:10;height:var(--haut);display:flex;align-items:center;gap:10px;padding:0 14px;background:#fff;border-bottom:1px solid var(--line)}
+.top b{flex:1;font-size:16px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{width:42px;height:42px;border-radius:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font-size:18px}
+.bandeau{position:sticky;top:var(--haut);z-index:9;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--gold);color:var(--ink);font-weight:700;font-size:14px;box-shadow:0 4px 12px #17406b22}
+main{padding:16px 14px 50px;max-width:1000px;margin:auto;outline:none}
+@media(min-width:900px){
+  aside{transform:none;visibility:visible}
+  .ov{display:none!important}
+  .ib.m{display:none}
+  #app{padding-left:260px}
 }
 
-/* ===== Cartes, listes ===== */
-.carte{background:#fff;border-radius:var(--rayon);box-shadow:var(--ombre);padding:16px}
-.titre-bloc{font-size:1.05rem;margin:24px 0 10px}
-.raccourcis{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:700px){.raccourcis{grid-template-columns:repeat(2,1fr)}}
-.raccourcis .btn{justify-content:flex-start}
-.intro{color:var(--muted);margin:0 0 12px}
-.compteur{margin:0 0 12px;font-size:1.05rem}
-.outils{position:sticky;top:var(--haut);z-index:10;display:flex;gap:8px;align-items:center;padding:8px 0;margin-bottom:8px;background:var(--gris)}
-.outils input[type=search]{flex:1;min-width:0}
-.puces{flex:1;display:flex;gap:8px;overflow-x:auto;padding:2px}
-.puce{flex:none;min-height:40px;padding:0 14px;border:1.5px solid var(--bord);border-radius:999px;background:#fff;font-weight:600}
-.puce[aria-pressed=true]{background:var(--anthracite);border-color:var(--anthracite);color:#fff}
+/* ===== Cartes, boutons, listes ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 16px #17406b0d}
+button.card{display:block;width:100%;text-align:left}
+.n{font-size:30px;font-weight:800;color:var(--gold2);margin-top:6px;line-height:1.1}
+.l{font-size:13px;color:var(--mut);margin-top:4px}
+.card.urgent{border:2px solid var(--gold);background:#FFF9EC}
+.card.urgent .n{color:var(--danger)}
+h2.t{font-size:15px;color:var(--ink);margin:22px 0 10px}
+.intro{color:var(--mut);margin-bottom:12px;font-size:14px}
+.raccourcis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:10px 16px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:700;font-size:14px;text-decoration:none}
+.btn.alt{background:var(--side)}
+.btn.dng{background:#FDE8E8;color:var(--danger)}
+.btn.ok,.btn.wa{background:#DDF3E8;color:#1d7a50}
+.btn.sm{min-height:38px;padding:6px 12px;font-size:13px}
+.btn.big{min-height:50px;font-size:15px;flex:1}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.puces{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.puce{min-height:44px;padding:10px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:700;color:var(--ink)}
+.puce[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.outils{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.outils input{flex:1;min-width:0}
 .liste{display:grid;gap:12px}
-.item{background:#fff;border-radius:var(--rayon);box-shadow:var(--ombre);padding:12px;display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center}
-.item.avec-controle{grid-template-columns:72px 1fr auto}
-.item.bloc{display:block}
-.vignette{width:72px;height:72px;border-radius:12px;overflow:hidden;background:#FDF0E1;display:grid;place-items:center}
-.vignette img{width:100%;height:100%;object-fit:cover}
-.sans-photo{font-weight:800;color:var(--orange-fonce)}
-.item h3{margin:0;font-size:1rem;overflow-wrap:anywhere}
-.prix{margin:0;font-weight:700}
-.meta{margin:4px 0 0;color:var(--muted);font-size:.88rem;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.item-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
-.item-actions .btn{flex:1;min-height:40px}
-.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:700;background:#eef0f4}
-.badge.ok{background:#E2F4EA;color:var(--ok)}
-.badge.off{background:#FBE4E1;color:var(--danger)}
-.badge.vedette{background:#FDF0E1;color:var(--orange-fonce)}
-.badge.cat{background:#E3ECFB;color:#1F4E9E}
-.st-en_attente{background:#FFF3D6;color:#8A5A00}
-.st-confirmee,.st-livree{background:#E2F4EA;color:var(--ok)}
-.st-annulee,.st-expiree{background:#FBE4E1;color:var(--danger)}
-.st-expediee{background:#E3ECFB;color:#1F4E9E}
-.entete{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px}
-.infos{margin:0;display:grid;gap:6px}
-.infos div{display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:.92rem}
-.infos dt{color:var(--muted)}
+.item{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 4px 16px #17406b0d}
+.item.prod{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center}
+.item.avec{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center}
+.vign{width:76px;height:76px;border-radius:12px;overflow:hidden;background:#EAF3FC;display:grid;place-items:center;color:var(--gold2);font-weight:800}
+.vign img{width:100%;height:100%;object-fit:cover}
+.item h3{font-size:16px;color:var(--ink);overflow-wrap:anywhere}
+.prix{font-weight:700}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px;font-size:13px;color:var(--mut)}
+.acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.acts .btn{flex:1}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;background:var(--bg);font-size:12px;font-weight:700}
+.pill.ok{background:#DDF3E8;color:#1d7a50}
+.pill.bad{background:#FDE8E8;color:var(--danger)}
+.pill.or{background:#FBF1D6;color:#8A6A12}
+.pill.bleu{background:#E3EEFB;color:var(--ink)}
+.resa{border:2px solid var(--gold);background:#FFFCF3}
+.resa.fait{border:1px solid var(--line);background:#fff}
+.entete{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:6px}
+.delai{font-weight:800;margin:4px 0 10px}
+.delai.urgent{color:var(--danger)}
+.infos{display:grid;gap:6px;font-size:14px;margin:0 0 12px}
+.infos div{display:grid;grid-template-columns:100px 1fr;gap:8px}
+.infos dt{color:var(--mut)}
 .infos dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
-.infos a{color:var(--orange-fonce);font-weight:700}
-.champ-statut{display:block;margin-top:12px;font-weight:600;font-size:.9rem}
-.champ-statut select{margin-top:4px}
-.vide,.charge{text-align:center;color:var(--muted);padding:32px 12px}
-.vide.petit{padding:12px}
+.contact,.decide{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.champ-statut{display:block;margin-top:12px}
+.vide{text-align:center;color:var(--mut);padding:30px 10px}
 
-/* ===== Tableau de bord ===== */
-.tdb{display:grid;gap:14px}
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#252A34 0%,#3a4252 100%);color:#fff;border-radius:20px;padding:20px;box-shadow:var(--ombre)}
-.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(242,140,40,.6),rgba(242,140,40,0) 70%)}
-.hero p{position:relative;z-index:1;margin:0}
-.hero .salut{font-size:1.15rem;font-weight:700}
-.hero .date{margin-bottom:14px;opacity:.75;font-size:.85rem;text-transform:capitalize}
-.hero .lib{opacity:.8;font-size:.85rem}
-.hero .montant{margin-top:2px;font-size:clamp(1.8rem,8vw,2.6rem);font-weight:800;line-height:1.1}
-.hero .unite{font-size:.5em;font-weight:700;opacity:.85;margin-left:6px}
-.hero .sous-ligne{margin-top:6px;font-size:.85rem;opacity:.85}
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:700px){.kpis{grid-template-columns:repeat(4,1fr)}}
-.kpi{display:flex;gap:10px;align-items:center;text-align:left;width:100%;background:#fff;border:0;border-radius:var(--rayon);box-shadow:var(--ombre);padding:14px}
-.kpi-val,.kpi-lib,.kpi-det{display:block}
-.kpi-val{font-size:1.5rem;font-weight:800;line-height:1.1}
-.kpi-lib{font-size:.85rem;color:var(--muted)}
-.kpi-det{font-size:.78rem;color:var(--orange-fonce);font-weight:700}
-.ico{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center}
-.ico.o{background:#FDF0E1;color:var(--orange-fonce)}
-.ico.b{background:#E3ECFB;color:#1F4E9E}
-.ico.v{background:#E2F4EA;color:var(--ok)}
-.ico.j{background:#FFF3D6;color:#8A5A00}
-.carte h2.titre-carte{margin:0 0 12px;font-size:.95rem}
-.grille-2{display:grid;gap:14px}
-@media(min-width:760px){.grille-2{grid-template-columns:1fr 1fr}}
-.alertes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.alerte{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:12px 14px;border:1.5px solid var(--bord);border-radius:12px;background:#fff;font-weight:600}
-.alerte .pt{width:10px;height:10px;border-radius:50%;flex:none;background:#8A94A6}
-.alerte.haute .pt{background:var(--danger)}
-.alerte.moyenne .pt{background:var(--orange)}
-.alerte .fleche{margin-left:auto;color:var(--muted);font-size:1.3rem;line-height:1}
-.ok-tout{margin:0;color:var(--ok);font-weight:700}
-.jauges{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-@media(min-width:700px){.jauges{grid-template-columns:repeat(4,1fr)}}
-.jauge{text-align:center}
-.jauge svg{width:100%;max-width:110px}
-.jauge .piste{fill:none;stroke:#E9EDF3;stroke-width:10}
-.jauge .arc{fill:none;stroke-width:10;stroke-linecap:round}
-.jauge .pct{font-size:20px;font-weight:800;fill:#252A34}
-.jauge-libelle{font-weight:700;font-size:.88rem}
-.jauge-detail{font-size:.78rem;color:var(--muted)}
-.barres{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;padding-top:18px}
-.col{display:flex;flex-direction:column;align-items:center;gap:6px}
-.paire{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:128px;width:100%}
-.b{position:relative;display:block;width:34%;max-width:22px;border-radius:6px 6px 2px 2px}
-.b.cmd{background:var(--orange)}
-.b.res{background:var(--anthracite)}
-.b i{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-style:normal;font-size:.7rem;font-weight:700;color:var(--muted)}
-.jour{font-size:.72rem;color:var(--muted);text-transform:capitalize}
-.legende-graph{display:flex;gap:14px;margin:10px 0 0;font-size:.8rem;color:var(--muted)}
-.empile{display:flex;gap:2px;height:16px;border-radius:999px;overflow:hidden;background:#E9EDF3}
-.seg{display:block;min-width:6px}
-.legende{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted)}
-.pastille{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
-.seg.st-en_attente,.pastille.st-en_attente{background:#F5B83D}
-.seg.st-confirmee,.pastille.st-confirmee{background:#2FA866}
-.seg.st-livree,.pastille.st-livree{background:#1E7B46}
-.seg.st-expediee,.pastille.st-expediee{background:#4C7BD9}
-.seg.st-annulee,.pastille.st-annulee{background:#E5604F}
-.seg.st-expiree,.pastille.st-expiree{background:#B8BFCC}
-.top{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.top .ligne{display:flex;justify-content:space-between;gap:8px;font-size:.9rem}
-.top .nom{font-weight:700;overflow-wrap:anywhere}
-.top .nb{color:var(--muted);white-space:nowrap}
-.top .rail{height:8px;margin-top:4px;background:#E9EDF3;border-radius:999px;overflow:hidden}
-.top .rail span{display:block;height:100%;background:var(--orange);border-radius:999px}
+/* ===== Interrupteurs et rubriques ===== */
+.sw{position:relative;display:flex;align-items:center;gap:10px;margin:12px 0 0;font-size:14px;color:#1d2b3a}
+.sw input{position:absolute;opacity:0;width:46px;height:26px;margin:0}
+.slider{width:46px;height:26px;border-radius:20px;background:#c9d4e3;position:relative;flex:none;transition:background .2s}
+.slider::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px #0004}
+.sw input:checked+.slider{background:var(--gold2)}
+.sw input:checked+.slider::after{transform:translateX(20px)}
+.sw input:focus-visible+.slider{outline:3px solid var(--gold2);outline-offset:2px}
+.rubriques{display:flex;flex-wrap:wrap;gap:8px}
+.rub{min-height:44px;padding:10px 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-weight:700;color:var(--ink)}
+.rub[aria-checked=true]{background:var(--gold);border-color:var(--gold2)}
 
-/* ===== Étoile et interrupteur ===== */
-.etoile{width:48px;height:48px;border:1.5px solid var(--bord);border-radius:14px;background:#fff;display:grid;place-items:center;color:var(--muted)}
-.etoile .ic{width:26px;height:26px}
-.etoile.on{border-color:var(--orange);color:var(--orange)}
-.etoile.on .ic{fill:var(--orange)}
-.interrupteur{position:relative;display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem}
-.interrupteur input{position:absolute;left:0;top:50%;transform:translateY(-50%);opacity:0;width:48px;height:28px;margin:0}
-.curseur{position:relative;width:48px;height:28px;border-radius:999px;background:#c9cfda;transition:background .2s;flex:none}
-.curseur::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.interrupteur input:checked+.curseur{background:var(--ok)}
-.interrupteur input:checked+.curseur::after{transform:translateX(20px)}
-.interrupteur input:focus-visible+.curseur{outline:3px solid var(--orange);outline-offset:2px}
-
-/* ===== Fenêtres (dialog) ===== */
-dialog{border:0;padding:0;border-radius:20px;width:min(94vw,520px);max-height:92vh;box-shadow:0 20px 60px rgba(0,0,0,.35);color:var(--anthracite)}
-dialog::backdrop{background:rgba(37,42,52,.6)}
-.dlg-corps{padding:20px;display:grid;gap:12px}
-.dlg-corps h2{margin:0;font-size:1.15rem}
-.dlg-corps label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
-.dlg-corps label.interrupteur{display:flex;margin:0}
-.dlg-corps p{margin:0}
-.dlg-corps .aide{font-size:.85rem;color:var(--muted);margin-top:4px}
+/* ===== Fenêtres ===== */
+dialog{border:0;padding:0;border-radius:20px;width:min(94vw,520px);max-height:92vh;overflow:auto;box-shadow:0 20px 60px #0006;color:#1d2b3a}
+dialog::backdrop{background:#17406b99}
+.dlg{padding:20px}
+.dlg h2{font-size:18px;color:var(--ink);margin-bottom:6px}
+.dlg p{margin:0}
 .deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dlg-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-.apercu{width:96px;height:96px;border-radius:12px;overflow:hidden;background:#FDF0E1;display:grid;place-items:center}
+.dlg-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+.photo-zone{display:flex;gap:14px;align-items:center}
+.apercu{width:96px;height:96px;border-radius:14px;overflow:hidden;background:#EAF3FC;display:grid;place-items:center;flex:none;color:var(--gold2);font-weight:800}
 .apercu img{width:100%;height:100%;object-fit:cover}
-
-/* ===== Message flottant ===== */
-.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);z-index:60;max-width:92vw;padding:12px 18px;border-radius:12px;background:var(--anthracite);color:#fff;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
-.toast.visible{opacity:1;transform:translate(-50%,0)}
-.toast.erreur{background:var(--danger)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;z-index:99;display:none;max-width:90%;text-align:center}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<!-- Icônes (sprite SVG intégré) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
-  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol>
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
-  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z"/></symbol>
-  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9a2.7 2.7 0 005.3 0 2.7 2.7 0 005.4 0A2.7 2.7 0 0020 9"/><path d="M5 12v8h14v-8"/><path d="M10 20v-5h4v5"/></symbol>
-  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M9 15l2 2 4-4"/></symbol>
-  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 7H6"/></symbol>
-  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></symbol>
-</svg>
-
-<!-- ===== Écran de connexion ===== -->
-<main id="connexion" class="connexion">
-  <div class="carte-connexion">
+<!-- ===== CONNEXION ===== -->
+<div id="connexion" class="login">
+  <form id="formConnexion" class="lbox" novalidate>
     <img class="logo-img" data-logo src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
     <h1>Espace administrateur</h1>
     <p class="sous">CONDUCTRICE FASHION</p>
-    <form id="formConnexion" novalidate>
-      <label for="code">Code d’accès</label>
-      <div class="champ-code">
-        <input id="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
-        <button type="button" id="voirCode" class="btn secondaire" aria-pressed="false">Afficher</button>
-      </div>
-      <p id="msgConnexion" class="msg" role="alert"></p>
-      <p id="decompte" class="decompte" role="timer"></p>
-      <button type="submit" id="btnConnexion" class="btn primaire plein">Se connecter</button>
-    </form>
-  </div>
-</main>
-
-<!-- ===== Application ===== -->
-<div id="app" class="hidden">
-  <header class="topbar">
-    <button id="btnMenu" class="btn-icone" aria-label="Ouvrir le menu" aria-controls="menu" aria-expanded="false"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
-    <h1 id="titreSection">Tableau de bord</h1>
-    <button id="btnDeconnexion" class="btn-icone" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg></button>
-  </header>
-  <div class="corps">
-    <nav id="menu" class="menu" aria-label="Rubriques de l’administration">
-      <div class="menu-tete">
-        <img class="logo-img gauche" data-logo src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
-        <small>Administration</small>
-      </div>
-      <ol id="listeMenu"></ol>
-      <div class="menu-pied">
-        <a class="menu-lien" href="boutique.html" target="_blank" rel="noopener">Voir la boutique ↗</a>
-      </div>
-    </nav>
-    <div id="voile" class="voile"></div>
-    <main id="vue" class="vue" tabindex="-1"></main>
-  </div>
+    <label for="code">Code d’accès</label>
+    <div class="champ-code">
+      <input id="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
+      <button type="button" id="voirCode" class="btn alt" aria-pressed="false">Afficher</button>
+    </div>
+    <p id="msgConnexion" class="err" role="alert"></p>
+    <p id="decompte" class="decompte" role="timer"></p>
+    <button id="btnConnexion" class="go" type="submit">Se connecter</button>
+  </form>
 </div>
 
-<!-- ===== Fenêtre produit ===== -->
-<dialog id="dlgProduit" aria-labelledby="dlgProduitTitre">
-  <form id="formProduit" class="dlg-corps" novalidate>
-    <h2 id="dlgProduitTitre">Nouveau produit</h2>
+<!-- ===== ESPACE ADMIN ===== -->
+<div id="app" class="hidden">
+  <div id="voile" class="ov"></div>
+  <aside id="menu" aria-label="Menu">
+    <img class="logo-img gauche" data-logo src="logo-conductrice-fashion.png" alt="Logo Conductrice Fashion">
+    <p class="muted" style="margin:0 0 12px 10px">Administration</p>
+    <nav id="nav"></nav>
+    <a class="mi" href="boutique.html" target="_blank" rel="noopener" style="margin-top:6px"><span aria-hidden="true">🌐</span><span>Voir la boutique</span></a>
+  </aside>
+
+  <div class="top">
+    <button class="ib m" id="btnMenu" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <b id="titre">Tableau de bord</b>
+    <button class="ib" id="btnActualiser" aria-label="Actualiser">↻</button>
+  </div>
+
+  <div id="bandeau" class="bandeau hidden" role="status">
+    <span id="bandeauTexte"></span>
+    <button type="button" class="btn sm alt" id="bandeauBtn">Voir</button>
+  </div>
+
+  <main id="vue" tabindex="-1"></main>
+</div>
+
+<!-- ===== FENÊTRE PRODUIT ===== -->
+<dialog id="dlgProduit" aria-labelledby="dlgTitre">
+  <form id="formProduit" class="dlg" novalidate>
+    <h2 id="dlgTitre">Ajouter un produit</h2>
     <input type="hidden" id="pId">
-    <div><label for="pNom">Nom du produit *</label><input id="pNom" type="text" maxlength="200"></div>
-    <div>
-      <label for="pDescription">Description</label>
-      <textarea id="pDescription" maxlength="2000"></textarea>
-      <p id="pCategorie" class="aide"></p>
+
+    <label id="lblPhoto">Photo</label>
+    <div class="photo-zone">
+      <div id="pApercu" class="apercu" aria-hidden="true"></div>
+      <div>
+        <input type="file" id="pFichier" accept="image/*" class="hidden" aria-labelledby="lblPhoto">
+        <button type="button" class="btn alt" id="pChoisir">📷 Choisir une photo</button>
+        <p class="muted" id="pPhotoInfo" style="margin-top:6px"></p>
+      </div>
     </div>
+
+    <label id="lblRub">Rubrique de la boutique *</label>
+    <div id="pRubriques" class="rubriques" role="radiogroup" aria-labelledby="lblRub"></div>
+    <label class="sw"><input type="checkbox" id="pAfricaine"><span class="slider"></span><span>Inspiration africaine</span></label>
+
+    <label for="pNom">Nom du produit *</label>
+    <input id="pNom" type="text" maxlength="200">
+
+    <label for="pDescription">Description</label>
+    <textarea id="pDescription" maxlength="2000"></textarea>
+
     <div class="deux">
       <div><label for="pPrix">Prix (FCFA) *</label><input id="pPrix" type="number" min="0" step="any" inputmode="decimal"></div>
       <div><label for="pStock">Stock</label><input id="pStock" type="number" min="0" step="1" inputmode="numeric" value="0"></div>
     </div>
-    <div>
-      <label for="pPhoto">Lien de la photo</label>
-      <input id="pPhoto" type="text" maxlength="1000" autocapitalize="off" placeholder="https://…">
-      <p class="aide">Lien complet commençant par https://. Les chemins comme images/robe.jpg ne s’affichent pas dans la boutique.</p>
-    </div>
-    <div id="pApercu" class="apercu" aria-hidden="true"></div>
-    <label class="interrupteur"><input type="checkbox" id="pActif" checked><span class="curseur"></span><span>Visible dans la boutique</span></label>
-    <p id="msgProduit" class="msg erreur" role="alert"></p>
+
+    <label class="sw"><input type="checkbox" id="pActif" checked><span class="slider"></span><span>Visible dans la boutique</span></label>
+
+    <p id="msgProduit" class="err" role="alert"></p>
     <div class="dlg-actions">
-      <button type="button" class="btn secondaire" id="pAnnuler">Annuler</button>
-      <button type="submit" class="btn primaire" id="pEnregistrer">Enregistrer</button>
+      <button type="button" class="btn alt" id="pAnnuler">Annuler</button>
+      <button type="submit" class="btn" id="pEnregistrer">Enregistrer</button>
     </div>
   </form>
 </dialog>
 
-<!-- ===== Fenêtre de confirmation ===== -->
+<!-- ===== FENÊTRE DE CONFIRMATION ===== -->
 <dialog id="dlgConfirm" aria-labelledby="confTitre">
-  <div class="dlg-corps">
+  <div class="dlg">
     <h2 id="confTitre"></h2>
     <p id="confTexte"></p>
     <div class="dlg-actions">
-      <button type="button" class="btn secondaire" id="confNon">Annuler</button>
-      <button type="button" class="btn primaire" id="confOui">Confirmer</button>
+      <button type="button" class="btn alt" id="confNon">Non</button>
+      <button type="button" class="btn" id="confOui">Oui</button>
     </div>
   </div>
 </dialog>
 
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-
+<div id="toast" role="status"></div>
 <script>
 'use strict';
 (() => {
-  /* =====================================================================
-     CONFIGURATION (mêmes valeurs que boutique.html)
-     ===================================================================== */
+  /* ===== CONFIGURATION (mêmes valeurs que boutique.html) ===== */
   const CONFIG = {
     ENDPOINT: 'https://fra.cloud.appwrite.io/v1',
     PROJET: '6ad7761700274f3ae4b1',
@@ -342,26 +257,32 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     DEVISE: 'FCFA',
     MAX_VEDETTES: 4,
     DELAI_RESERVATION_H: 48,
+    SONDAGE_MS: 60000,          // vérification des nouvelles réservations : 1 minute
+    PHOTO_COTE_MAX: 1200,       // la photo est réduite à 1200 px au plus
+    PHOTO_QUALITE: 0.85,
     CLE_SESSION: 'cf_admin_session',
     CLE_VERROU: 'cf_admin_verrou'
   };
 
-  const SECTIONS = {
-    accueil:      { num: 1, titre: 'Tableau de bord',              icone: 'grid'  },
-    produits:     { num: 2, titre: 'Produits',                     icone: 'box'   },
-    vedettes:     { num: 3, titre: 'Mise en avant sur l’accueil',  icone: 'star'  },
-    boutique:     { num: 4, titre: 'Boutique',                     icone: 'store' },
-    reservations: { num: 5, titre: 'Réservations',                 icone: 'cal'   },
-    commandes:    { num: 6, titre: 'Commandes',                    icone: 'cart'  },
-    avis:         { num: 7, titre: 'Avis et recommandations',      icone: 'chat'  }
-  };
+  // [identifiant, icône, titre]
+  const MENU = [
+    ['accueil', '🏠', 'Tableau de bord'],
+    ['reservations', '📅', 'Réservations'],
+    ['commandes', '🛍️', 'Commandes'],
+    ['produits', '👗', 'Produits'],
+    ['vedettes', '⭐', 'Mise en avant sur l’accueil']
+  ];
+
+  // Rubriques de la boutique (mêmes identifiants que boutique.html)
+  const RUBRIQUES = [
+    ['ensemble_homme', 'Ensemble homme'], ['ensemble_femme', 'Ensemble femme'], ['robe', 'Robe'],
+    ['accessoires_homme', 'Accessoires homme'], ['accessoires_femme', 'Accessoires femme']
+  ];
 
   const STATUTS = {
     commandes: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['expediee', 'Expédiée'], ['livree', 'Livrée'], ['annulee', 'Annulée']],
     reservations: [['en_attente', 'En attente'], ['confirmee', 'Confirmée'], ['annulee', 'Annulée'], ['expiree', 'Expirée']]
   };
-  // Commandes comptées dans le chiffre d’affaires confirmé.
-  const STATUTS_CONFIRMES = ['confirmee', 'expediee', 'livree'];
 
   /* ============================ Outils ============================ */
   const $ = (s, r = document) => r.querySelector(s);
@@ -371,37 +292,40 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
   const fmtPrix = (n) => fmtNombre(n) + ' ' + CONFIG.DEVISE;
   const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }); };
   const pl = (n, singulier, pluriel) => n + ' ' + (n > 1 ? pluriel : singulier);
+  const memeJour = (iso) => { const d = new Date(iso); return !isNaN(d) && d.toDateString() === new Date().toDateString(); };
 
-  // Photo : seul un lien complet en https:// est accepté (comme dans la boutique).
+  // Photo : seul un lien complet en https:// s’affiche dans la boutique.
   function urlSure(valeur) {
     const v = String(valeur || '').trim();
     if (!/^https:\/\//i.test(v)) return '';
     try { return new URL(v).href; } catch (e) { return ''; }
   }
 
-  /* Catégorie : mêmes règles que categoryFor() et styleFor() de boutique.html.
-     Si tu modifies ces mots dans la boutique, copie-les ici aussi. */
-  const LABELS_CAT = { robes: 'Robes', ensembles: 'Ensembles', accessoires: 'Accessoires', vetements: 'Vêtements' };
-  function categorieProduit(p) {
+  /* Rubrique d’un produit : mêmes règles que boutique.html
+     (la catégorie enregistrée d’abord, sinon les mots-clés). */
+  function rubriqueDe(p) {
+    const choisie = String(p.categorie || '').trim();
+    if (RUBRIQUES.some((r) => r[0] === choisie)) return choisie;
     const t = (String(p.nom || '') + ' ' + String(p.description || '')).toLocaleLowerCase('fr');
-    let cat = 'vetements';
-    if (/sac|chaussure|bijou|accessoire|montre|lunette/.test(t)) cat = 'accessoires';
-    else if (/robe|jupe/.test(t)) cat = 'robes';
-    else if (/ensemble|complet|costume|tenue/.test(t)) cat = 'ensembles';
-    return { cat: cat, africaine: /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(t) };
+    const homme = /homme|masculin/.test(t);
+    if (/sac|chaussure|bijou|accessoire|montre|lunette/.test(t)) return homme ? 'accessoires_homme' : 'accessoires_femme';
+    if (/robe|jupe/.test(t)) return 'robe';
+    if (/ensemble|complet|costume|tenue/.test(t)) return homme ? 'ensemble_homme' : 'ensemble_femme';
+    return '';
   }
-  function badgesCategorie(p) {
-    const c = categorieProduit(p);
-    return '<span class="badge cat">' + esc(LABELS_CAT[c.cat]) + '</span>' +
-      (c.africaine ? '<span class="badge cat">Inspiration africaine</span>' : '');
+  function africaineDe(p) {
+    if (String(p.categorie || '').trim()) return p.africaine === true;
+    const t = (String(p.nom || '') + ' ' + String(p.description || '')).toLocaleLowerCase('fr');
+    return /africain|africaine|wax|bogolan|kente|boubou|pagne/.test(t);
   }
+  const libelleRubrique = (cle) => { const r = RUBRIQUES.find((x) => x[0] === cle); return r ? r[1] : 'Autre'; };
 
   const session = {
     lire() { try { return JSON.parse(sessionStorage.getItem(CONFIG.CLE_SESSION)); } catch (e) { return null; } },
     ecrire(v) { try { sessionStorage.setItem(CONFIG.CLE_SESSION, JSON.stringify(v)); } catch (e) { /* ignoré */ } },
     effacer() { try { sessionStorage.removeItem(CONFIG.CLE_SESSION); } catch (e) { /* ignoré */ } }
   };
-  // Mémorise la fin du blocage (confort d’affichage uniquement : le serveur reste maître).
+  // Fin du blocage mémorisée pour l’affichage (le serveur reste maître).
   const verrouStock = {
     lire() { try { return Number(localStorage.getItem(CONFIG.CLE_VERROU)) || 0; } catch (e) { return 0; } },
     ecrire(fin) { try { localStorage.setItem(CONFIG.CLE_VERROU, String(fin)); } catch (e) { /* ignoré */ } },
@@ -410,29 +334,29 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
 
   const etat = {
     jeton: '', fin: 0, section: 'accueil',
-    produits: [], reservations: [], commandes: [], stats: null,
-    recherche: '', filtre: { reservations: 'tous', commandes: 'tous' }
+    produits: [], reservations: [], commandes: [], resaChargees: false,
+    recherche: '', filtreResa: 'attente', filtreCmd: 'aujourdhui'
   };
-
   const vue = $('#vue');
+
   let tToast = null;
-  function toast(texte, type) {
+  function toast(texte) {
     const t = $('#toast');
     t.textContent = texte;
-    t.className = 'toast visible' + (type === 'erreur' ? ' erreur' : '');
+    t.style.display = 'block';
     clearTimeout(tToast);
-    tToast = setTimeout(() => { t.className = 'toast'; }, 3500);
+    tToast = setTimeout(() => { t.style.display = 'none'; }, 4000);
   }
-  
+
   /* ====================== Appel du backend ======================
-     Toutes les actions passent par la fonction Appwrite (le code et
-     les droits d’écriture ne sont jamais dans cette page).          */
+     Toutes les actions passent par la fonction Appwrite : le code
+     d’accès et les droits d’écriture ne sont jamais dans cette page. */
   async function appeler(action, donnees) {
     const corps = Object.assign({ action: action }, donnees || {});
     if (action !== 'admin_login') corps.jeton = etat.jeton;
 
     const ctrl = new AbortController();
-    const delai = setTimeout(() => ctrl.abort(), 20000);
+    const delai = setTimeout(() => ctrl.abort(), 30000);
     let reponse, execution;
     try {
       reponse = await fetch(CONFIG.ENDPOINT + '/functions/' + CONFIG.FONCTION + '/executions', {
@@ -450,7 +374,6 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     } finally {
       clearTimeout(delai);
     }
-
     if (!reponse.ok) return { ok: false, message: (execution && execution.message) || 'Erreur du serveur.' };
 
     let rep;
@@ -467,19 +390,18 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
   const decompte = $('#decompte');
   let minuteurVerrou = null;
 
-  function messageConnexion(texte, type) {
+  function messageConnexion(texte, info) {
     msgConnexion.textContent = texte || '';
-    msgConnexion.className = 'msg' + (type ? ' ' + type : '');
+    msgConnexion.className = 'err' + (info ? ' info' : '');
   }
   function hms(s) {
     const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
     return [h, m, x].map((n) => String(n).padStart(2, '0')).join(':');
   }
-
   function demarrerVerrou(fin) {
     verrouStock.ecrire(fin);
     champCode.disabled = true; btnConnexion.disabled = true; $('#voirCode').disabled = true;
-    messageConnexion('Accès bloqué après plusieurs codes incorrects. Réessaie dans :', 'erreur');
+    messageConnexion('Accès bloqué après plusieurs codes incorrects. Réessaie dans :');
     clearInterval(minuteurVerrou);
     const maj = () => {
       const reste = Math.ceil((fin - Date.now()) / 1000);
@@ -494,7 +416,7 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     verrouStock.effacer();
     decompte.textContent = '';
     champCode.disabled = false; btnConnexion.disabled = false; $('#voirCode').disabled = false;
-    messageConnexion('Tu peux réessayer.', 'info');
+    messageConnexion('Tu peux réessayer.', true);
   }
   function verifierVerrou() {
     const fin = verrouStock.lire();
@@ -504,9 +426,9 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
   async function connecter(e) {
     e.preventDefault();
     const code = champCode.value;
-    if (!code) { messageConnexion('Saisis ton code d’accès.', 'erreur'); return; }
+    if (!code) { messageConnexion('Saisis ton code d’accès.'); return; }
     btnConnexion.disabled = true;
-    messageConnexion('Vérification…', 'info');
+    messageConnexion('Vérification…', true);
     const r = await appeler('admin_login', { code: code });
     champCode.value = '';
     btnConnexion.disabled = false;
@@ -523,9 +445,9 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     if (r.bloque) { demarrerVerrou(Date.now() + (Number(r.restant) || 0) * 1000); return; }
     if (r.essais_restants) {
       const n = r.essais_restants;
-      messageConnexion('Code incorrect. Il te reste ' + n + ' essai' + (n > 1 ? 's' : '') + ' avant le blocage.', 'erreur');
+      messageConnexion('Code incorrect. Il te reste ' + n + ' essai' + (n > 1 ? 's' : '') + ' avant le blocage.');
     } else {
-      messageConnexion(r.message || 'Connexion impossible.', 'erreur');
+      messageConnexion(r.message || 'Connexion impossible.');
     }
     champCode.focus();
   }
@@ -533,28 +455,34 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
   function entrerApp() {
     $('#connexion').classList.add('hidden');
     $('#app').classList.remove('hidden');
+    construireMenu();
     ouvrirSection('accueil');
   }
 
   function deconnecter(texte) {
-    etat.jeton = ''; etat.fin = 0;
-    etat.produits = []; etat.reservations = []; etat.commandes = []; etat.stats = null;
+    etat.jeton = ''; etat.fin = 0; etat.resaChargees = false;
+    etat.produits = []; etat.reservations = []; etat.commandes = [];
     session.effacer();
     ['dlgProduit', 'dlgConfirm'].forEach((id) => { const d = $('#' + id); if (d.open) d.close(); });
     fermerMenu();
     $('#app').classList.add('hidden');
     $('#connexion').classList.remove('hidden');
-    messageConnexion(texte || '', texte ? 'info' : '');
+    document.title = 'Administration · Conductrice Fashion';
+    messageConnexion(texte || '', true);
     verifierVerrou();
   }
-   /* ============================== Menu ============================== */
-  function ouvrirMenu() {
-    $('#menu').classList.add('ouvert'); $('#voile').classList.add('visible');
-    $('#btnMenu').setAttribute('aria-expanded', 'true');
-  }
-  function fermerMenu() {
-    $('#menu').classList.remove('ouvert'); $('#voile').classList.remove('visible');
-    $('#btnMenu').setAttribute('aria-expanded', 'false');
+
+  /* ============================== Menu ============================== */
+  function ouvrirMenu() { document.body.classList.add('open'); $('#btnMenu').setAttribute('aria-expanded', 'true'); }
+  function fermerMenu() { document.body.classList.remove('open'); $('#btnMenu').setAttribute('aria-expanded', 'false'); }
+
+  function construireMenu() {
+    $('#nav').innerHTML = MENU.map((m) =>
+      '<button class="mi' + (m[0] === etat.section ? ' on' : '') + '" data-sec="' + m[0] + '">' +
+      '<span aria-hidden="true">' + m[1] + '</span><span>' + m[2] + '</span>' +
+      (m[0] === 'reservations' ? '<span class="nb hidden" id="nbResa" aria-label="réservations à traiter">0</span>' : '') +
+      '</button>').join('') +
+      '<button class="mi out" id="btnSortir"><span aria-hidden="true">🔐</span><span>Déconnexion</span></button>';
   }
 
   /* ====================== Chargement des données ====================== */
@@ -562,336 +490,403 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     const r = await appeler('admin_liste', { table: table });
     if (!r.ok) throw new Error(r.message || 'Chargement impossible.');
     etat[table] = Array.isArray(r.lignes) ? r.lignes : [];
+    if (table === 'reservations') etat.resaChargees = true;
   }
 
   async function ouvrirSection(nom) {
     if (!etat.jeton) return;
     etat.section = nom;
-    $('#titreSection').textContent = SECTIONS[nom].titre;
-    $$('.menu-lien').forEach((b) => {
-      if (b.dataset.section === nom) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
-    });
+    $('#titre').textContent = MENU.find((m) => m[0] === nom)[2];
+    $$('.mi[data-sec]').forEach((b) => b.classList.toggle('on', b.dataset.sec === nom));
     fermerMenu();
-    vue.innerHTML = '<p class="charge" role="status">Chargement…</p>';
+    vue.innerHTML = '<p class="vide" role="status">Chargement…</p>';
     window.scrollTo(0, 0);
     try {
-      if (nom === 'accueil') {
-        // Le tableau de bord calcule ses chiffres à partir des trois listes.
-        await Promise.all([charger('produits'), charger('reservations'), charger('commandes')]);
-      } else if (nom === 'produits' || nom === 'vedettes' || nom === 'boutique') {
-        await charger('produits');
-      } else if (nom === 'reservations' || nom === 'commandes') {
-        await charger(nom);
-      }
+      if (nom === 'accueil') await Promise.all([charger('produits'), charger('reservations'), charger('commandes')]);
+      else if (nom === 'produits' || nom === 'vedettes') await charger('produits');
+      else await charger(nom);
     } catch (err) {
       if (etat.jeton && etat.section === nom) erreurVue(err.message);
       return;
     }
-    if (etat.jeton && etat.section === nom) { rendreSection(); vue.focus({ preventScroll: true }); }
+    if (etat.jeton && etat.section === nom) { rendre(); vue.focus({ preventScroll: true }); }
+    majIndicateurs();
   }
 
-  function rendreSection() {
+  function rendre() {
     switch (etat.section) {
       case 'accueil': return vueAccueil();
+      case 'reservations': return vueReservations();
+      case 'commandes': return vueCommandes();
       case 'produits': return vueProduits();
-      case 'vedettes': return vueVedettes();
-      case 'boutique': return vueBoutique();
-      case 'reservations': return vueListeStatut('reservations');
-      case 'commandes': return vueListeStatut('commandes');
-      default: return vueAvis();
+      default: return vueVedettes();
     }
   }
-
   function erreurVue(texte) {
-    vue.innerHTML = '<div class="carte"><p>' + esc(texte || 'Une erreur est survenue.') + '</p>' +
-      '<button class="btn secondaire" data-action="rafraichir">Réessayer</button></div>';
+    vue.innerHTML = '<div class="panel"><p>' + esc(texte || 'Une erreur est survenue.') + '</p>' +
+      '<button class="btn alt" style="margin-top:12px" data-action="rafraichir">Réessayer</button></div>';
   }
-  const vide = (texte) => '<p class="vide">' + esc(texte) + '</p>';
+
+  /* ========== Réservations : pastille, bandeau et vérification automatique ========== */
+  const nbAttente = () => etat.reservations.filter((r) => r.statut === 'en_attente').length;
+
+  function majIndicateurs() {
+    const n = nbAttente();
+    const nb = $('#nbResa');
+    if (nb) { nb.textContent = n; nb.classList.toggle('hidden', n === 0); }
+    const afficher = !!etat.jeton && n > 0 && etat.section !== 'reservations';
+    $('#bandeau').classList.toggle('hidden', !afficher);
+    if (afficher) $('#bandeauTexte').textContent = '🔔 ' + pl(n, 'réservation à traiter', 'réservations à traiter');
+    document.title = (etat.jeton && n > 0 ? '(' + n + ') ' : '') + 'Administration · Conductrice Fashion';
+  }
+
+  async function sonder() {
+    if (!etat.jeton || document.hidden) return;
+    const avant = nbAttente();
+    const dejaCharge = etat.resaChargees;
+    const r = await appeler('admin_liste', { table: 'reservations' });
+    if (!r.ok || !etat.jeton) return;
+    etat.reservations = Array.isArray(r.lignes) ? r.lignes : [];
+    etat.resaChargees = true;
+    const apres = nbAttente();
+    majIndicateurs();
+    if (dejaCharge && apres > avant) {
+      toast('🔔 Nouvelle réservation à traiter !');
+      const nb = $('#nbResa');
+      if (nb) { nb.classList.remove('pulse'); void nb.offsetWidth; nb.classList.add('pulse'); }
+    }
+    if (apres !== avant) {
+      const select = document.activeElement && document.activeElement.tagName === 'SELECT';
+      if (etat.section === 'reservations' && !select) vueReservations();
+      else if (etat.section === 'accueil') vueAccueil();
+    }
+  }
 
   /* ========================= 1. Tableau de bord ========================= */
-  function kpi(icone, teinte, valeur, libelle, detail, cible) {
-    return '<button class="kpi" data-action="aller" data-cible="' + cible + '">' +
-      '<span class="ico ' + teinte + '"><svg class="ic" aria-hidden="true"><use href="#i-' + icone + '"/></svg></span>' +
-      '<span><span class="kpi-val">' + esc(valeur) + '</span><span class="kpi-lib">' + esc(libelle) + '</span>' +
-      '<span class="kpi-det">' + esc(detail) + '</span></span></button>';
+  function carte(icone, valeur, libelle, cible, urgent) {
+    return '<button class="card' + (urgent ? ' urgent' : '') + '" data-action="aller" data-cible="' + cible + '">' +
+      '<div aria-hidden="true">' + icone + '</div><div class="n">' + esc(valeur) + '</div><div class="l">' + esc(libelle) + '</div></button>';
   }
-
-  // Jauge circulaire : pct = pourcentage (ou null s’il n’y a pas de données).
-  function jauge(libelle, pct, couleur, detail) {
-    const c = 2 * Math.PI * 38;
-    const val = pct == null ? 0 : Math.max(0, Math.min(100, pct));
-    const texte = pct == null ? '—' : Math.round(pct) + '%';
-    return '<div class="jauge">' +
-      '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(libelle) + ' : ' + (pct == null ? 'aucune donnée' : Math.round(pct) + ' pour cent') + '">' +
-      '<circle class="piste" cx="50" cy="50" r="38"/>' +
-      '<circle class="arc" cx="50" cy="50" r="38" stroke="' + couleur + '" stroke-dasharray="' + (val / 100 * c).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 50 50)"/>' +
-      '<text class="pct" x="50" y="56" text-anchor="middle">' + texte + '</text></svg>' +
-      '<div class="jauge-libelle">' + esc(libelle) + '</div><div class="jauge-detail">' + esc(detail) + '</div></div>';
-  }
-
-  // Barre empilée : répartition des lignes par statut.
-  function barreStatuts(table, lignes) {
-    if (!lignes.length) return '<p class="vide petit">Aucune donnée pour le moment.</p>';
-    const comptes = STATUTS[table].map((s) => [s[0], s[1], lignes.filter((x) => x.statut === s[0]).length]);
-    const segments = comptes.filter((c) => c[2] > 0).map((c) =>
-      '<span class="seg st-' + c[0] + '" style="flex:' + c[2] + '" title="' + esc(c[1]) + ' : ' + c[2] + '"></span>').join('');
-    const resume = comptes.map((c) => c[1] + ' : ' + c[2]).join(', ');
-    const legende = comptes.map((c) =>
-      '<li><span class="pastille st-' + c[0] + '"></span>' + esc(c[1]) + ' <strong>' + c[2] + '</strong></li>').join('');
-    return '<div class="empile" role="img" aria-label="' + esc(resume) + '">' + segments + '</div><ul class="legende">' + legende + '</ul>';
-  }
-
-  // Activité des 7 derniers jours : commandes et réservations créées par jour.
-  function cleJour(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
-  function graphiqueSemaine() {
-    const jours = [];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i);
-      jours.push({ cle: cleJour(d), nom: d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', ''), cmd: 0, res: 0 });
-    }
-    const compter = (liste, champ) => liste.forEach((x) => {
-      const d = new Date(x.cree_le);
-      if (isNaN(d)) return;
-      const j = jours.find((y) => y.cle === cleJour(d));
-      if (j) j[champ]++;
-    });
-    compter(etat.commandes, 'cmd');
-    compter(etat.reservations, 'res');
-
-    const max = Math.max(1, ...jours.map((j) => Math.max(j.cmd, j.res)));
-    const haut = (n) => (n ? Math.max(6, Math.round(n / max * 110)) : 0);
-    const total = jours.reduce((s, j) => s + j.cmd + j.res, 0);
-    const resume = jours.map((j) => j.nom + ' : ' + pl(j.cmd, 'commande', 'commandes') + ', ' + pl(j.res, 'réservation', 'réservations')).join(' ; ');
-
-    return '<div class="barres" role="img" aria-label="' + esc(resume) + '">' + jours.map((j) =>
-      '<div class="col"><div class="paire">' +
-        '<span class="b cmd" style="height:' + haut(j.cmd) + 'px">' + (j.cmd ? '<i>' + j.cmd + '</i>' : '') + '</span>' +
-        '<span class="b res" style="height:' + haut(j.res) + 'px">' + (j.res ? '<i>' + j.res + '</i>' : '') + '</span>' +
-      '</div><span class="jour">' + esc(j.nom) + '</span></div>').join('') + '</div>' +
-      '<p class="legende-graph"><span><span class="pastille" style="background:#F28C28"></span>Commandes</span>' +
-      '<span><span class="pastille" style="background:#252A34"></span>Réservations</span></p>' +
-      (total ? '' : '<p class="vide petit">Aucune activité ces 7 derniers jours.</p>');
-  }
-
-  // Produits les plus réservés (top 5).
-  function topReserves() {
-    const m = new Map();
-    etat.reservations.forEach((r) => {
-      const nom = String(r.produit_nom || '').trim();
-      if (!nom) return;
-      const e = m.get(nom) || { nom: nom, fois: 0, qte: 0 };
-      e.fois++; e.qte += Number(r.quantite) || 0;
-      m.set(nom, e);
-    });
-    const liste = Array.from(m.values()).sort((a, b) => b.fois - a.fois || b.qte - a.qte).slice(0, 5);
-    if (!liste.length) return '<p class="vide petit">Aucune réservation pour le moment.</p>';
-    const max = liste[0].fois;
-    return '<ol class="top">' + liste.map((e) =>
-      '<li><div class="ligne"><span class="nom">' + esc(e.nom) + '</span><span class="nb">' + pl(e.fois, 'réservation', 'réservations') + ' · ' + e.qte + ' pièce' + (e.qte > 1 ? 's' : '') + '</span></div>' +
-      '<div class="rail"><span style="width:' + Math.round(e.fois / max * 100) + '%"></span></div></li>').join('') + '</ol>';
-  }
-
-  // Liste « À traiter » : chaque ligne ouvre la rubrique concernée.
-  function blocAlertes() {
-    const a = [];
-    const cmdAttente = etat.commandes.filter((c) => c.statut === 'en_attente').length;
-    if (cmdAttente) a.push({ niveau: 'haute', texte: pl(cmdAttente, 'commande à confirmer', 'commandes à confirmer'), cible: 'commandes', filtre: 'en_attente' });
-
-    const enAttente = etat.reservations.filter((r) => r.statut === 'en_attente');
-    const restes = enAttente.map((r) => Date.parse(r.cree_le) + CONFIG.DELAI_RESERVATION_H * 3600000 - Date.now());
-    const depassees = restes.filter((x) => x <= 0).length;
-    const bientot = restes.filter((x) => x > 0 && x <= 6 * 3600000).length;
-    const autres = enAttente.length - depassees - bientot;
-    if (depassees) a.push({ niveau: 'haute', texte: pl(depassees, 'réservation dont le délai est dépassé', 'réservations dont le délai est dépassé'), cible: 'reservations', filtre: 'en_attente' });
-    if (bientot) a.push({ niveau: 'haute', texte: bientot + (bientot > 1 ? ' réservations expirent' : ' réservation expire') + ' dans moins de 6 h', cible: 'reservations', filtre: 'en_attente' });
-    if (autres > 0) a.push({ niveau: 'moyenne', texte: pl(autres, 'réservation en attente', 'réservations en attente'), cible: 'reservations', filtre: 'en_attente' });
-
-    const actifs = etat.produits.filter((p) => p.actif === true);
-    const ruptures = actifs.filter((p) => (Number(p.stock) || 0) <= 0).length;
-    if (ruptures) a.push({ niveau: 'haute', texte: pl(ruptures, 'produit visible en rupture de stock', 'produits visibles en rupture de stock'), cible: 'produits' });
-    const sansPhoto = actifs.filter((p) => !urlSure(p.photo_url)).length;
-    if (sansPhoto) a.push({ niveau: 'moyenne', texte: pl(sansPhoto, 'produit visible sans photo', 'produits visibles sans photo'), cible: 'produits' });
-    const vedettes = etat.produits.filter((p) => p.vedette === true).length;
-    if (actifs.length && vedettes < CONFIG.MAX_VEDETTES) {
-      const libres = CONFIG.MAX_VEDETTES - vedettes;
-      a.push({ niveau: 'info', texte: pl(libres, 'place libre', 'places libres') + ' en vedette sur l’accueil', cible: 'vedettes' });
-    }
-
-    if (!a.length) return '<p class="ok-tout">Tout est à jour. Rien à traiter pour le moment.</p>';
-    return '<ul class="alertes">' + a.map((x) =>
-      '<li><button class="alerte ' + x.niveau + '" data-action="alerte" data-cible="' + x.cible + '"' + (x.filtre ? ' data-filtre="' + x.filtre + '"' : '') + '>' +
-      '<span class="pt" aria-hidden="true"></span><span>' + esc(x.texte) + '</span><span class="fleche" aria-hidden="true">›</span></button></li>').join('') + '</ul>';
-  }
-
   function vueAccueil() {
-    const cmd = etat.commandes, res = etat.reservations, prod = etat.produits;
-    const somme = (liste) => liste.reduce((s, c) => s + (Number(c.montant_total) || 0), 0);
-    const nb = (liste, st) => liste.filter((x) => x.statut === st).length;
-    const pct = (a, b) => (b ? a / b * 100 : null);
-
-    const confirmees = cmd.filter((c) => STATUTS_CONFIRMES.indexOf(c.statut) !== -1);
-    const ca = somme(confirmees);
-    const caAttente = somme(cmd.filter((c) => c.statut === 'en_attente'));
-    const actifs = prod.filter((p) => p.actif === true).length;
-    const vedettes = prod.filter((p) => p.vedette === true).length;
-    const dispos = prod.filter((p) => (Number(p.stock) || 0) > 0).length;
-    const resConf = nb(res, 'confirmee');
-    const annulees = nb(cmd, 'annulee');
-
+    const aujourdhui = etat.commandes.filter((c) => memeJour(c.cree_le)).length;
+    const attente = nbAttente();
+    const actifs = etat.produits.filter((p) => p.actif === true).length;
     const h = new Date().getHours();
-    const dateTxt = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-
-    vue.innerHTML = '<div class="tdb">' +
-      '<section class="hero" aria-label="Chiffre d’affaires">' +
-        '<p class="salut">' + (h >= 18 ? 'Bonsoir' : 'Bonjour') + '</p><p class="date">' + esc(dateTxt) + '</p>' +
-        '<p class="lib">Chiffre d’affaires confirmé</p>' +
-        '<p class="montant">' + fmtNombre(ca) + '<span class="unite">' + CONFIG.DEVISE + '</span></p>' +
-        '<p class="sous-ligne">' + (caAttente ? '+ ' + fmtPrix(caAttente) + ' en attente de confirmation' : 'Aucune commande en attente de confirmation') + '</p>' +
-      '</section>' +
-
-      '<section class="kpis" aria-label="Chiffres clés">' +
-        kpi('cart', 'o', cmd.length, 'Commandes', nb(cmd, 'en_attente') + ' en attente', 'commandes') +
-        kpi('cal', 'b', res.length, 'Réservations', nb(res, 'en_attente') + ' en attente', 'reservations') +
-        kpi('box', 'v', actifs, 'Produits actifs', 'sur ' + prod.length + ' au total', 'produits') +
-        kpi('star', 'j', vedettes + '/' + CONFIG.MAX_VEDETTES, 'Vedettes', 'sur l’accueil', 'vedettes') +
-      '</section>' +
-
-      '<section class="carte"><h2 class="titre-carte">À traiter</h2>' + blocAlertes() + '</section>' +
-
-      '<section class="carte"><h2 class="titre-carte">Taux</h2><div class="jauges">' +
-        jauge('Commandes confirmées', pct(confirmees.length, cmd.length), '#2FA866', confirmees.length + ' sur ' + cmd.length) +
-        jauge('Commandes annulées', pct(annulees, cmd.length), '#E5604F', annulees + ' sur ' + cmd.length) +
-        jauge('Réservations confirmées', pct(resConf, res.length), '#F28C28', resConf + ' sur ' + res.length) +
-        jauge('Produits disponibles', pct(dispos, prod.length), '#4C7BD9', dispos + ' sur ' + prod.length) +
-      '</div></section>' +
-
-      '<section class="carte"><h2 class="titre-carte">Activité des 7 derniers jours</h2>' + graphiqueSemaine() + '</section>' +
-
-      '<div class="grille-2">' +
-        '<section class="carte"><h2 class="titre-carte">Commandes par statut</h2>' + barreStatuts('commandes', cmd) + '</section>' +
-        '<section class="carte"><h2 class="titre-carte">Réservations par statut</h2>' + barreStatuts('reservations', res) + '</section>' +
+    vue.innerHTML =
+      '<p class="intro">' + (h >= 18 ? 'Bonsoir' : 'Bonjour') + ' ! Voici ce qui se passe dans ta boutique.</p>' +
+      '<div class="grid">' +
+        carte('🛍️', aujourdhui, 'Commandes aujourd’hui', 'commandes') +
+        carte('📦', etat.commandes.length, 'Commandes au total', 'commandes') +
+        carte('🔔', attente, attente > 1 ? 'Réservations à traiter' : 'Réservation à traiter', 'reservations', attente > 0) +
+        carte('👗', actifs, 'Produits en boutique', 'produits') +
       '</div>' +
-
-      '<section class="carte"><h2 class="titre-carte">Produits les plus réservés</h2>' + topReserves() + '</section>' +
-
-      '<section class="carte"><h2 class="titre-carte">Raccourcis</h2><div class="raccourcis">' +
-        '<button class="btn primaire" data-action="ajouter-rapide"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Ajouter un produit</button>' +
-        '<button class="btn secondaire" data-action="aller" data-cible="vedettes"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>Choisir les vedettes</button>' +
-        '<button class="btn secondaire" data-action="aller" data-cible="reservations"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Voir les réservations</button>' +
-        '<button class="btn secondaire" data-action="aller" data-cible="commandes"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg>Voir les commandes</button>' +
-      '</div></section>' +
-    '</div>';
+      '<h2 class="t">Raccourcis</h2>' +
+      '<div class="raccourcis">' +
+        '<button class="btn" data-action="ajouter-rapide">＋ Ajouter un produit</button>' +
+        '<button class="btn alt" data-action="aller" data-cible="reservations">📅 Voir les réservations</button>' +
+        '<button class="btn alt" data-action="aller" data-cible="commandes">🛍️ Voir les commandes</button>' +
+        '<button class="btn alt" data-action="aller" data-cible="vedettes">⭐ Mise en avant</button>' +
+      '</div>';
   }
-   /* ============================ 2. Produits ============================ */
+
+  /* ========================== 2. Réservations ========================== */
+  function delaiInfo(cree) {
+    const fin = Date.parse(cree) + CONFIG.DELAI_RESERVATION_H * 3600000;
+    if (isNaN(fin)) return { texte: '—', urgent: false };
+    const reste = fin - Date.now();
+    if (reste <= 0) return { texte: 'Délai de ' + CONFIG.DELAI_RESERVATION_H + ' h dépassé', urgent: true };
+    const h = Math.floor(reste / 3600000), m = Math.floor((reste % 3600000) / 60000);
+    return { texte: 'Expire dans ' + h + ' h ' + String(m).padStart(2, '0') + ' min', urgent: reste <= 6 * 3600000 };
+  }
+  // Boutons Appeler et WhatsApp (8 chiffres = numéro local du Burkina : on ajoute 226 pour WhatsApp).
+  function boutonsContact(t, petit) {
+    const tel = String(t || '').replace(/[^\d+]/g, '');
+    let n = String(t || '').replace(/\D/g, '');
+    if (n.length === 8) n = '226' + n;
+    const cl = petit ? ' sm' : ' big';
+    return (tel ? '<a class="btn' + cl + ' alt" href="tel:' + esc(tel) + '">📞 Appeler</a>' : '') +
+      (n ? '<a class="btn' + cl + ' wa" href="https://wa.me/' + esc(n) + '" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>' : '');
+  }
+  function pillStatut(table, v) {
+    const cls = v === 'en_attente' ? 'or' : (v === 'annulee' || v === 'expiree') ? 'bad' : 'ok';
+    const t = STATUTS[table].find((s) => s[0] === v);
+    return '<span class="pill ' + cls + '">' + esc(t ? t[1] : (v || '—')) + '</span>';
+  }
+  function selectStatut(table, ligne) {
+    const options = STATUTS[table].map((s) => '<option value="' + s[0] + '"' + (ligne.statut === s[0] ? ' selected' : '') + '>' + s[1] + '</option>').join('');
+    return '<label class="champ-statut">Changer le statut<select data-statut data-table="' + table + '" data-id="' + esc(ligne.id) + '" data-ancien="' + esc(ligne.statut) + '">' + options + '</select></label>';
+  }
+
+  function itemReservation(r) {
+    const attente = r.statut === 'en_attente';
+    const d = attente ? delaiInfo(r.cree_le) : null;
+    return '<article class="item resa' + (attente ? '' : ' fait') + '">' +
+      '<div class="entete"><h3>' + esc(r.produit_nom) + '</h3>' + pillStatut('reservations', r.statut) + '</div>' +
+      (attente ? '<p class="delai' + (d.urgent ? ' urgent' : '') + '" data-cree="' + esc(r.cree_le) + '">⏳ ' + esc(d.texte) + '</p>' : '') +
+      '<dl class="infos">' +
+        '<div><dt>Cliente</dt><dd><strong>' + esc(r.nom_client) + '</strong></dd></div>' +
+        '<div><dt>Téléphone</dt><dd>' + esc(r.telephone) + '</dd></div>' +
+        '<div><dt>Article</dt><dd>Taille ' + esc(r.taille) + ' · ' + esc(r.couleur) + ' · Quantité ' + esc(r.quantite) + '</dd></div>' +
+        '<div><dt>Reçue le</dt><dd>' + esc(fmtDate(r.cree_le)) + '</dd></div>' +
+        (r.notes ? '<div><dt>Notes</dt><dd>' + esc(r.notes) + '</dd></div>' : '') +
+      '</dl>' +
+      '<div class="contact">' + boutonsContact(r.telephone, false) + '</div>' +
+      (attente
+        ? '<div class="decide">' +
+            '<button class="btn big ok" data-action="statut" data-table="reservations" data-id="' + esc(r.id) + '" data-valeur="confirmee">✔ Confirmer</button>' +
+            '<button class="btn big dng" data-action="statut" data-table="reservations" data-id="' + esc(r.id) + '" data-valeur="annulee">✖ Annuler</button>' +
+          '</div>'
+        : selectStatut('reservations', r)) +
+      '</article>';
+  }
+  function vueReservations() {
+    const f = etat.filtreResa;
+    const liste = etat.reservations.filter((r) => f === 'tous' || r.statut === 'en_attente');
+    vue.innerHTML =
+      '<div class="puces" role="group" aria-label="Filtrer les réservations">' +
+        '<button class="puce" data-action="filtreResa" data-valeur="attente" aria-pressed="' + (f !== 'tous') + '">À traiter (' + nbAttente() + ')</button>' +
+        '<button class="puce" data-action="filtreResa" data-valeur="tous" aria-pressed="' + (f === 'tous') + '">Toutes (' + etat.reservations.length + ')</button>' +
+      '</div><div class="liste">' +
+      (liste.length ? liste.map(itemReservation).join('') :
+        '<p class="vide">' + (f === 'tous' ? 'Aucune réservation pour le moment.' : 'Aucune réservation à traiter. Tout est à jour !') + '</p>') +
+      '</div>';
+  }
+async function majStatut(table, id, valeur) {
+    const r = await appeler('admin_statut', { table: table, id: id, statut: valeur });
+    if (!r.ok) { toast(r.message || 'Mise à jour impossible.'); return false; }
+    const ligne = etat[table].find((x) => x.id === id);
+    if (ligne) ligne.statut = valeur;
+    toast('✅ Statut mis à jour.');
+    if (etat.section === table) rendre();
+    majIndicateurs();
+    return true;
+  }
+
+  /* =========================== 3. Commandes =========================== */
+  function itemCommande(c) {
+    return '<article class="item">' +
+      '<div class="entete"><h3>' + esc(c.reference) + '</h3>' + pillStatut('commandes', c.statut) + '</div>' +
+      '<dl class="infos">' +
+        '<div><dt>Client</dt><dd><strong>' + esc(c.nom_client) + '</strong></dd></div>' +
+        '<div><dt>Téléphone</dt><dd>' + esc(c.telephone) + '</dd></div>' +
+        (c.adresse ? '<div><dt>Adresse</dt><dd>' + esc(c.adresse) + '</dd></div>' : '') +
+        '<div><dt>Articles</dt><dd>' + esc(c.articles) + '</dd></div>' +
+        '<div><dt>Montant</dt><dd><strong>' + fmtPrix(c.montant_total) + '</strong></dd></div>' +
+        (c.mode_paiement ? '<div><dt>Paiement</dt><dd>' + esc(c.mode_paiement) + '</dd></div>' : '') +
+        '<div><dt>Passée le</dt><dd>' + esc(fmtDate(c.cree_le)) + '</dd></div>' +
+        (c.notes ? '<div><dt>Notes</dt><dd>' + esc(c.notes) + '</dd></div>' : '') +
+      '</dl>' +
+      '<div class="contact">' + boutonsContact(c.telephone, true) + '</div>' +
+      selectStatut('commandes', c) + '</article>';
+  }
+  function vueCommandes() {
+    const aujourdhui = etat.commandes.filter((c) => memeJour(c.cree_le));
+    const f = etat.filtreCmd;
+    const liste = f === 'tous' ? etat.commandes : aujourdhui;
+    vue.innerHTML =
+      '<div class="grid" style="margin-bottom:14px">' +
+        '<div class="card"><div aria-hidden="true">📅</div><div class="n">' + aujourdhui.length + '</div><div class="l">Commandes aujourd’hui</div></div>' +
+        '<div class="card"><div aria-hidden="true">📦</div><div class="n">' + etat.commandes.length + '</div><div class="l">Commandes au total</div></div>' +
+      '</div>' +
+      '<div class="puces" role="group" aria-label="Filtrer les commandes">' +
+        '<button class="puce" data-action="filtreCmd" data-valeur="aujourdhui" aria-pressed="' + (f !== 'tous') + '">Aujourd’hui</button>' +
+        '<button class="puce" data-action="filtreCmd" data-valeur="tous" aria-pressed="' + (f === 'tous') + '">Toutes</button>' +
+      '</div><div class="liste">' +
+      (liste.length ? liste.map(itemCommande).join('') :
+        '<p class="vide">' + (f === 'tous' ? 'Aucune commande pour le moment.' : 'Aucune commande aujourd’hui.') + '</p>') +
+      '</div>';
+  }
+
+  /* ============================ 4. Produits ============================ */
   function vignette(p) {
     const u = urlSure(p.photo_url);
-    return '<div class="vignette">' + (u
-      ? '<img src="' + esc(u) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
-      : '<span class="sans-photo" aria-hidden="true">CF</span>') + '</div>';
+    return '<div class="vign">' + (u ? '<img src="' + esc(u) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<span aria-hidden="true">CF</span>') + '</div>';
   }
   function itemProduit(p) {
     const stock = Number(p.stock) || 0;
-    return '<article class="item">' + vignette(p) +
+    const rub = rubriqueDe(p);
+    return '<article class="item prod">' + vignette(p) +
       '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
       '<p class="meta">Stock : ' + stock + ' ' +
-        (p.actif === true ? '<span class="badge ok">Visible</span>' : '<span class="badge off">Masqué</span>') +
-        (p.vedette === true ? '<span class="badge vedette">★ Vedette</span>' : '') +
-        (stock <= 0 ? '<span class="badge off">Rupture</span>' : '') +
-        badgesCategorie(p) +
-        (urlSure(p.photo_url) ? '' : '<span class="badge">Sans photo</span>') + '</p></div>' +
-      '<div class="item-actions">' +
-        '<button class="btn secondaire" data-action="modifier" data-id="' + esc(p.id) + '">Modifier</button>' +
-        '<button class="btn danger" data-action="supprimer" data-id="' + esc(p.id) + '">Supprimer</button>' +
+        (p.actif === true ? '<span class="pill ok">Visible</span>' : '<span class="pill bad">Masqué</span>') +
+        (stock <= 0 ? '<span class="pill bad">Rupture</span>' : '') +
+        '<span class="pill bleu">' + esc(rub ? libelleRubrique(rub) : 'Sans rubrique') + '</span>' +
+        (africaineDe(p) ? '<span class="pill or">Inspiration africaine</span>' : '') +
+        (urlSure(p.photo_url) ? '' : '<span class="pill">Sans photo</span>') + '</p></div>' +
+      '<div class="acts">' +
+        '<button class="btn alt" data-action="modifier" data-id="' + esc(p.id) + '">Modifier</button>' +
+        '<button class="btn dng" data-action="supprimer" data-id="' + esc(p.id) + '">Supprimer</button>' +
       '</div></article>';
   }
   function vueProduits() {
     vue.innerHTML =
-      '<div class="outils">' +
-        '<input id="recherche" type="search" placeholder="Rechercher un produit…" aria-label="Rechercher un produit" value="' + esc(etat.recherche) + '">' +
-        '<button class="btn primaire" data-action="ajouter"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Produit</button>' +
-        '<button class="btn-icone clair" data-action="rafraichir" aria-label="Actualiser"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button>' +
-      '</div><div id="liste" class="liste"></div>';
+      '<button class="btn plein" style="width:100%;margin-bottom:12px;min-height:52px;font-size:16px" data-action="ajouter">＋ Ajouter un produit</button>' +
+      '<div class="outils"><input id="recherche" type="search" placeholder="Rechercher un produit…" aria-label="Rechercher un produit" value="' + esc(etat.recherche) + '"></div>' +
+      '<div id="liste" class="liste"></div>';
     listeProduits();
   }
   function listeProduits() {
     const q = etat.recherche.trim().toLowerCase();
     const l = etat.produits.filter((p) => !q || String(p.nom || '').toLowerCase().indexOf(q) !== -1);
-    $('#liste').innerHTML = l.length ? l.map(itemProduit).join('') : vide('Aucun produit.');
+    $('#liste').innerHTML = l.length ? l.map(itemProduit).join('') : '<p class="vide">Aucun produit.</p>';
   }
 
   /* --- Formulaire produit --- */
-  function apercuPhoto() {
-    const u = urlSure($('#pPhoto').value);
-    $('#pApercu').innerHTML = u
-      ? '<img src="' + esc(u) + '" alt="" referrerpolicy="no-referrer">'
-      : '<span class="sans-photo">CF</span>';
+  const formulaire = { rubrique: '', photoBase64: '', photoUrl: '' };
+
+  function construireRubriques() {
+    $('#pRubriques').innerHTML = RUBRIQUES.map((r) =>
+      '<button type="button" class="rub" role="radio" aria-checked="false" data-val="' + r[0] + '">' + r[1] + '</button>').join('');
   }
-  function majCategorie() {
-    const c = categorieProduit({ nom: $('#pNom').value, description: $('#pDescription').value });
-    $('#pCategorie').textContent = 'Filtre de la boutique : ' + LABELS_CAT[c.cat] +
-      (c.africaine ? ' · Inspiration africaine' : '') +
-      '. La catégorie est déduite des mots du nom et de la description (robe, ensemble, sac, wax…).';
+  function choisirRubrique(val) {
+    formulaire.rubrique = val;
+    $$('#pRubriques .rub').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.val === val)));
   }
+  function afficherApercu(src) {
+    $('#pApercu').innerHTML = src ? '<img src="' + esc(src) + '" alt="">' : '<span>CF</span>';
+  }
+
   function ouvrirFormulaire(p) {
     p = p || null;
-    $('#dlgProduitTitre').textContent = p ? 'Modifier le produit' : 'Nouveau produit';
+    $('#dlgTitre').textContent = p ? 'Modifier le produit' : 'Ajouter un produit';
     $('#pId').value = p ? p.id : '';
     $('#pNom').value = p ? (p.nom || '') : '';
     $('#pDescription').value = p ? (p.description || '') : '';
     $('#pPrix').value = p ? (p.prix == null ? '' : p.prix) : '';
     $('#pStock').value = p ? (Number(p.stock) || 0) : 0;
-    $('#pPhoto').value = p ? (p.photo_url || '') : '';
     $('#pActif').checked = p ? p.actif === true : true;
+    $('#pAfricaine').checked = p ? africaineDe(p) : false;
+    choisirRubrique(p ? rubriqueDe(p) : '');
+    formulaire.photoBase64 = '';
+    formulaire.photoUrl = p ? urlSure(p.photo_url) : '';
+    afficherApercu(formulaire.photoUrl);
+    $('#pPhotoInfo').textContent = formulaire.photoUrl
+      ? 'Photo actuelle. Choisis-en une autre pour la remplacer.'
+      : 'Choisis une photo dans ta galerie. Elle est réduite automatiquement.';
     $('#msgProduit').textContent = '';
-    apercuPhoto();
-    majCategorie();
     $('#dlgProduit').showModal();
     $('#pNom').focus();
   }
+
+  // Réduit la photo (1200 px au plus, JPEG) et renvoie son contenu en base64.
+  async function reduirePhoto(fichier) {
+    if (!/^image\//.test(fichier.type)) throw new Error('Choisis une image (photo).');
+    let source = null, largeur = 0, hauteur = 0;
+    if (window.createImageBitmap) {
+      try { source = await createImageBitmap(fichier); largeur = source.width; hauteur = source.height; } catch (e) { source = null; }
+    }
+    if (!source) {
+      const lien = await new Promise((ok, ko) => {
+        const lecteur = new FileReader();
+        lecteur.onload = () => ok(lecteur.result);
+        lecteur.onerror = () => ko(new Error('Photo illisible.'));
+        lecteur.readAsDataURL(fichier);
+      });
+      source = await new Promise((ok, ko) => {
+        const img = new Image();
+        img.onload = () => ok(img);
+        img.onerror = () => ko(new Error('Photo illisible. Essaie une photo JPEG ou PNG.'));
+        img.src = lien;
+      });
+      largeur = source.naturalWidth; hauteur = source.naturalHeight;
+    }
+    const ratio = Math.min(1, CONFIG.PHOTO_COTE_MAX / Math.max(largeur, hauteur));
+    const w = Math.max(1, Math.round(largeur * ratio)), h = Math.max(1, Math.round(hauteur * ratio));
+    const toile = document.createElement('canvas');
+    toile.width = w; toile.height = h;
+    const ctx = toile.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(source, 0, 0, w, h);
+    if (source.close) source.close();
+    let qualite = CONFIG.PHOTO_QUALITE, data = '';
+    for (let i = 0; i < 4; i++) {
+      data = toile.toDataURL('image/jpeg', qualite);
+      if (data.length * 0.75 < 2500000) break;
+      qualite -= 0.15;
+    }
+    return data.split(',')[1];
+  }
+
+  async function choisirPhoto(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const info = $('#pPhotoInfo');
+    info.textContent = 'Préparation de la photo…';
+    try {
+      const base64 = await reduirePhoto(f);
+      formulaire.photoBase64 = base64;
+      afficherApercu('data:image/jpeg;base64,' + base64);
+      info.textContent = 'Photo prête (' + Math.round(base64.length * 0.75 / 1024) + ' Ko). Elle sera envoyée à l’enregistrement.';
+    } catch (err) {
+      info.textContent = err.message || 'Photo illisible.';
+    }
+    e.target.value = '';
+  }
+
   async function enregistrerProduit(e) {
     e.preventDefault();
     const msg = $('#msgProduit');
+    msg.textContent = '';
     const nom = $('#pNom').value.trim();
     const prixTexte = $('#pPrix').value.trim();
     const prix = Number(prixTexte);
-    const photo = $('#pPhoto').value.trim();
-    if (!nom) { msg.textContent = 'Le nom du produit est obligatoire.'; return; }
+    if (!nom) { msg.textContent = 'Écris le nom du produit.'; return; }
+    if (!formulaire.rubrique) { msg.textContent = 'Choisis une rubrique (Ensemble, Robe, Accessoires…).'; return; }
     if (prixTexte === '' || !(prix >= 0)) { msg.textContent = 'Indique un prix valide.'; return; }
-    if (photo && !urlSure(photo)) { msg.textContent = 'Le lien de la photo doit commencer par https:// (lien complet).'; return; }
     const stock = parseInt($('#pStock').value || '0', 10);
-    const charge = {
-      nom: nom,
-      description: $('#pDescription').value.trim(),
-      prix: prix,
-      stock: isNaN(stock) || stock < 0 ? 0 : stock,
-      photo_url: photo,
-      actif: $('#pActif').checked
-    };
-    const id = $('#pId').value;
-    if (id) charge.id = id;
 
     const bouton = $('#pEnregistrer');
-    bouton.disabled = true; msg.textContent = '';
-    const r = await appeler('admin_produit', charge);
-    bouton.disabled = false;
-    if (!r.ok) { msg.textContent = r.message || 'Enregistrement impossible.'; return; }
+    bouton.disabled = true;
+    try {
+      // 1) Envoi de la nouvelle photo (si une photo a été choisie)
+      if (formulaire.photoBase64) {
+        $('#pPhotoInfo').textContent = 'Envoi de la photo…';
+        const envoi = await appeler('admin_photo', { contenu: formulaire.photoBase64 });
+        if (!envoi.ok) throw new Error(envoi.message || 'Envoi de la photo impossible.');
+        formulaire.photoUrl = envoi.url;
+        formulaire.photoBase64 = '';
+        $('#pPhotoInfo').textContent = 'Photo envoyée.';
+      }
+      // 2) Enregistrement du produit
+      const charge = {
+        nom: nom,
+        description: $('#pDescription').value.trim(),
+        prix: prix,
+        stock: isNaN(stock) || stock < 0 ? 0 : stock,
+        actif: $('#pActif').checked,
+        categorie: formulaire.rubrique,
+        africaine: $('#pAfricaine').checked
+      };
+      if (formulaire.photoUrl) charge.photo_url = formulaire.photoUrl;
+      const id = $('#pId').value;
+      if (id) charge.id = id;
+      const r = await appeler('admin_produit', charge);
+      if (!r.ok) throw new Error(r.message || 'Enregistrement impossible.');
 
-    $('#dlgProduit').close();
-    toast(r.message || 'Produit enregistré.');
-    try { await charger('produits'); if (etat.section === 'produits') vueProduits(); }
-    catch (err) { toast(err.message, 'erreur'); }
+      $('#dlgProduit').close();
+      toast('✅ ' + (r.message || 'Produit enregistré.'));
+      await charger('produits');
+      if (etat.section === 'produits') vueProduits();
+      else if (etat.section === 'vedettes') vueVedettes();
+    } catch (err) {
+      msg.textContent = err.message || 'Enregistrement impossible.';
+    } finally {
+      bouton.disabled = false;
+    }
   }
+
   async function supprimerProduit(id) {
     const p = etat.produits.find((x) => x.id === id);
     if (!p) return;
     const oui = await confirmer('Supprimer « ' + (p.nom || 'ce produit') + ' » ?', 'Cette action est définitive.');
     if (!oui) return;
     const r = await appeler('admin_produit_supprimer', { id: id });
-    if (!r.ok) { toast(r.message || 'Suppression impossible.', 'erreur'); return; }
+    if (!r.ok) { toast(r.message || 'Suppression impossible.'); return; }
     etat.produits = etat.produits.filter((x) => x.id !== id);
     listeProduits();
     toast('Produit supprimé.');
   }
+
   function confirmer(titre, texte) {
     return new Promise((resolve) => {
       const d = $('#dlgConfirm');
@@ -905,186 +900,81 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
     });
   }
 
-  /* ================= 3. Mise en avant sur l’accueil ================= */
-  function itemVedette(p) {
-    const on = p.vedette === true;
-    return '<article class="item avec-controle">' + vignette(p) +
+  /* ================= 5. Mise en avant sur l’accueil ================= */
+  function itemVedette(p, enVedette) {
+    return '<article class="item avec">' + vignette(p) +
       '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
-      (p.actif === true ? '' : '<p class="meta"><span class="badge off">Masqué dans la boutique</span></p>') + '</div>' +
-      '<button class="etoile' + (on ? ' on' : '') + '" data-action="etoile" data-id="' + esc(p.id) + '" aria-pressed="' + on + '" ' +
-        'aria-label="' + (on ? 'Retirer des vedettes : ' : 'Mettre en vedette : ') + esc(p.nom) + '">' +
-        '<svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button></article>';
+      (p.actif === true ? '' : '<p class="meta"><span class="pill bad">Masqué dans la boutique</span></p>') + '</div>' +
+      '<button class="btn sm ' + (enVedette ? 'dng' : '') + '" data-action="vedette" data-id="' + esc(p.id) + '" data-valeur="' + (enVedette ? 'non' : 'oui') + '">' +
+        (enVedette ? 'Retirer' : '⭐ Mettre en avant') + '</button></article>';
   }
   function vueVedettes() {
+    const choisis = etat.produits.filter((p) => p.vedette === true);
+    const autres = etat.produits.filter((p) => p.vedette !== true && p.actif === true);
+    const plein = choisis.length >= CONFIG.MAX_VEDETTES;
     vue.innerHTML =
-      '<p class="intro">Choisis jusqu’à ' + CONFIG.MAX_VEDETTES + ' produits à afficher sur l’accueil.</p>' +
-      '<p class="compteur" id="cptVedettes"></p><div id="liste" class="liste"></div>';
-    listeVedettes();
+      '<p class="intro">Choisis jusqu’à ' + CONFIG.MAX_VEDETTES + ' produits à montrer sur la page d’accueil.</p>' +
+      '<p style="font-size:17px;margin-bottom:6px"><strong>' + choisis.length + '</strong> / ' + CONFIG.MAX_VEDETTES + ' produits en avant</p>' +
+      '<h2 class="t">Sur l’accueil maintenant</h2>' +
+      '<div class="liste">' + (choisis.length ? choisis.map((p) => itemVedette(p, true)).join('') : '<p class="vide">Aucun produit en avant.</p>') + '</div>' +
+      '<h2 class="t">Ajouter à l’accueil</h2>' +
+      (plein ? '<p class="intro">Retire d’abord un produit pour en ajouter un autre.</p>' : '') +
+      '<div class="liste">' + (autres.length ? autres.map((p) => itemVedette(p, false)).join('') : '<p class="vide">Aucun autre produit visible dans la boutique.</p>') + '</div>';
+    if (plein) $$('[data-action="vedette"][data-valeur="oui"]').forEach((b) => { b.disabled = true; });
   }
-  function listeVedettes() {
-    const n = etat.produits.filter((p) => p.vedette === true).length;
-    $('#cptVedettes').innerHTML = '<strong>' + n + '</strong> / ' + CONFIG.MAX_VEDETTES + ' produits en vedette';
-    const tri = etat.produits.slice().sort((a, b) => (b.vedette === true) - (a.vedette === true));
-    $('#liste').innerHTML = tri.length ? tri.map(itemVedette).join('') : vide('Aucun produit pour le moment.');
-  }
-  async function basculerVedette(id, bouton) {
+  async function basculerVedette(id, valeur, bouton) {
     const p = etat.produits.find((x) => x.id === id);
     if (!p) return;
-    const nouveau = !(p.vedette === true);
     bouton.disabled = true;
-    const r = await appeler('admin_produit', { id: id, vedette: nouveau });
-    if (!r.ok) { bouton.disabled = false; toast(r.message || 'Action impossible.', 'erreur'); return; }
-    p.vedette = nouveau;
-    listeVedettes();
-    toast(nouveau ? 'Ajouté aux vedettes.' : 'Retiré des vedettes.');
-  }
-
-  /* ============================ 4. Boutique ============================ */
-  function itemBoutique(p) {
-    const visible = p.actif === true;
-    const stock = Number(p.stock) || 0;
-    return '<article class="item avec-controle">' + vignette(p) +
-      '<div><h3>' + esc(p.nom) + '</h3><p class="prix">' + fmtPrix(p.prix) + '</p>' +
-      '<p class="meta">Stock : ' + stock + (stock <= 0 ? ' <span class="badge off">Rupture</span>' : '') + '</p></div>' +
-      '<label class="interrupteur"><input type="checkbox" data-visible data-id="' + esc(p.id) + '"' + (visible ? ' checked' : '') + '>' +
-        '<span class="curseur"></span><span class="texte">' + (visible ? 'Visible' : 'Masqué') + '</span></label></article>';
-  }
-  function vueBoutique() {
-    vue.innerHTML = '<p class="intro">Active ou masque les produits affichés dans la boutique.</p><div id="liste" class="liste">' +
-      (etat.produits.length ? etat.produits.map(itemBoutique).join('') : vide('Aucun produit pour le moment.')) + '</div>';
-  }
-  async function basculerVisible(input) {
-    const p = etat.produits.find((x) => x.id === input.dataset.id);
-    if (!p) return;
-    const nouveau = input.checked;
-    input.disabled = true;
-    const r = await appeler('admin_produit', { id: p.id, actif: nouveau });
-    input.disabled = false;
-    if (!r.ok) { input.checked = !nouveau; toast(r.message || 'Action impossible.', 'erreur'); return; }
-    p.actif = nouveau;
-    const texte = input.closest('.interrupteur').querySelector('.texte');
-    if (texte) texte.textContent = nouveau ? 'Visible' : 'Masqué';
-    toast(nouveau ? 'Produit visible dans la boutique.' : 'Produit masqué.');
-  }
-  /* ================== 5 et 6. Réservations et commandes ================== */
-  const labelStatut = (table, v) => { const t = STATUTS[table].find((s) => s[0] === v); return t ? t[1] : (v || '—'); };
-  const badgeStatut = (table, v) => '<span class="badge st-' + esc(v) + '">' + esc(labelStatut(table, v)) + '</span>';
-  function selectStatut(table, ligne) {
-    const options = STATUTS[table].map((s) => '<option value="' + s[0] + '"' + (ligne.statut === s[0] ? ' selected' : '') + '>' + s[1] + '</option>').join('');
-    return '<label class="champ-statut">Statut<select data-statut data-table="' + table + '" data-id="' + esc(ligne.id) + '" data-ancien="' + esc(ligne.statut) + '">' + options + '</select></label>';
-  }
-
-  // Téléphones : 8 chiffres = numéro local du Burkina, on ajoute l’indicatif 226 pour WhatsApp.
-  function blocTelephone(t) {
-    const tel = String(t || '').replace(/[^\d+]/g, '');
-    let n = String(t || '').replace(/\D/g, '');
-    if (n.length === 8) n = '226' + n;
-    return esc(t) +
-      (tel ? ' · <a href="tel:' + esc(tel) + '">Appeler</a>' : '') +
-      (n ? ' · <a href="https://wa.me/' + esc(n) + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>' : '');
-  }
-  function texteDelai(cree, statut) {
-    if (statut !== 'en_attente') return '—';
-    const fin = Date.parse(cree) + CONFIG.DELAI_RESERVATION_H * 3600000;
-    if (isNaN(fin)) return '—';
-    const reste = fin - Date.now();
-    if (reste <= 0) return 'Délai de ' + CONFIG.DELAI_RESERVATION_H + ' h dépassé';
-    const h = Math.floor(reste / 3600000), m = Math.floor((reste % 3600000) / 60000);
-    return 'Expire dans ' + h + ' h ' + String(m).padStart(2, '0') + ' min';
-  }
-  function itemReservation(r) {
-    return '<article class="item bloc">' +
-      '<div class="entete"><h3>' + esc(r.produit_nom) + '</h3>' + badgeStatut('reservations', r.statut) + '</div>' +
-      '<dl class="infos">' +
-        '<div><dt>Client</dt><dd>' + esc(r.nom_client) + '</dd></div>' +
-        '<div><dt>Téléphone</dt><dd>' + blocTelephone(r.telephone) + '</dd></div>' +
-        '<div><dt>Article</dt><dd>Taille ' + esc(r.taille) + ' · ' + esc(r.couleur) + ' · Qté ' + esc(r.quantite) + '</dd></div>' +
-        '<div><dt>Réservée le</dt><dd>' + esc(fmtDate(r.cree_le)) + '</dd></div>' +
-        '<div><dt>Délai</dt><dd class="delai" data-cree="' + esc(r.cree_le) + '" data-statut="' + esc(r.statut) + '">' + esc(texteDelai(r.cree_le, r.statut)) + '</dd></div>' +
-        (r.notes ? '<div><dt>Notes</dt><dd>' + esc(r.notes) + '</dd></div>' : '') +
-      '</dl>' + selectStatut('reservations', r) + '</article>';
-  }
-  function itemCommande(c) {
-    return '<article class="item bloc">' +
-      '<div class="entete"><h3>' + esc(c.reference) + '</h3>' + badgeStatut('commandes', c.statut) + '</div>' +
-      '<dl class="infos">' +
-        '<div><dt>Client</dt><dd>' + esc(c.nom_client) + '</dd></div>' +
-        '<div><dt>Téléphone</dt><dd>' + blocTelephone(c.telephone) + '</dd></div>' +
-        (c.adresse ? '<div><dt>Adresse</dt><dd>' + esc(c.adresse) + '</dd></div>' : '') +
-        '<div><dt>Articles</dt><dd>' + esc(c.articles) + '</dd></div>' +
-        '<div><dt>Montant</dt><dd><strong>' + fmtPrix(c.montant_total) + '</strong></dd></div>' +
-        (c.mode_paiement ? '<div><dt>Paiement</dt><dd>' + esc(c.mode_paiement) + '</dd></div>' : '') +
-        '<div><dt>Passée le</dt><dd>' + esc(fmtDate(c.cree_le)) + '</dd></div>' +
-        (c.notes ? '<div><dt>Notes</dt><dd>' + esc(c.notes) + '</dd></div>' : '') +
-      '</dl>' + selectStatut('commandes', c) + '</article>';
-  }
-  function vueListeStatut(table) {
-    const puces = [['tous', 'Toutes']].concat(STATUTS[table]).map((s) =>
-      '<button class="puce" data-action="filtre" data-valeur="' + s[0] + '" aria-pressed="' + (etat.filtre[table] === s[0]) + '">' + s[1] + '</button>').join('');
-    vue.innerHTML =
-      '<div class="outils"><div class="puces" role="group" aria-label="Filtrer par statut">' + puces + '</div>' +
-      '<button class="btn-icone clair" data-action="rafraichir" aria-label="Actualiser"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button></div>' +
-      '<div id="liste" class="liste"></div>';
-    const f = etat.filtre[table];
-    const l = etat[table].filter((x) => f === 'tous' || x.statut === f);
-    $('#liste').innerHTML = l.length ? l.map(table === 'reservations' ? itemReservation : itemCommande).join('') : vide('Aucun élément.');
-  }
-  async function changerStatut(sel) {
-    const table = sel.dataset.table, id = sel.dataset.id, ancien = sel.dataset.ancien;
-    sel.disabled = true;
-    const r = await appeler('admin_statut', { table: table, id: id, statut: sel.value });
-    sel.disabled = false;
-    if (!r.ok) { sel.value = ancien; toast(r.message || 'Mise à jour impossible.', 'erreur'); return; }
-    const ligne = etat[table].find((x) => x.id === id);
-    if (ligne) ligne.statut = sel.value;
-    toast('Statut mis à jour.');
-    vueListeStatut(table);
-  }
-
-  /* ================= 7. Avis et recommandations ================= */
-  function vueAvis() {
-    vue.innerHTML = '<div class="carte"><h2 style="margin-top:0">Bientôt disponible</h2>' +
-      '<p>Cette rubrique est préparée pour une intégration future : les avis et recommandations des clientes pourront y être consultés et modérés.</p></div>';
+    const r = await appeler('admin_produit', { id: id, vedette: valeur });
+    if (!r.ok) { bouton.disabled = false; toast(r.message || 'Action impossible.'); return; }
+    p.vedette = valeur;
+    vueVedettes();
+    toast(valeur ? '⭐ Ajouté à l’accueil.' : 'Retiré de l’accueil.');
   }
 
   /* ============================ Évènements ============================ */
-  vue.addEventListener('click', (e) => {
+  vue.addEventListener('click', async (e) => {
     const b = e.target.closest('[data-action]');
     if (!b || b.disabled) return;
     const id = b.dataset.id;
     switch (b.dataset.action) {
       case 'aller': ouvrirSection(b.dataset.cible); break;
-      case 'alerte':
-        if (b.dataset.filtre && etat.filtre[b.dataset.cible] !== undefined) etat.filtre[b.dataset.cible] = b.dataset.filtre;
-        ouvrirSection(b.dataset.cible);
-        break;
-      case 'ajouter-rapide': ouvrirSection('produits').then(() => ouvrirFormulaire(null)); break;
+      case 'ajouter-rapide': await ouvrirSection('produits'); ouvrirFormulaire(null); break;
       case 'ajouter': ouvrirFormulaire(null); break;
       case 'modifier': ouvrirFormulaire(etat.produits.find((p) => p.id === id)); break;
       case 'supprimer': supprimerProduit(id); break;
-      case 'etoile': basculerVedette(id, b); break;
-      case 'filtre': etat.filtre[etat.section] = b.dataset.valeur; vueListeStatut(etat.section); break;
+      case 'vedette': basculerVedette(id, b.dataset.valeur === 'oui', b); break;
+      case 'filtreResa': etat.filtreResa = b.dataset.valeur; vueReservations(); break;
+      case 'filtreCmd': etat.filtreCmd = b.dataset.valeur; vueCommandes(); break;
       case 'rafraichir': ouvrirSection(etat.section); break;
+      case 'statut': {
+        if (b.dataset.valeur === 'annulee' && !(await confirmer('Annuler cette réservation ?', 'La cliente ne sera pas prévenue automatiquement.'))) return;
+        b.disabled = true;
+        const ok = await majStatut(b.dataset.table, id, b.dataset.valeur);
+        if (!ok) b.disabled = false;
+        break;
+      }
     }
   });
-  vue.addEventListener('change', (e) => {
+  vue.addEventListener('change', async (e) => {
     const t = e.target;
-    if (t.matches('select[data-statut]')) changerStatut(t);
-    else if (t.matches('input[data-visible]')) basculerVisible(t);
+    if (!t.matches('select[data-statut]')) return;
+    t.disabled = true;
+    const ok = await majStatut(t.dataset.table, t.dataset.id, t.value);
+    t.disabled = false;
+    if (!ok) t.value = t.dataset.ancien;
   });
   vue.addEventListener('input', (e) => {
     if (e.target.id === 'recherche') { etat.recherche = e.target.value; listeProduits(); }
   });
+
   // Image introuvable : le logo ou la photo est remplacé par le monogramme CF.
   document.addEventListener('error', (e) => {
     const t = e.target;
     if (!t || t.tagName !== 'IMG') return;
     const s = document.createElement('span');
-    if (t.hasAttribute('data-logo')) {
-      s.className = 'logo' + (t.classList.contains('gauche') ? ' petit' : '');
-    } else {
-      s.className = 'sans-photo';
-    }
+    if (t.hasAttribute('data-logo')) s.className = 'logo' + (t.classList.contains('gauche') ? ' petit' : '');
     s.textContent = 'CF';
     s.setAttribute('aria-hidden', 'true');
     t.replaceWith(s);
@@ -1099,26 +989,28 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
   });
   $('#btnMenu').addEventListener('click', ouvrirMenu);
   $('#voile').addEventListener('click', fermerMenu);
-  $('#btnDeconnexion').addEventListener('click', () => deconnecter('Tu es déconnecté.'));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerMenu(); });
-  $('#listeMenu').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-section]');
-    if (b) ouvrirSection(b.dataset.section);
+  $('#btnActualiser').addEventListener('click', () => ouvrirSection(etat.section));
+  $('#bandeauBtn').addEventListener('click', () => { etat.filtreResa = 'attente'; ouvrirSection('reservations'); });
+  $('#nav').addEventListener('click', (e) => {
+    if (e.target.closest('#btnSortir')) { deconnecter('Tu es déconnectée.'); return; }
+    const b = e.target.closest('[data-sec]');
+    if (b) ouvrirSection(b.dataset.sec);
   });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerMenu(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) sonder(); });
+
   $('#formProduit').addEventListener('submit', enregistrerProduit);
   $('#pAnnuler').addEventListener('click', () => $('#dlgProduit').close());
-  $('#pPhoto').addEventListener('input', apercuPhoto);
-  $('#pNom').addEventListener('input', majCategorie);
-  $('#pDescription').addEventListener('input', majCategorie);
+  $('#pChoisir').addEventListener('click', () => $('#pFichier').click());
+  $('#pFichier').addEventListener('change', choisirPhoto);
+  $('#pRubriques').addEventListener('click', (e) => {
+    const b = e.target.closest('.rub');
+    if (b) choisirRubrique(b.dataset.val);
+  });
 
   /* ============================ Démarrage ============================ */
   function init() {
-    $('#listeMenu').innerHTML = Object.keys(SECTIONS).map((cle) => {
-      const s = SECTIONS[cle];
-      return '<li><button class="menu-lien" data-section="' + cle + '"><span class="num">' + s.num + '.</span>' +
-        '<svg class="ic" aria-hidden="true"><use href="#i-' + s.icone + '"/></svg><span>' + s.titre + '</span></button></li>';
-    }).join('');
-
+    construireRubriques();
     const s = session.lire();
     if (s && s.jeton && s.fin > Date.now()) {
       etat.jeton = s.jeton; etat.fin = s.fin;
@@ -1127,12 +1019,17 @@ dialog::backdrop{background:rgba(37,42,52,.6)}
       session.effacer();
       verifierVerrou();
     }
-
     // Déconnexion automatique à la fin de la session (1 h).
     setInterval(() => { if (etat.jeton && Date.now() > etat.fin) deconnecter('Session expirée. Reconnecte-toi.'); }, 15000);
-    // Mise à jour du délai restant des réservations.
+    // Vérification des nouvelles réservations.
+    setInterval(sonder, CONFIG.SONDAGE_MS);
+    // Mise à jour du délai restant des réservations en attente.
     setInterval(() => {
-      $$('.delai').forEach((el) => { el.textContent = texteDelai(el.dataset.cree, el.dataset.statut); });
+      $$('.delai[data-cree]').forEach((el) => {
+        const d = delaiInfo(el.dataset.cree);
+        el.textContent = '⏳ ' + d.texte;
+        el.classList.toggle('urgent', d.urgent);
+      });
     }, 30000);
   }
   init();
