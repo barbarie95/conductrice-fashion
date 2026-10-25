@@ -1,12 +1,17 @@
 {
  "name": "Conductrice Fashion",
  "short_name": "Conductrice",
+ "description": "Boutique de vêtements et accessoires Conductrice Fashion",
+ "lang": "fr",
+ "id": "./index.html",
  "start_url": "./index.html",
  "scope": "./",
  "display": "standalone",
+ "orientation": "portrait",
  "background_color": "#fffaf4",
  "theme_color": "#F28C28",
  "icons": [
-  {"src": "logo-conductrice-fashion.png", "sizes": "512x512", "type": "image/png"}
+  {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+  {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
  ]
 }
