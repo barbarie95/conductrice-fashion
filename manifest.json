@@ -1,0 +1,12 @@
+{
+ "name": "Conductrice Fashion",
+ "short_name": "Conductrice",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#fffaf4",
+ "theme_color": "#F28C28",
+ "icons": [
+  {"src": "logo-conductrice-fashion.png", "sizes": "512x512", "type": "image/png"}
+ ]
+}
