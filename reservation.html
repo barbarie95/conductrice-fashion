@@ -19,6 +19,7 @@
 <style>
 :root{--orange:#F28C28;--orange-dark:#D96F0B;--cream:#fffaf4;--white:#fff;--dark:#252A34;--muted:#747781;--line:#eee7df;--success:#188754;--danger:#c43d3d}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-bottom:95px}
 body{margin:0;padding-bottom:82px;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--dark);line-height:1.6}
 a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
@@ -42,7 +43,7 @@ main{width:min(760px,92%);margin:28px auto 42px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 15px}
 .field{display:flex;flex-direction:column;gap:7px;min-width:0}
 .field.full{grid-column:1/-1}
-label{font-size:13px;font-weight:700;color:#333945}
+label,.field-title{font-size:13px;font-weight:700;color:#333945}
 input,select{width:100%;min-width:0;min-height:49px;padding:12px 13px;border:1px solid #e5e0d9;border-radius:11px;outline:none;background:white;color:var(--dark);font-size:14px;transition:border-color .2s,box-shadow .2s}
 input::placeholder{color:#a0a3aa}
 input:focus,select:focus{border-color:var(--orange);background:#fffdf9;box-shadow:0 0 0 3px #f28c281f}
@@ -56,6 +57,25 @@ select{cursor:pointer}
 .timer-box{display:none;margin-top:18px;padding:20px 15px;background:linear-gradient(135deg,#fff7e9,#fffaf3);border:1px solid #f3d6ad;border-radius:14px;text-align:center}
 .timer-box strong{display:block;margin:7px 0;color:var(--orange-dark);font-size:clamp(25px,5vw,32px);font-variant-numeric:tabular-nums;letter-spacing:2px}
 .timer-box p{margin:3px 0;color:var(--muted);font-size:13px}
+
+/* Choix de l'article parmi les produits de la boutique */
+.product-list{display:grid;gap:10px;max-height:390px;overflow-y:auto;padding:6px;border:1px solid var(--line);border-radius:13px;background:#fffdf9}
+.pick{display:grid;grid-template-columns:62px minmax(0,1fr) 26px;gap:12px;align-items:center;width:100%;padding:8px;text-align:left;border:1.5px solid var(--line);border-radius:12px;background:white;color:var(--dark)}
+.pick:hover{border-color:#f1c690}
+.pick[aria-checked="true"]{border-color:var(--orange);background:#fff7ec;box-shadow:0 0 0 3px #f28c281f}
+.pick[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.pick-photo{width:62px;height:62px;border-radius:10px;overflow:hidden;background:#f0e9e2;display:grid;place-items:center;font-size:12px;font-weight:800;color:#a66a2b}
+.pick-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.pick-name{display:block;font-size:14px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.pick-price{display:block;font-size:13px;color:var(--orange-dark);font-weight:800}
+.pick-note{display:block;font-size:11px;color:var(--muted)}
+.pick-note.off{color:var(--danger);font-weight:700}
+.pick-check{width:24px;height:24px;border-radius:50%;border:2px solid #e5e0d9;display:grid;place-items:center;color:white;font-size:14px;font-weight:800}
+.pick[aria-checked="true"] .pick-check{background:var(--orange);border-color:var(--orange)}
+.product-status{margin:0;color:var(--muted);font-size:13px}
+.link-btn{border:0;background:none;color:var(--orange-dark);font-weight:800;text-decoration:underline;padding:0}
+.selected-box{padding:11px 13px;border-radius:11px;background:#fff7ec;border:1px solid #f6dcb8;font-size:13px}
+
 .footer{background:white;border-top:1px solid var(--line);padding:24px 15px 32px;text-align:center}
 .footer img{width:140px;height:auto}
 .footer p{margin:5px 0;color:var(--muted);font-size:12px}
@@ -113,21 +133,20 @@ select{cursor:pointer}
 <main>
  <section class="card" aria-labelledby="reservation-title">
   <h2 id="reservation-title">Votre réservation</h2>
-  <p class="intro">Remplissez les informations ci-dessous. Les champs marqués d’un * sont obligatoires.</p>
+  <p class="intro">Choisissez votre article parmi ceux de la boutique, puis indiquez vos coordonnées. Les champs marqués d’un * sont obligatoires.</p>
 
   <form id="reservation-form">
    <div class="form-grid">
     <div class="field full">
-     <label for="produit">Article souhaité *</label>
-     <select id="produit" name="produit" required>
-      <option value="">-- Choisir un article --</option>
-      <option value="robe-elegante">Robe élégante — 7 500 FCFA</option>
-      <option value="ensemble-tendance">Ensemble tendance — 10 000 FCFA</option>
-      <option value="sac-a-main">Sac à main — 5 000 FCFA</option>
-      <option value="chemise-chic">Chemise chic — 6 000 FCFA</option>
-      <option value="tenue-inspiration-africaine">Tenue inspiration africaine — 8 500 FCFA</option>
-      <option value="autre">Autre article / demande particulière</option>
-     </select>
+     <span class="field-title" id="produit-label">Article souhaité *</span>
+     <input id="search" type="search" placeholder="Rechercher un article…" aria-label="Rechercher un article">
+     <div id="product-list" class="product-list" role="radiogroup" aria-labelledby="produit-label"></div>
+     <p id="product-status" class="product-status" role="status">Chargement des articles de la boutique…</p>
+     <div id="selected-box" class="selected-box">Aucun article choisi pour le moment.</div>
+    </div>
+    <div class="field full" id="notes-field" hidden>
+     <label for="notes">Décrivez l’article souhaité *</label>
+     <input id="notes" name="notes" maxlength="500" placeholder="Ex. : robe longue verte, taille M">
     </div>
     <div class="field">
      <label for="taille">Taille *</label>
@@ -189,24 +208,37 @@ select{cursor:pointer}
  <a href="reservation.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">♡</span><span>Réservation</span></a>
  <a href="panier.html"><span class="nav-icon" aria-hidden="true">🛍</span><span>Panier</span></a>
 </nav>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@20.0.0"></script>
 <script>
 "use strict";
 
 const APPWRITE_ENDPOINT="https://fra.cloud.appwrite.io/v1";
 const APPWRITE_PROJECT_ID="6ad7761700274f3ae4b1";
 const APPWRITE_FUNCTION_ID="conductrice-backend";
+const DATABASE_ID="6ad7a426000ad1659f6b";
+const TABLE_ID="produits";
 
-const productNames={
- "robe-elegante":"Robe élégante",
- "ensemble-tendance":"Ensemble tendance",
- "sac-a-main":"Sac à main",
- "chemise-chic":"Chemise chic",
- "tenue-inspiration-africaine":"Tenue inspiration africaine",
- "autre":"Autre article / demande particulière"
+/* Choix « Autre article » : toujours proposé, avec une description à écrire */
+const AUTRE={
+ id:"autre",
+ nom:"Autre article / demande particulière",
+ description:"",
+ prix:null,
+ stock:null,
+ photo:"",
+ indisponible:false,
+ autre:true
 };
 
 const form=document.getElementById("reservation-form");
-const produitInput=document.getElementById("produit");
+const searchInput=document.getElementById("search");
+const productList=document.getElementById("product-list");
+const productStatus=document.getElementById("product-status");
+const selectedBox=document.getElementById("selected-box");
+const notesField=document.getElementById("notes-field");
+const notesInput=document.getElementById("notes");
 const tailleInput=document.getElementById("taille");
 const couleurInput=document.getElementById("couleur");
 const quantiteInput=document.getElementById("quantite");
@@ -217,6 +249,12 @@ const notice=document.getElementById("notice");
 const timerBox=document.getElementById("timer-box");
 const timerElement=document.getElementById("timer");
 const timerMessage=document.getElementById("timer-message");
+const toast=document.getElementById("toast");
+
+const money=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0});
+let products=[];
+let selected=null;
+let toastTimer;
 
 document.getElementById("year").textContent=new Date().getFullYear();
 
@@ -233,6 +271,19 @@ function updateCartCount(){
 }
 updateCartCount();
 
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+function notify(message){
+ toast.textContent=message;
+ toast.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>toast.classList.remove("show"),2600);
+}
+
 function showNotice(message,type){
  notice.textContent=message;
  notice.className="notice "+type;
@@ -242,22 +293,146 @@ function hideNotice(){
  notice.className="notice";
 }
 
-/* Préremplir un article si son identifiant correspond aux options disponibles. */
-const params=new URLSearchParams(window.location.search);
-const productFromUrl=params.get("produit");
-
-if(productFromUrl&&productNames[productFromUrl]){
- produitInput.value=productFromUrl;
-}else{
- try{
-  const cart=JSON.parse(localStorage.getItem("conductricefashion_cart_v1")||"[]");
-  if(Array.isArray(cart)&&cart.length){
-   const first=cart[0];
-   const possibleId=first.produit_id||first.id||first.slug;
-   if(possibleId&&productNames[possibleId])produitInput.value=possibleId;
-  }
- }catch(error){}
+/* ===== Articles de la boutique ===== */
+function renderSelected(){
+ if(!selected){
+  selectedBox.textContent="Aucun article choisi pour le moment.";
+  return;
+ }
+ selectedBox.innerHTML="Article choisi : <strong>"+escapeHTML(selected.nom)+"</strong>"+
+  (selected.prix!==null?" — "+money.format(selected.prix)+" FCFA":"");
 }
+
+function renderProducts(){
+ const term=searchInput.value.trim().toLocaleLowerCase("fr");
+ const visible=products.filter(p=>
+  !term||(p.nom+" "+p.description).toLocaleLowerCase("fr").includes(term)
+ );
+
+ /* « Autre article » reste toujours proposé en fin de liste */
+ const items=visible.concat([AUTRE]);
+ productList.innerHTML="";
+
+ items.forEach(product=>{
+  const isSelected=!!selected&&selected.id===product.id;
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="pick";
+  button.setAttribute("role","radio");
+  button.setAttribute("aria-checked",String(isSelected));
+  if(product.indisponible)button.setAttribute("aria-disabled","true");
+
+  const photo=product.photo
+   ?`<img src="${escapeHTML(product.photo)}" alt="" loading="lazy">`
+   :(product.autre?"?":"CF");
+
+  let note="";
+  if(product.autre)note='<span class="pick-note">Décrivez votre demande à la boutique</span>';
+  else if(product.indisponible)note='<span class="pick-note off">Indisponible</span>';
+  else note='<span class="pick-note">Disponible</span>';
+
+  button.innerHTML=
+   '<span class="pick-photo" aria-hidden="true">'+photo+'</span>'+
+   '<span><span class="pick-name">'+escapeHTML(product.nom)+'</span>'+
+   (product.prix!==null?'<span class="pick-price">'+money.format(product.prix)+' FCFA</span>':'')+
+   note+'</span>'+
+   '<span class="pick-check" aria-hidden="true">'+(isSelected?"✓":"")+'</span>';
+
+  button.addEventListener("click",()=>{
+   if(product.indisponible){
+    notify("Cet article est actuellement indisponible.");
+    return;
+   }
+   selectProduct(product,false);
+  });
+
+  productList.appendChild(button);
+ });
+}
+
+function selectProduct(product,scrollToIt){
+ selected=product;
+ notesField.hidden=!product.autre;
+ if(!product.autre)notesInput.value="";
+ renderProducts();
+ renderSelected();
+ if(scrollToIt){
+  const current=productList.querySelector('.pick[aria-checked="true"]');
+  if(current)current.scrollIntoView({block:"nearest"});
+ }
+}
+
+/* Article déjà choisi : depuis la boutique (?produit=...) ou depuis le panier */
+function preselect(){
+ const params=new URLSearchParams(window.location.search);
+ let wantedId=params.get("produit");
+
+ if(!wantedId){
+  try{
+   const cart=JSON.parse(localStorage.getItem("conductricefashion_cart_v1")||"[]");
+   if(Array.isArray(cart)&&cart.length){
+    const first=cart[0];
+    wantedId=first.produit_id||first.id||first.slug;
+   }
+  }catch(error){}
+ }
+
+ const found=products.find(p=>p.id===wantedId);
+ if(found&&!found.indisponible)selectProduct(found,true);
+}
+
+async function loadProducts(){
+ productStatus.textContent="Chargement des articles de la boutique…";
+ try{
+  if(!window.Appwrite)throw new Error("Le SDK Appwrite ne s’est pas chargé.");
+
+  const client=new Appwrite.Client()
+   .setEndpoint(APPWRITE_ENDPOINT)
+   .setProject(APPWRITE_PROJECT_ID);
+
+  const tablesDB=new Appwrite.TablesDB(client);
+
+  const response=await tablesDB.listRows({
+   databaseId:DATABASE_ID,
+   tableId:TABLE_ID,
+   queries:[Appwrite.Query.equal("actif",true),Appwrite.Query.limit(100)],
+   total:true
+  });
+
+  const rows=Array.isArray(response.rows)?response.rows:[];
+
+  products=rows.map(row=>{
+   const image=String(row.photo_url||"").trim();
+   const stock=Number(row.stock);
+   return {
+    id:row.$id,
+    nom:String(row.nom||"").trim(),
+    description:String(row.description||""),
+    prix:Number.isFinite(Number(row.prix))?Number(row.prix):0,
+    stock:Number.isFinite(stock)?stock:0,
+    photo:/^https?:\/\//i.test(image)?image:"",
+    indisponible:!(stock>0),
+    autre:false
+   };
+  }).filter(p=>p.id&&p.nom);
+
+  productStatus.textContent=products.length
+   ?""
+   :"Aucun article n’est disponible pour le moment. Tu peux choisir « Autre article » ci-dessous.";
+
+  renderProducts();
+  preselect();
+ }catch(error){
+  console.error("Erreur Appwrite :",error);
+  products=[];
+  renderProducts();
+  productStatus.innerHTML='Impossible de charger les articles. <button type="button" class="link-btn" id="retry">Réessayer</button>';
+  const retry=document.getElementById("retry");
+  if(retry)retry.addEventListener("click",loadProducts);
+ }
+}
+
+searchInput.addEventListener("input",renderProducts);
 
 async function callBackend(payload){
  const response=await fetch(
@@ -316,16 +491,27 @@ form.addEventListener("submit",async function(event){
  event.preventDefault();
  hideNotice();
 
- const produitId=produitInput.value;
- const produitNom=productNames[produitId];
+ if(!selected){
+  showNotice("Choisis d’abord un article dans la liste.","error");
+  productList.scrollIntoView({block:"center"});
+  return;
+ }
+
  const taille=tailleInput.value.trim();
  const couleur=couleurInput.value.trim();
  const quantite=Number(quantiteInput.value);
  const nomClient=nomInput.value.trim();
  const telephone=telephoneInput.value.trim();
+ const precisions=notesInput.value.trim();
 
- if(!produitId||!produitNom||!taille||!couleur||!nomClient||!telephone){
+ if(!taille||!couleur||!nomClient||!telephone){
   showNotice("Vérifie les champs obligatoires avant de continuer.","error");
+  return;
+ }
+
+ if(selected.autre&&!precisions){
+  showNotice("Décris l’article souhaité pour que la boutique puisse te répondre.","error");
+  notesInput.focus();
   return;
  }
 
@@ -334,20 +520,28 @@ form.addEventListener("submit",async function(event){
   return;
  }
 
+ if(!selected.autre&&selected.stock>0&&quantite>selected.stock){
+  showNotice("Il ne reste que "+selected.stock+" exemplaire(s) de cet article.","error");
+  return;
+ }
+
  submitBtn.disabled=true;
  submitBtn.textContent="Enregistrement en cours…";
 
  try{
-  const result=await callBackend({
+  const payload={
    action:"reservation",
-   produit_id:produitId,
-   produit_nom:produitNom,
+   produit_id:selected.id,
+   produit_nom:selected.nom,
    taille:taille,
    couleur:couleur,
    quantite:quantite,
    nom_client:nomClient,
    telephone:telephone
-  });
+  };
+  if(precisions)payload.notes=precisions;
+
+  const result=await callBackend(payload);
 
   if(!result.reservation_id||!result.expire_le){
    throw new Error("Le serveur n’a pas fourni les informations nécessaires à la réservation.");
@@ -372,6 +566,12 @@ form.addEventListener("submit",async function(event){
 
   startCountdown(result.expire_le);
   form.reset();
+
+  /* La réservation est envoyée : on repart d'une sélection vide */
+  selected=null;
+  notesField.hidden=true;
+  renderProducts();
+  renderSelected();
 
  }catch(error){
   console.error("Erreur de réservation :",error);
@@ -454,6 +654,10 @@ try{
   }
  }
 }catch(error){}
+
+renderProducts();
+renderSelected();
+loadProducts();
 </script>
 </body>
 </html>
