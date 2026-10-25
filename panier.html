@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#F28C28">
 <meta name="description" content="Retrouvez votre sélection de vêtements, robes, sacs et accessoires Conductrice Fashion. Préparez votre commande simplement sur WhatsApp.">
 <title>Mon panier | Conductrice Fashion</title>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="logo-conductrice-fashion.png">
 <style>
 :root{
 --orange:#F28C28;--orange2:#ffad55;--dark:#252A34;
@@ -460,5 +462,6 @@ document.getElementById("year").textContent=new Date().getFullYear();
 render();
 })();
 </script>
+  <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js')</script>
 </body>
 </html>
