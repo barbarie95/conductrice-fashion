@@ -1,150 +1,267 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jupiter IA – Ton assistant intelligent pensé pour l'Afrique</title>
-  <meta name="description" content="Jupiter IA répond à tes questions en français : entrepreneuriat, marketing, études, agriculture, programmation et vie quotidienne, avec des exemples adaptés au FCFA et au Mobile Money.">
+  <title>Jupiter IA</title>
   <meta name="theme-color" content="#FFFFFF">
-  <link rel="canonical" href="https://barbarie95.github.io/jupiter-ia/">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2334D399'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23064E3B' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2363DCCB'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23073B46' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
 
-  <!-- Partage sur les réseaux sociaux -->
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:site_name" content="Jupiter IA">
-  <meta property="og:title" content="Jupiter IA – Ton assistant intelligent pensé pour l'Afrique">
-  <meta property="og:description" content="Pose tes questions en français et obtiens des réponses adaptées aux réalités africaines.">
-  <meta property="og:url" content="https://barbarie95.github.io/jupiter-ia/">
-
-  <!-- Données structurées pour les moteurs de recherche -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Jupiter IA",
-    "url": "https://barbarie95.github.io/jupiter-ia/",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Tous (navigateur web)",
-    "inLanguage": "fr",
-    "description": "Assistant intelligent en français pensé pour les utilisateurs africains."
-  }
-  </script>
-
-  <link rel="stylesheet" href="assets/style.css">
   <style>
-    /* Petits réglages propres à cette page */
-    .suggestion { text-decoration: none; display: inline-flex; align-items: center; }
-    .section { padding: 28px 0; }
-    .section > h2 { text-align: center; margin-bottom: 20px; }
-    .appel { text-align: center; margin: 12px 0 44px; }
-    .appel p { color: var(--discret); max-width: 520px; margin: 0 auto 18px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #073B46;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .entete {
+      width: 100%;
+      padding: 20px 6%;
+      border-bottom: 1px solid #edf2f2;
+    }
+
+    .entete .conteneur {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #073B46;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .logo-pastille {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #63DCCB;
+      color: #073B46;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bouton {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 19px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: .2s;
+      cursor: pointer;
+    }
+
+    .bouton-principal {
+      background: #63DCCB;
+      color: #073B46;
+      border: 1px solid #63DCCB;
+    }
+
+    .bouton-principal:hover {
+      background: #42cbb9;
+      transform: translateY(-2px);
+    }
+
+    .bouton-secondaire {
+      background: white;
+      color: #073B46;
+      border: 1px solid #dce8e8;
+    }
+
+    .bouton-secondaire:hover {
+      background: #f0fbf9;
+    }
+
+    .accueil {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px 90px;
+      text-align: center;
+    }
+
+    .contenu {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .symbole {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 28px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: #e9faf7;
+      color: #159c8d;
+      font-size: 39px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1.2;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      color: #073B46;
+    }
+
+    .bienvenue {
+      color: #7b9093;
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    .action {
+      display: flex;
+      justify-content: center;
+    }
+
+    .action .bouton {
+      min-width: 190px;
+      padding: 15px 25px;
+      font-size: 15px;
+      border-radius: 14px;
+    }
+
+    .pied {
+      text-align: center;
+      padding: 20px;
+      color: #9aabad;
+      font-size: 12px;
+    }
+
+    .cache {
+      display: none !important;
+    }
+
+    @media (max-width: 500px) {
+      .entete {
+        padding: 15px 4%;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      nav {
+        gap: 7px;
+      }
+
+      nav .bouton {
+        padding: 10px 11px;
+        font-size: 12px;
+      }
+
+      .accueil {
+        padding-top: 40px;
+      }
+
+      .bienvenue {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- En-tête -->
   <header class="entete">
     <div class="conteneur">
       <a class="logo" href="index.html" aria-label="Jupiter IA, accueil">
-        <span class="logo-pastille" aria-hidden="true">J</span> Jupiter IA
+        <span class="logo-pastille">J</span>
+        Jupiter IA
       </a>
-      <nav aria-label="Navigation principale">
-        <a id="nav-connexion" class="bouton bouton-secondaire bouton-petit" href="connexion.html">Connexion</a>
-        <a id="nav-inscription" class="bouton bouton-principal bouton-petit" href="connexion.html?mode=inscription">Créer un compte</a>
+
+      <nav>
+        <a id="nav-connexion" class="bouton bouton-secondaire" href="connexion.html">
+          Connexion
+        </a>
+
+        <a id="nav-inscription" class="bouton bouton-principal" href="connexion.html?mode=inscription">
+          S'inscrire
+        </a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <!-- Présentation -->
-    <section class="hero conteneur" aria-labelledby="titre-hero">
-      <h1 id="titre-hero">Ton assistant intelligent pensé pour l'Afrique</h1>
-      <p>
-        Pose tes questions en français : entreprise, études, agriculture, TikTok, programmation, vie quotidienne.
-        Jupiter IA répond avec des exemples adaptés au FCFA, au Mobile Money et aux réalités locales.
+  <main class="accueil">
+    <section class="contenu">
+
+      <div class="symbole">J</div>
+
+      <h1>Que veux-tu faire aujourd'hui ?</h1>
+
+      <p class="bienvenue">
+        Bienvenue sur Jupiter IA
       </p>
-      <div class="actions">
-        <a id="cta-principal" class="bouton bouton-principal" href="connexion.html?mode=inscription">Commencer gratuitement</a>
-        <a id="cta-secondaire" class="bouton bouton-secondaire" href="connexion.html">J'ai déjà un compte</a>
-      </div>
-    </section>
 
-    <!-- Atouts -->
-    <section class="section conteneur" aria-labelledby="titre-atouts">
-      <h2 id="titre-atouts">Pourquoi Jupiter IA ?</h2>
-      <div class="grille-atouts">
-        <article class="carte atout">
-          <h3>Pensé pour l'Afrique</h3>
-          <p>Prix en FCFA, Mobile Money, marchés locaux : les réponses partent de ta réalité, pas d'exemples venus d'ailleurs.</p>
-        </article>
-        <article class="carte atout">
-          <h3>Utile au quotidien</h3>
-          <p>Entrepreneuriat, marketing, contenu TikTok, révisions, agriculture, programmation : un seul endroit pour avancer.</p>
-        </article>
-        <article class="carte atout">
-          <h3>Recherche Internet avec ton accord</h3>
-          <p>Pour une information récente, Jupiter IA te propose de chercher sur Internet. Rien n'est lancé sans que tu acceptes.</p>
-        </article>
-        <article class="carte atout">
-          <h3>Tes conversations gardées</h3>
-          <p>Retrouve tes discussions passées dans l'historique, et supprime celles que tu ne veux plus garder.</p>
-        </article>
-        <article class="carte atout">
-          <h3>Gratuit au lancement</h3>
-          <p>Crée ton compte avec une adresse e-mail et commence tout de suite. Une limite de messages par jour s'applique.</p>
-        </article>
-        <article class="carte atout">
-          <h3>Simple sur téléphone</h3>
-          <p>Une interface claire, légère et pensée pour le téléphone, la tablette et l'ordinateur.</p>
-        </article>
+      <div class="action">
+        <a id="cta-principal" class="bouton bouton-principal" href="connexion.html?mode=inscription">
+          Commencer
+        </a>
       </div>
-    </section>
 
-    <!-- Exemples de questions -->
-    <section class="section conteneur" aria-labelledby="titre-exemples">
-      <h2 id="titre-exemples">Essaie par exemple</h2>
-      <div class="suggestions">
-        <a class="suggestion" href="connexion.html?mode=inscription">Comment lancer un petit commerce avec 50 000 FCFA ?</a>
-        <a class="suggestion" href="connexion.html?mode=inscription">Donne-moi 10 idées de vidéos TikTok pour ma boutique</a>
-        <a class="suggestion" href="connexion.html?mode=inscription">Explique-moi la photosynthèse simplement</a>
-        <a class="suggestion" href="connexion.html?mode=inscription">Comment protéger mes tomates contre les insectes ?</a>
-        <a class="suggestion" href="connexion.html?mode=inscription">Aide-moi à écrire un message pour un client</a>
-      </div>
-    </section>
-
-    <!-- Appel final -->
-    <section class="conteneur appel">
-      <div class="carte">
-        <h2>Prêt à essayer ?</h2>
-        <p>Jupiter IA peut se tromper : vérifie toujours les informations importantes (santé, droit, argent) auprès d'un professionnel.</p>
-        <a class="bouton bouton-principal" href="connexion.html?mode=inscription">Créer mon compte</a>
-      </div>
     </section>
   </main>
 
   <footer class="pied">
-    <div class="conteneur">© Jupiter IA – Assistant intelligent pensé pour l'Afrique</div>
+    © Jupiter IA
   </footer>
 
-  <!-- Si la personne est déjà connectée, on adapte les boutons (sans bloquer l'affichage) -->
   <script defer src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
   <script defer src="assets/app.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       if (!window.JIA) return;
+
       JIA.utilisateur().then(function (u) {
         if (!u) return;
+
         var nav = document.getElementById("nav-inscription");
         nav.href = "chat.html";
         nav.textContent = "Ouvrir la discussion";
+
         document.getElementById("nav-connexion").classList.add("cache");
+
         var cta = document.getElementById("cta-principal");
         cta.href = "chat.html";
         cta.textContent = "Continuer la discussion";
-        document.getElementById("cta-secondaire").classList.add("cache");
-      }).catch(function () { /* la page reste utilisable sans connexion */ });
+      }).catch(function () {});
     });
   </script>
+
 </body>
-    </html>
+  </html>
+  
