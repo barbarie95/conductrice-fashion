@@ -1,105 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jupiter IA</title>
+  <title>Jupiter IA – Ton assistant intelligent pensé pour l'Afrique</title>
+  <meta name="description" content="Jupiter IA répond à tes questions en français, avec des exemples adaptés au FCFA, au Mobile Money et aux réalités africaines. Crée ton compte gratuitement.">
   <meta name="theme-color" content="#FFFFFF">
+  <link rel="canonical" href="https://barbarie95.github.io/jupiter-ia/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2363DCCB'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23073B46' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
 
+  <!-- Partage sur les réseaux sociaux -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Jupiter IA">
+  <meta property="og:title" content="Jupiter IA – Ton assistant intelligent pensé pour l'Afrique">
+  <meta property="og:description" content="Pose tes questions en français et obtiens des réponses adaptées aux réalités africaines.">
+  <meta property="og:url" content="https://barbarie95.github.io/jupiter-ia/">
+
+  <!-- Données structurées pour les moteurs de recherche -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Jupiter IA",
+    "url": "https://barbarie95.github.io/jupiter-ia/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Tous (navigateur web)",
+    "inLanguage": "fr",
+    "description": "Assistant intelligent en français pensé pour les utilisateurs africains."
+  }
+  </script>
+
+  <!-- Design commun du site (couleurs, en-tête, boutons) -->
+  <link rel="stylesheet" href="assets/style.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #073B46;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .entete {
-      width: 100%;
-      padding: 20px 6%;
-      border-bottom: 1px solid #edf2f2;
-    }
-
-    .entete .conteneur {
-      max-width: 1150px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #073B46;
-      text-decoration: none;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .logo-pastille {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: #63DCCB;
-      color: #073B46;
-      font-size: 23px;
-      font-weight: bold;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .bouton {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 19px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: .2s;
-      cursor: pointer;
-    }
-
-    .bouton-principal {
-      background: #63DCCB;
-      color: #073B46;
-      border: 1px solid #63DCCB;
-    }
-
-    .bouton-principal:hover {
-      background: #42cbb9;
-      transform: translateY(-2px);
-    }
-
-    .bouton-secondaire {
-      background: white;
-      color: #073B46;
-      border: 1px solid #dce8e8;
-    }
-
-    .bouton-secondaire:hover {
-      background: #f0fbf9;
-    }
+    /* Réglages propres à la page d'accueil */
+    body { display: flex; flex-direction: column; }
 
     .accueil {
       flex: 1;
@@ -109,11 +45,7 @@
       padding: 60px 20px 90px;
       text-align: center;
     }
-
-    .contenu {
-      width: 100%;
-      max-width: 700px;
-    }
+    .contenu { width: 100%; max-width: 700px; }
 
     .symbole {
       width: 72px;
@@ -122,8 +54,8 @@
       border-radius: 24px;
       display: grid;
       place-items: center;
-      background: #e9faf7;
-      color: #159c8d;
+      background: var(--carte-2);
+      color: var(--lien);
       font-size: 39px;
       font-weight: 700;
     }
@@ -131,65 +63,24 @@
     h1 {
       font-size: clamp(30px, 5vw, 46px);
       line-height: 1.2;
-      letter-spacing: -1.5px;
+      letter-spacing: -0.5px;
       margin-bottom: 16px;
-      color: #073B46;
     }
 
-    .bienvenue {
-      color: #7b9093;
-      font-size: 16px;
-      margin-bottom: 32px;
-    }
+    .bienvenue { color: var(--discret); font-size: 1.05rem; margin-bottom: 8px; }
+    .sous-titre { max-width: 520px; margin: 0 auto 32px; }
 
-    .action {
-      display: flex;
-      justify-content: center;
-    }
-
+    .action { display: flex; justify-content: center; }
     .action .bouton {
       min-width: 190px;
       padding: 15px 25px;
-      font-size: 15px;
+      font-size: 1rem;
       border-radius: 14px;
     }
-
-    .pied {
-      text-align: center;
-      padding: 20px;
-      color: #9aabad;
-      font-size: 12px;
-    }
-
-    .cache {
-      display: none !important;
-    }
+    .bouton-principal:hover { transform: translateY(-2px); }
 
     @media (max-width: 500px) {
-      .entete {
-        padding: 15px 4%;
-      }
-
-      .logo {
-        font-size: 19px;
-      }
-
-      nav {
-        gap: 7px;
-      }
-
-      nav .bouton {
-        padding: 10px 11px;
-        font-size: 12px;
-      }
-
-      .accueil {
-        padding-top: 40px;
-      }
-
-      .bienvenue {
-        font-size: 14px;
-      }
+      .accueil { padding-top: 40px; }
     }
   </style>
 </head>
@@ -199,37 +90,31 @@
   <header class="entete">
     <div class="conteneur">
       <a class="logo" href="index.html" aria-label="Jupiter IA, accueil">
-        <span class="logo-pastille">J</span>
+        <span class="logo-pastille" aria-hidden="true">J</span>
         Jupiter IA
       </a>
 
-      <nav>
-        <a id="nav-connexion" class="bouton bouton-secondaire" href="connexion.html">
-          Connexion
-        </a>
-
-        <a id="nav-inscription" class="bouton bouton-principal" href="connexion.html?mode=inscription">
-          S'inscrire
-        </a>
+      <nav aria-label="Navigation principale">
+        <a id="nav-connexion" class="bouton bouton-secondaire bouton-petit" href="connexion.html">Connexion</a>
+        <a id="nav-inscription" class="bouton bouton-principal bouton-petit" href="connexion.html?mode=inscription">S'inscrire</a>
       </nav>
     </div>
   </header>
 
-  <main class="accueil">
-    <section class="contenu">
+  <main class="accueil" id="contenu">
+    <section class="contenu" aria-labelledby="titre-accueil">
 
-      <div class="symbole">J</div>
+      <div class="symbole" aria-hidden="true">J</div>
 
-      <h1>Que veux-tu faire aujourd'hui ?</h1>
+      <h1 id="titre-accueil">Que veux-tu faire aujourd'hui ?</h1>
 
-      <p class="bienvenue">
-        Bienvenue sur Jupiter IA
+      <p class="bienvenue">Bienvenue sur Jupiter IA</p>
+      <p class="discret sous-titre">
+        Pose tes questions en français et obtiens des réponses adaptées au FCFA, au Mobile Money et aux réalités africaines.
       </p>
 
       <div class="action">
-        <a id="cta-principal" class="bouton bouton-principal" href="connexion.html?mode=inscription">
-          Commencer
-        </a>
+        <a id="cta-principal" class="bouton bouton-principal" href="connexion.html?mode=inscription">Commencer</a>
       </div>
 
     </section>
@@ -239,9 +124,9 @@
     © Jupiter IA
   </footer>
 
+  <!-- Si la personne est déjà connectée, on adapte les boutons (sans bloquer l'affichage) -->
   <script defer src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
   <script defer src="assets/app.js"></script>
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       if (!window.JIA) return;
@@ -251,17 +136,16 @@
 
         var nav = document.getElementById("nav-inscription");
         nav.href = "chat.html";
-        nav.textContent = "Ouvrir la discussion";
+        nav.textContent = "Discussion";
 
         document.getElementById("nav-connexion").classList.add("cache");
 
         var cta = document.getElementById("cta-principal");
         cta.href = "chat.html";
         cta.textContent = "Continuer la discussion";
-      }).catch(function () {});
+      }).catch(function () { /* la page reste utilisable sans connexion */ });
     });
   </script>
 
 </body>
-  </html>
-  
+      </html>
