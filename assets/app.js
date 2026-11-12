@@ -98,27 +98,64 @@
     return String(texte == null ? "" : texte).replace(/[&<>"']/g, function (c) { return table[c]; });
   }
 
-  // Met en forme les réponses de l'IA : gras, code, listes, liens (texte échappé d'abord)
+  // Met en forme les réponses de l'IA : titres, gras, italique, code, listes à puces,
+  // listes numérotées, blocs de code et liens. Le texte est échappé AVANT toute mise en forme.
   function formater(texte) {
     var html = [];
-    var dansListe = false;
+    var liste = "";        // "ul", "ol" ou "" (aucune liste ouverte)
+    var dansCode = false;  // à l'intérieur d'un bloc de code ```
+    var STYLE_CODE = "overflow-x:auto;white-space:pre-wrap;background:rgba(7,59,70,.08);padding:10px 12px;border-radius:10px;margin:8px 0";
+
+    function fermerListe() {
+      if (liste) { html.push("</" + liste + ">"); liste = ""; }
+    }
+
     function enLigne(t) {
       return t
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         .replace(/`([^`]+)`/g, "<code>$1</code>")
-        .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
+        .replace(/(https?:\/\/[^\s<]+)/g, function (url) {
+          var fin = (url.match(/[.,:!?)]+$/) || [""])[0];   // la ponctuation finale reste hors du lien
+          var lien = fin ? url.slice(0, -fin.length) : url;
+          return '<a href="' + lien + '" target="_blank" rel="noopener noreferrer">' + lien + "</a>" + fin;
+        });
     }
+
     echapper(texte).split("\n").forEach(function (ligne) {
-      var puce = ligne.match(/^\s*[-*]\s+(.*)$/);
-      if (puce) {
-        if (!dansListe) { html.push("<ul>"); dansListe = true; }
+      // Bloc de code : lignes entre deux ```
+      if (/^\s*```/.test(ligne)) {
+        fermerListe();
+        if (dansCode) { html.push("</code></pre>"); dansCode = false; }
+        else { html.push('<pre style="' + STYLE_CODE + '"><code>'); dansCode = true; }
+        return;
+      }
+      if (dansCode) { html.push(ligne + "\n"); return; }
+
+      var titre = ligne.match(/^\s*#{1,6}\s+(.*)$/);
+      var puce = ligne.match(/^\s*[-*•]\s+(.*)$/);
+      var numero = ligne.match(/^\s*(\d+)[.)]\s+(.*)$/);
+
+      if (/^\s*([-*_])\1{2,}\s*$/.test(ligne)) {          // ligne de séparation : ignorée
+        fermerListe();
+      } else if (titre) {
+        fermerListe();
+        html.push("<h3>" + enLigne(titre[1]) + "</h3>");
+      } else if (puce) {
+        if (liste !== "ul") { fermerListe(); html.push("<ul>"); liste = "ul"; }
         html.push("<li>" + enLigne(puce[1]) + "</li>");
+      } else if (numero) {
+        if (liste !== "ol") { fermerListe(); html.push('<ol start="' + numero[1] + '">'); liste = "ol"; }
+        html.push("<li>" + enLigne(numero[2]) + "</li>");
+      } else if (ligne.trim() === "") {
+        fermerListe();
       } else {
-        if (dansListe) { html.push("</ul>"); dansListe = false; }
-        if (ligne.trim() !== "") html.push("<p>" + enLigne(ligne) + "</p>");
+        fermerListe();
+        html.push("<p>" + enLigne(ligne) + "</p>");
       }
     });
-    if (dansListe) html.push("</ul>");
+    fermerListe();
+    if (dansCode) html.push("</code></pre>");
     return html.join("");
   }
 
