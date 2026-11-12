@@ -284,25 +284,34 @@ def chercher_connaissances(message):
 def construire_consigne(profil, references, resultats_web, recherche_proposable, recherche_tentee):
     """Écrit les instructions données à Gemini."""
     lignes = [
-        "Tu es Jupiter IA, un assistant conçu pour les utilisateurs africains "
-        "(Burkina Faso, Bénin, Côte d'Ivoire, Mali, Sénégal, Togo).",
-        "Réponds en français clair, simple et chaleureux, sauf si l'utilisateur écrit dans une autre langue.",
-        "Adapte tes exemples aux réalités locales : FCFA, Mobile Money, marchés locaux.",
-        "Sois concis. Utilise des listes courtes quand c'est utile.",
-        "N'invente jamais un prix, une loi, une adresse ou un chiffre précis : dis honnêtement quand tu n'es pas sûr.",
+        "Tu es Jupiter IA, un assistant intelligent, utile et fiable. Tu réponds en français clair et chaleureux, "
+        "sauf si l'utilisateur écrit dans une autre langue.",
+        "Réponds directement à la question posée, avec une vision générale et mondiale par défaut. "
+        "Ne suppose jamais le métier, la situation ou le pays de l'utilisateur.",
+        "Donne des exemples africains, des prix en FCFA ou des références locales seulement si la question le demande "
+        "ou si la réponse dépend clairement du lieu.",
+        "Sois complet et concret : pour les demandes d'idées, de conseils, de plans ou de tutoriels, propose plusieurs "
+        "options variées, avec des exemples précis, les étapes pour passer à l'action et, quand c'est utile, les outils recommandés.",
+        "Adapte la longueur à la demande : réponse courte pour une question simple, réponse détaillée et bien structurée "
+        "(titres courts, listes) pour un sujet riche. Termine, quand c'est pertinent, par une courte proposition pour aller plus loin.",
+        "N'invente jamais un prix, une loi, une adresse ou un chiffre précis : dis honnêtement quand tu n'es pas sûr, "
+        "surtout pour les informations récentes.",
         "Pour la santé, le droit et la finance, donne des informations générales et conseille de consulter un professionnel.",
     ]
     if profil:
         nom = (profil.get("nom") or "").strip()
         pays = (profil.get("pays") or "").strip()
-        if nom or pays:
-            lignes.append("Utilisateur : " + nom + (" (pays : " + pays + ")" if pays else "") + ".")
+        if nom:
+            lignes.append("Prénom de l'utilisateur : " + nom + ". Utilise-le avec parcimonie.")
+        if pays:
+            lignes.append("Pays de l'utilisateur : " + pays + " (à utiliser seulement si la question dépend du lieu).")
     if references:
         lignes.append("")
-        lignes.append("BASE DE CONNAISSANCES DE JUPITER IA (informations vérifiées, à utiliser en priorité si elles répondent à la question) :")
+        lignes.append("BASE DE CONNAISSANCES DE JUPITER IA (informations vérifiées par l'équipe : appuie-toi dessus en priorité, "
+                      "reprends tout leur contenu en l'enrichissant si c'est utile, sans les contredire) :")
         for _, _, entree in references:
             lignes.append("- Question : " + str(entree.get("question", "")))
-            lignes.append("  Réponse : " + str(entree.get("reponse", ""))[:1500])
+            lignes.append("  Réponse : " + str(entree.get("reponse", ""))[:3000])
     if resultats_web:
         lignes.append("")
         lignes.append("RÉSULTATS DE RECHERCHE INTERNET (récents ; utilise-les pour répondre et cite le site source quand c'est utile). "
@@ -331,7 +340,7 @@ def appeler_gemini(consigne, historique):
     corps = {
         "system_instruction": {"parts": [{"text": consigne}]},
         "contents": contenus,
-        "generationConfig": {"temperature": 0.6, "maxOutputTokens": 1500},
+        "generationConfig": {"temperature": 0.6, "maxOutputTokens": 2500},
     }
     url = "https://generativelanguage.googleapis.com/v1beta/models/" + MODELE + ":generateContent"
     try:
@@ -362,7 +371,7 @@ def rechercher_internet(requete):
         journal("Tavily erreur " + str(code))
         return []
     return reponse.get("results", []) or []
-    # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 # Conversations et messages
 # ---------------------------------------------------------------------------
 def verifier_conversation(uid, conv_id):
