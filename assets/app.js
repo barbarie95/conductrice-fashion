@@ -197,3 +197,14 @@
     occupe: occupe
   };
 })();
+
+  /* ---------- Gestion du compte (page « Mon compte ») ---------- */
+  window.JIA.changerNom = async function (nom) {
+    try { return await compte.updateName(nom); }
+    catch (e) { throw new Error(traduire(e)); }
+  };
+
+  window.JIA.changerMotDePasse = async function (nouveau, ancien) {
+    try { return await compte.updatePassword(nouveau, ancien); }
+    catch (e) { throw new Error(traduire(e)); }
+  };
