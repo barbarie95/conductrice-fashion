@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Connexion – Jupiter IA</title>
+  <meta name="description" content="Connecte-toi ou crée ton compte gratuit sur Jupiter IA, l'assistant IA pensé pour l'Afrique.">
+  <meta name="theme-color" content="#0B1A14">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- En-tête -->
+  <header class="entete">
+    <div class="conteneur">
+      <a class="logo" href="index.html" aria-label="Jupiter IA, retour à l'accueil">
+        <span class="logo-pastille" aria-hidden="true">J</span> Jupiter IA
+      </a>
+    </div>
+  </header>
+
+  <main class="auth">
+    <section class="carte" aria-labelledby="titre-auth">
+      <h1 id="titre-auth" style="font-size:1.5rem;margin-bottom:16px">Bienvenue sur Jupiter IA</h1>
+
+      <!-- Onglets : connexion / inscription -->
+      <div class="onglets" role="tablist" aria-label="Choisir une action">
+        <button type="button" role="tab" id="onglet-connexion" aria-controls="panneau-connexion" aria-selected="true">Connexion</button>
+        <button type="button" role="tab" id="onglet-inscription" aria-controls="panneau-inscription" aria-selected="false">Inscription</button>
+      </div>
+
+      <!-- Zone des messages (erreurs, confirmations) -->
+      <div id="message" class="cache" aria-live="polite"></div>
+
+      <!-- Formulaire de connexion -->
+      <form id="panneau-connexion" role="tabpanel" aria-labelledby="onglet-connexion" novalidate>
+        <div class="champ">
+          <label for="c-email">Adresse e-mail</label>
+          <input id="c-email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="champ">
+          <label for="c-mdp">Mot de passe</label>
+          <input id="c-mdp" type="password" autocomplete="current-password" required>
+        </div>
+        <button id="c-envoyer" class="bouton bouton-principal bouton-bloc" type="submit">Se connecter</button>
+      </form>
+
+      <!-- Formulaire d'inscription -->
+      <form id="panneau-inscription" role="tabpanel" aria-labelledby="onglet-inscription" class="cache" novalidate>
+        <div class="champ">
+          <label for="i-nom">Ton prénom ou nom</label>
+          <input id="i-nom" type="text" autocomplete="name" maxlength="80" required>
+        </div>
+        <div class="champ">
+          <label for="i-pays">Ton pays</label>
+          <select id="i-pays">
+            <option value="Burkina Faso">Burkina Faso</option>
+            <option value="Bénin">Bénin</option>
+            <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+            <option value="Mali">Mali</option>
+            <option value="Sénégal">Sénégal</option>
+            <option value="Togo">Togo</option>
+            <option value="Autre">Autre pays</option>
+          </select>
+        </div>
+        <div class="champ">
+          <label for="i-email">Adresse e-mail</label>
+          <input id="i-email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="champ">
+          <label for="i-mdp">Mot de passe (8 caractères minimum)</label>
+          <input id="i-mdp" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="champ">
+          <label for="i-mdp2">Confirme le mot de passe</label>
+          <input id="i-mdp2" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+
+        <details class="discret" style="margin-bottom:12px">
+          <summary>Lire les conditions d'utilisation</summary>
+          <p style="margin-top:8px">
+            Jupiter IA est un assistant d'information : ses réponses peuvent contenir des erreurs et ne remplacent
+            pas l'avis d'un professionnel (santé, droit, finance). Tes messages sont traités par des services
+            tiers : Google Gemini (l'offre gratuite de Google peut utiliser les contenus envoyés pour améliorer
+            ses produits) et, seulement si tu l'acceptes, Tavily pour la recherche sur Internet. N'envoie jamais
+            de mots de passe, de codes secrets ni de données bancaires dans la discussion.
+          </p>
+        </details>
+        <div class="case">
+          <input id="i-conditions" type="checkbox" required>
+          <label for="i-conditions">J'accepte les conditions d'utilisation</label>
+        </div>
+
+        <button id="i-envoyer" class="bouton bouton-principal bouton-bloc" type="submit">Créer mon compte</button>
+      </form>
+
+      <div class="case" style="margin:16px 0 0">
+        <input id="voir-mdp" type="checkbox">
+        <label for="voir-mdp" class="discret">Afficher les mots de passe</label>
+      </div>
+    </section>
+  </main>
+
+  <!-- SDK Appwrite (version fixe) puis fonctions communes de Jupiter IA -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var onglets = {
+        connexion: document.getElementById("onglet-connexion"),
+        inscription: document.getElementById("onglet-inscription")
+      };
+      var panneaux = {
+        connexion: document.getElementById("panneau-connexion"),
+        inscription: document.getElementById("panneau-inscription")
+      };
+      var zoneMessage = document.getElementById("message");
+
+      // Affiche l'onglet demandé ("connexion" ou "inscription")
+      function afficher(mode) {
+        Object.keys(onglets).forEach(function (nom) {
+          var actif = nom === mode;
+          onglets[nom].setAttribute("aria-selected", actif ? "true" : "false");
+          panneaux[nom].classList.toggle("cache", !actif);
+        });
+        JIA.message(zoneMessage, "");
+      }
+      onglets.connexion.addEventListener("click", function () { afficher("connexion"); });
+      onglets.inscription.addEventListener("click", function () { afficher("inscription"); });
+
+      // Ouvre directement l'inscription si l'adresse contient ?mode=inscription
+      if (new URLSearchParams(window.location.search).get("mode") === "inscription") afficher("inscription");
+
+      // Si l'utilisateur est déjà connecté, on l'envoie vers la discussion
+      JIA.redirigerSiConnecte();
+
+      // Afficher / masquer les mots de passe
+      document.getElementById("voir-mdp").addEventListener("change", function (e) {
+        ["c-mdp", "i-mdp", "i-mdp2"].forEach(function (id) {
+          document.getElementById(id).type = e.target.checked ? "text" : "password";
+        });
+      });
+
+      var emailValide = function (t) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t); };
+
+      /* ---------- Connexion ---------- */
+      panneaux.connexion.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var email = document.getElementById("c-email").value.trim();
+        var mdp = document.getElementById("c-mdp").value;
+        var bouton = document.getElementById("c-envoyer");
+        if (!emailValide(email)) return JIA.message(zoneMessage, "Écris une adresse e-mail valide.");
+        if (!mdp) return JIA.message(zoneMessage, "Écris ton mot de passe.");
+        JIA.message(zoneMessage, "");
+        JIA.occupe(bouton, true, "Connexion…");
+        try {
+          await JIA.connecter(email, mdp);
+          window.location.replace("chat.html");
+        } catch (erreur) {
+          JIA.message(zoneMessage, erreur.message);
+          JIA.occupe(bouton, false);
+        }
+      });
+
+      /* ---------- Inscription ---------- */
+      panneaux.inscription.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var nom = document.getElementById("i-nom").value.trim();
+        var pays = document.getElementById("i-pays").value;
+        var email = document.getElementById("i-email").value.trim();
+        var mdp = document.getElementById("i-mdp").value;
+        var mdp2 = document.getElementById("i-mdp2").value;
+        var bouton = document.getElementById("i-envoyer");
+        if (nom.length < 2) return JIA.message(zoneMessage, "Écris ton prénom ou ton nom.");
+        if (!emailValide(email)) return JIA.message(zoneMessage, "Écris une adresse e-mail valide.");
+        if (mdp.length < 8) return JIA.message(zoneMessage, "Le mot de passe doit contenir au moins 8 caractères.");
+        if (mdp !== mdp2) return JIA.message(zoneMessage, "Les deux mots de passe ne sont pas identiques.");
+        if (!document.getElementById("i-conditions").checked) return JIA.message(zoneMessage, "Accepte les conditions d'utilisation pour continuer.");
+        JIA.message(zoneMessage, "");
+        JIA.occupe(bouton, true, "Création du compte…");
+        try {
+          await JIA.inscrire(nom, email, mdp);
+        } catch (erreur) {
+          JIA.message(zoneMessage, erreur.message);
+          JIA.occupe(bouton, false);
+          return;
+        }
+        // Le compte existe : on enregistre le profil (nom, pays). Si cela échoue, ce n'est pas bloquant.
+        try { await JIA.appeler("profil_set", { nom: nom, pays: pays }); } catch (erreur) { /* modifiable plus tard dans « Mon compte » */ }
+        window.location.replace("chat.html");
+      });
+    })();
+  </script>
+</body>
+  </html>
