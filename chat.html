@@ -1,354 +1,348 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Discussion – Jupiter IA</title>
-  <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#FFFFFF">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2334D399'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23064E3B' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Discussion – Jupiter IA</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2363DCCB'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23073B46' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
+<style>
+:root{--t:#073B46;--g:#63DCCB;--p:#e9faf7;--b:#e7eeee;--s:#4F6B70}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:white;color:var(--t)}
+button,textarea{font:inherit}button{cursor:pointer}.cache{display:none!important}
+:focus-visible{outline:3px solid #0B7A6E;outline-offset:2px}
+.app-chat{display:flex;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.tiroir{width:280px;min-width:280px;background:#f7fbfa;border-right:1px solid var(--b);display:flex;flex-direction:column;z-index:20}
+.tiroir-tete{padding:19px 15px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--t);font-size:20px;font-weight:700}
+.logo-pastille{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:var(--g);font-size:22px}
+.bouton{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border:0;border-radius:11px;padding:11px 15px;font-size:13px;font-weight:600;text-decoration:none;transition:.2s}
+.bouton-principal{background:var(--g);color:var(--t)}
+.bouton-principal:hover{background:#45cbb9}
+.bouton-secondaire{background:white;border:1px solid var(--b);color:var(--t)}
+.bouton-secondaire:hover{background:var(--p)}
+.bouton-bloc{width:100%;padding:13px;justify-content:flex-start;text-align:left}
+.liste-conv{flex:1;overflow-y:auto;padding:15px 10px}
+.conv{display:flex;align-items:center;gap:5px;margin-bottom:5px;border-radius:10px;padding:4px}
+.conv:hover,.conv.active{background:#e9f4f2}
+.conv .titre{flex:1;min-width:0;min-height:44px;border:0;background:transparent;color:var(--t);text-align:left;padding:9px 7px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.suppr{display:grid;place-items:center;min-width:44px;min-height:44px;border:0;background:transparent;color:#5F7377;padding:7px;border-radius:7px}
+.suppr:hover{color:#B83232;background:white}
+.tiroir-pied{border-top:1px solid var(--b);padding:14px;display:flex;flex-wrap:wrap;gap:8px}
+.discret{color:var(--s);font-size:12px}
+.bouton-danger{background:#fff0f0;color:#B83232}
+.zone-chat{flex:1;min-width:0;display:flex;flex-direction:column;background:white}
+.barre-chat{height:66px;min-height:66px;padding:0 25px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--b)}
+.titre-conv{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.messages{flex:1;overflow-y:auto;padding:30px 20px;scroll-behavior:smooth}
+.messages-interieur{width:100%;max-width:790px;margin:auto;display:flex;flex-direction:column;gap:22px;min-height:100%}
+.accueil-chat{margin:auto;width:100%;text-align:center;padding:25px 10px 45px}
+.symbole-accueil{width:68px;height:68px;margin:0 auto 25px;display:grid;place-items:center;border-radius:22px;background:var(--p);color:#159c8d;font-size:36px;font-weight:bold}
+.accueil-chat h2{font-size:clamp(25px,4vw,34px);letter-spacing:-1px;margin-bottom:12px}
+.accueil-chat p{color:var(--s);font-size:15px}
+.bulle{max-width:85%;width:fit-content;padding:14px 17px;border-radius:18px;font-size:15px;line-height:1.7;overflow-wrap:anywhere}
+.bulle-user{align-self:flex-end;background:var(--p);border-bottom-right-radius:5px}
+.bulle-ia{align-self:flex-start;background:transparent;color:#253b40;padding-left:2px;max-width:100%}
+.bulle-ia p{margin-bottom:10px}.bulle-ia ul,.bulle-ia ol{padding-left:23px;margin:10px 0}
+.bulle-ia h1,.bulle-ia h2,.bulle-ia h3{margin:12px 0}
+.etiquette-source{display:block;margin-top:12px;font-size:11px;color:var(--s)}
+.points{display:flex;gap:5px;padding:8px 0}
+.points span{width:7px;height:7px;background:#55cdbd;border-radius:50%;animation:rebond 1s infinite alternate}
+.points span:nth-child(2){animation-delay:.2s}.points span:nth-child(3){animation-delay:.4s}
+@keyframes rebond{to{opacity:.3;transform:translateY(-5px)}}
+.alerte{padding:13px;border-radius:12px;font-size:13px}
+.alerte-erreur{background:#fff0f0;color:#b83232}
+.proposition{align-self:flex-start;max-width:90%;background:#f7fbfa;border:1px solid var(--b);padding:16px;border-radius:14px;font-size:14px;line-height:1.6}
+.proposition .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.saisie{padding:12px 20px calc(18px + env(safe-area-inset-bottom));background:white}
+.saisie-interieur{max-width:790px;margin:auto;display:flex;align-items:flex-end;gap:10px;border:1px solid #dce8e8;border-radius:20px;padding:9px;box-shadow:0 4px 20px #073b460f}
+.saisie-interieur:focus-within{border-color:var(--g);box-shadow:0 4px 22px #63dccb26}
+#champ{flex:1;min-width:0;max-height:160px;resize:none;border:0;outline:0;padding:11px 9px;font-size:16px;line-height:1.5;color:var(--t);background:transparent}
+#champ::placeholder{color:#5F7377}
+#envoyer{min-width:44px;height:44px;border-radius:13px;font-size:17px}
+#envoyer:disabled{opacity:.5;cursor:not-allowed}
+.note-saisie{max-width:790px;margin:10px auto 0;text-align:center;color:#5F7377;font-size:11px;line-height:1.5}
+.voile{display:none}
+@media(min-width:960px){#bouton-menu,#fermer-tiroir{display:none}}
+@media(max-width:959px){
+.tiroir{position:fixed;top:0;bottom:0;left:0;transform:translateX(-100%);box-shadow:5px 0 25px #0001;transition:transform .25s}
+.tiroir.ouvert{transform:translateX(0)}
+.voile:not(.cache){display:block;position:fixed;inset:0;background:#0004;z-index:15}
+.barre-chat{padding:0 13px;height:60px;min-height:60px}
+.messages{padding:20px 14px}.saisie{padding:10px 12px calc(14px + env(safe-area-inset-bottom))}
+.bulle{max-width:92%;font-size:14px}
+}
+@media(max-width:420px){.logo{font-size:18px}.tiroir{width:285px}.accueil-chat h2{font-size:26px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
+<div class="app-chat" id="application" aria-busy="true">
+<aside class="tiroir" id="tiroir" aria-label="Historique des conversations">
+<div class="tiroir-tete">
+<a class="logo" href="index.html"><span class="logo-pastille">J</span> Jupiter IA</a>
+<button type="button" class="bouton bouton-secondaire" id="fermer-tiroir" aria-label="Fermer">✕</button>
+</div>
+<div style="padding:12px 12px 0">
+<button type="button" class="bouton bouton-principal bouton-bloc" id="nouvelle-conv">+ Nouvelle conversation</button>
+</div>
+<nav class="liste-conv" id="liste-conv" aria-label="Tes conversations"></nav>
+<div class="tiroir-pied">
+<p class="discret" id="nom-utilisateur"></p>
+<a class="bouton bouton-secondaire" href="compte.html">Mon compte</a>
+<a class="bouton bouton-secondaire cache" id="lien-admin" href="admin.html">Administration</a>
+<button type="button" class="bouton bouton-danger" id="deconnexion">Se déconnecter</button>
+</div>
+</aside>
+<div class="voile cache" id="voile"></div>
+<main class="zone-chat">
+<div class="barre-chat">
+<button type="button" class="bouton bouton-secondaire" id="bouton-menu" aria-controls="tiroir" aria-expanded="false">☰ Historique</button>
+<span class="titre-conv" id="titre-conv">Nouvelle conversation</span>
+</div>
+<div class="messages" id="messages" role="log" aria-live="polite">
+<div class="messages-interieur" id="messages-interieur"></div>
+</div>
+<div class="saisie">
+<form class="saisie-interieur" id="formulaire" autocomplete="off">
+<label for="champ" class="cache">Ton message</label>
+<textarea id="champ" rows="1" maxlength="2000" aria-label="Ton message" placeholder="Écris ton message…" required></textarea>
+<button type="submit" class="bouton bouton-principal" id="envoyer" aria-label="Envoyer">↑</button>
+</form>
+<p class="note-saisie" id="note-saisie">Jupiter IA peut se tromper. Vérifie les informations importantes.</p>
+</div>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id)};
+var tiroir=$("tiroir"),voile=$("voile"),listeConv=$("liste-conv");
+var messages=$("messages"),interieur=$("messages-interieur");
+var champ=$("champ"),boutonEnvoyer=$("envoyer"),titreConv=$("titre-conv");
+var note=$("note-saisie"),boutonMenu=$("bouton-menu");
+var etat={utilisateur:null,convId:"",envoi:false,conversations:[]};
+var mobile=window.matchMedia("(max-width:959px)");
+var tactile=window.matchMedia("(pointer:coarse)");
 
-  <div class="app-chat" id="application" aria-busy="true">
+function majTiroir(){
+var ouvert=tiroir.classList.contains("ouvert");
+tiroir.inert=mobile.matches&&!ouvert;
+boutonMenu.setAttribute("aria-expanded",ouvert?"true":"false");
+voile.classList.toggle("cache",!(ouvert&&mobile.matches));
+}
+function fermerTiroir(){tiroir.classList.remove("ouvert");majTiroir()}
+function ouvrirTiroir(){tiroir.classList.add("ouvert");majTiroir()}
+boutonMenu.addEventListener("click",ouvrirTiroir);
+$("fermer-tiroir").addEventListener("click",fermerTiroir);
+voile.addEventListener("click",fermerTiroir);
+document.addEventListener("keydown",function(e){if(e.key==="Escape")fermerTiroir()});
+if(mobile.addEventListener)mobile.addEventListener("change",majTiroir);
 
-    <!-- Tiroir : historique des conversations -->
-    <aside class="tiroir" id="tiroir" aria-label="Historique des conversations">
-      <div class="tiroir-tete">
-        <a class="logo" href="index.html" aria-label="Jupiter IA, accueil">
-          <span class="logo-pastille" aria-hidden="true">J</span> Jupiter IA
-        </a>
-        <button type="button" class="bouton bouton-secondaire bouton-petit bouton-menu" id="fermer-tiroir" aria-label="Fermer l'historique">✕</button>
-      </div>
-      <div style="padding:12px 12px 0">
-        <button type="button" class="bouton bouton-principal bouton-bloc" id="nouvelle-conv">+ Nouvelle conversation</button>
-      </div>
-      <nav class="liste-conv" id="liste-conv" aria-label="Tes conversations"></nav>
-      <div class="tiroir-pied">
-        <p class="discret" id="nom-utilisateur"></p>
-        <a class="bouton bouton-secondaire bouton-petit" href="compte.html">Mon compte</a>
-        <a class="bouton bouton-secondaire bouton-petit cache" id="lien-admin" href="admin.html">Administration</a>
-        <button type="button" class="bouton bouton-danger bouton-petit" id="deconnexion">Se déconnecter</button>
-      </div>
-    </aside>
-    <div class="voile cache" id="voile"></div>
+function defiler(){messages.scrollTop=messages.scrollHeight}
 
-    <!-- Zone de discussion -->
-    <main class="zone-chat">
-      <div class="barre-chat">
-        <button type="button" class="bouton bouton-secondaire bouton-petit bouton-menu" id="bouton-menu"
-                aria-controls="tiroir" aria-expanded="false">☰ Historique</button>
-        <span class="titre-conv" id="titre-conv">Nouvelle conversation</span>
-      </div>
+function ajouterBulle(role,texte,source){
+var bulle=document.createElement("div");
+bulle.className="bulle "+(role==="user"?"bulle-user":"bulle-ia");
+if(role==="user")bulle.textContent=texte;
+else{
+bulle.innerHTML=JIA.formater(texte);
+var etiquette=source==="connaissance"?"Réponse issue de la base de connaissances de Jupiter IA":source==="internet"?"Réponse enrichie par une recherche Internet":null;
+if(etiquette){
+var span=document.createElement("span");
+span.className="etiquette-source";
+span.textContent=etiquette;
+bulle.appendChild(span);
+}
+}
+interieur.appendChild(bulle);defiler();return bulle;
+}
 
-      <div class="messages" id="messages" role="log" aria-live="polite" aria-label="Messages de la conversation">
-        <div class="messages-interieur" id="messages-interieur"></div>
-      </div>
+function ajouterAttente(){
+var b=document.createElement("div");
+b.className="bulle bulle-ia";
+b.setAttribute("aria-label","Jupiter IA réfléchit");
+b.innerHTML='<span class="points"><span></span><span></span><span></span></span>';
+interieur.appendChild(b);defiler();return b;
+}
+function ajouterErreur(texte){
+var z=document.createElement("div");
+z.className="alerte alerte-erreur";
+z.setAttribute("role","alert");z.textContent=texte;
+interieur.appendChild(z);defiler();
+}
+function majRestants(n){
+if(typeof n!=="number")return;
+note.textContent="Il te reste "+n+" message"+(n>1?"s":"")+" aujourd'hui. Jupiter IA peut se tromper : vérifie les informations importantes.";
+}
 
-      <div class="saisie">
-        <form class="saisie-interieur" id="formulaire" autocomplete="off">
-          <label for="champ" class="cache">Ton message</label>
-          <textarea id="champ" rows="1" maxlength="2000" placeholder="Pose ta question à Jupiter IA…" required></textarea>
-          <button type="submit" class="bouton bouton-principal" id="envoyer">Envoyer</button>
-        </form>
-        <p class="note-saisie" id="note-saisie">Jupiter IA peut se tromper. Vérifie les informations importantes.</p>
-      </div>
-    </main>
-  </div>
+/* Accueil */
+function afficherAccueil(){
+var bloc=document.createElement("div");
+bloc.className="accueil-chat";bloc.id="accueil";
+var symbole=document.createElement("div");
+symbole.className="symbole-accueil";symbole.textContent="J";
+var prenom=((etat.utilisateur&&etat.utilisateur.name)||"").split(" ")[0];
+var titre=document.createElement("h2");
+titre.textContent=prenom?"Bonjour "+prenom+" !":"Bonjour !";
+var texte=document.createElement("p");
+texte.textContent="Que veux-tu faire aujourd'hui ?";
+bloc.appendChild(symbole);bloc.appendChild(titre);bloc.appendChild(texte);
+interieur.appendChild(bloc);
+}
+function masquerAccueil(){var a=$("accueil");if(a)a.remove()}
 
-  <!-- SDK Appwrite (version fixe) puis fonctions communes de Jupiter IA -->
-  <script src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
-  <script src="assets/app.js"></script>
-  <script>
-    (function () {
-      "use strict";
+/* Historique */
+function afficherConversations(){
+listeConv.textContent="";
+if(!etat.conversations.length){
+var vide=document.createElement("p");
+vide.className="discret";vide.style.padding="10px";
+vide.textContent="Aucune conversation pour l'instant.";
+listeConv.appendChild(vide);return;
+}
+etat.conversations.forEach(function(c){
+var ligne=document.createElement("div");
+ligne.className="conv"+(c.id===etat.convId?" active":"");
+var titre=document.createElement("button");
+titre.type="button";titre.className="titre";
+titre.textContent=c.titre||"Nouvelle conversation";
+titre.addEventListener("click",function(){ouvrirConversation(c.id)});
+var suppr=document.createElement("button");
+suppr.type="button";suppr.className="suppr";suppr.textContent="✕";
+suppr.setAttribute("aria-label","Supprimer la conversation");
+suppr.addEventListener("click",function(){supprimerConversation(c)});
+ligne.appendChild(titre);ligne.appendChild(suppr);
+listeConv.appendChild(ligne);
+});
+}
+async function chargerConversations(){
+var r=await JIA.appeler("conversations_list");
+etat.conversations=r.conversations||[];afficherConversations();
+}
+async function ouvrirConversation(id){
+if(etat.envoi)return;
+try{
+var r=await JIA.appeler("conversation_get",{conversation_id:id});
+etat.convId=id;interieur.textContent="";
+r.messages.forEach(function(m){
+ajouterBulle(m.role==="user"?"user":"ia",m.contenu,m.source);
+});
+titreConv.textContent=r.titre||"Conversation";
+afficherConversations();fermerTiroir();defiler();
+}catch(e){ajouterErreur(e.message)}
+}
+function nouvelleConversation(){
+if(etat.envoi)return;
+etat.convId="";interieur.textContent="";
+afficherAccueil();titreConv.textContent="Nouvelle conversation";
+afficherConversations();fermerTiroir();champ.focus();
+}
+async function supprimerConversation(c){
+if(etat.envoi)return;
+if(!confirm("Supprimer cette conversation ? Cette action est définitive."))return;
+try{
+await JIA.appeler("conversation_delete",{conversation_id:c.id});
+etat.conversations=etat.conversations.filter(function(x){return x.id!==c.id});
+if(c.id===etat.convId)nouvelleConversation();
+else afficherConversations();
+}catch(e){ajouterErreur(e.message)}
+}
 
-      var $ = function (id) { return document.getElementById(id); };
-      var tiroir = $("tiroir"), voile = $("voile"), listeConv = $("liste-conv");
-      var messages = $("messages"), interieur = $("messages-interieur");
-      var champ = $("champ"), boutonEnvoyer = $("envoyer"), titreConv = $("titre-conv");
-      var note = $("note-saisie"), boutonMenu = $("bouton-menu");
+/* Recherche Internet */
+function afficherProposition(texte){
+var carte=document.createElement("div");
+carte.className="proposition";
+var question=document.createElement("p");
+question.textContent="Cette question demande une information récente. Veux-tu que Jupiter IA cherche sur Internet ?";
+var actions=document.createElement("div");actions.className="actions";
+var oui=document.createElement("button");
+oui.type="button";oui.className="bouton bouton-principal";oui.textContent="Oui, chercher";
+var non=document.createElement("button");
+non.type="button";non.className="bouton bouton-secondaire";non.textContent="Non merci";
+oui.addEventListener("click",function(){carte.remove();envoyer(texte,{recherche:true})});
+non.addEventListener("click",function(){
+question.textContent="D'accord, aucune recherche n'est lancée. Tu peux poser une autre question.";
+actions.remove();
+});
+actions.appendChild(oui);actions.appendChild(non);
+carte.appendChild(question);carte.appendChild(actions);
+interieur.appendChild(carte);defiler();
+}
 
-      // État de la page
-      var etat = { utilisateur: null, convId: "", envoi: false, conversations: [] };
-      var mobile = window.matchMedia("(max-width: 959px)");
-      var tactile = window.matchMedia("(pointer: coarse)");
+/* Envoi des messages */
+async function envoyer(texte,options){
+options=options||{};texte=(texte||"").trim();
+if(!texte||etat.envoi)return;
+etat.envoi=true;boutonEnvoyer.disabled=true;masquerAccueil();
+var bulleUtilisateur=options.recherche?null:ajouterBulle("user",texte);
+if(!options.recherche){champ.value="";champ.style.height="auto"}
+var attente=ajouterAttente();
+try{
+var r=await JIA.appeler("chat",{
+message:texte,
+conversation_id:etat.convId,
+recherche:!!options.recherche
+});
+attente.remove();
+var nouvelle=!etat.convId;
+etat.convId=r.conversation_id;
+if(r.propose_recherche)afficherProposition(texte);
+else{
+ajouterBulle("ia",r.reponse,r.source);
+majRestants(r.messages_restants);
+}
+if(nouvelle){
+await chargerConversations();
+var courante=etat.conversations.filter(function(c){return c.id===etat.convId})[0];
+titreConv.textContent=(courante&&courante.titre)||"Conversation";
+}
+}catch(e){
+attente.remove();
+if(bulleUtilisateur){bulleUtilisateur.remove();if(!champ.value)champ.value=texte}
+ajouterErreur(e.message);
+}finally{
+etat.envoi=false;boutonEnvoyer.disabled=false;
+}
+}
 
-      var SUGGESTIONS = [
-        "Comment lancer un petit commerce avec 50 000 FCFA ?",
-        "Donne-moi 10 idées de vidéos TikTok pour ma boutique",
-        "Explique-moi la photosynthèse simplement",
-        "Aide-moi à écrire un message pour un client"
-      ];
+/* Saisie */
+$("formulaire").addEventListener("submit",function(e){
+e.preventDefault();envoyer(champ.value);
+});
+champ.addEventListener("input",function(){
+champ.style.height="auto";
+champ.style.height=Math.min(champ.scrollHeight,160)+"px";
+});
+champ.addEventListener("keydown",function(e){
+if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing&&!tactile.matches){
+e.preventDefault();envoyer(champ.value);
+}
+});
+$("nouvelle-conv").addEventListener("click",nouvelleConversation);
+$("deconnexion").addEventListener("click",function(){JIA.deconnecter()});
 
-      /* ---------- Tiroir (historique) ---------- */
-      function majTiroir() {
-        var ouvert = tiroir.classList.contains("ouvert");
-        tiroir.inert = mobile.matches && !ouvert;  // inaccessible au clavier quand il est caché
-        boutonMenu.setAttribute("aria-expanded", ouvert ? "true" : "false");
-        voile.classList.toggle("cache", !(ouvert && mobile.matches));
-      }
-      function ouvrirTiroir() { tiroir.classList.add("ouvert"); majTiroir(); }
-      function fermerTiroir() { tiroir.classList.remove("ouvert"); majTiroir(); }
-      boutonMenu.addEventListener("click", ouvrirTiroir);
-      $("fermer-tiroir").addEventListener("click", fermerTiroir);
-      voile.addEventListener("click", fermerTiroir);
-      document.addEventListener("keydown", function (e) { if (e.key === "Escape") fermerTiroir(); });
-      if (mobile.addEventListener) mobile.addEventListener("change", majTiroir);
-
-      /* ---------- Affichage des messages ---------- */
-      function defiler() { messages.scrollTop = messages.scrollHeight; }
-
-      // role : "user" ou "ia" ; source : "connaissance", "internet" ou "gemini"
-      function ajouterBulle(role, texte, source) {
-        var bulle = document.createElement("div");
-        bulle.className = "bulle " + (role === "user" ? "bulle-user" : "bulle-ia");
-        if (role === "user") {
-          bulle.textContent = texte;
-        } else {
-          bulle.innerHTML = JIA.formater(texte);  // texte échappé avant mise en forme
-          var etiquette = null;
-          if (source === "connaissance") etiquette = "Réponse issue de la base de connaissances de Jupiter IA";
-          if (source === "internet") etiquette = "Réponse enrichie par une recherche Internet";
-          if (etiquette) {
-            var span = document.createElement("span");
-            span.className = "etiquette-source";
-            span.textContent = etiquette;
-            bulle.appendChild(span);
-          }
-        }
-        interieur.appendChild(bulle);
-        defiler();
-        return bulle;
-      }
-
-      function ajouterAttente() {
-        var bulle = document.createElement("div");
-        bulle.className = "bulle bulle-ia";
-        bulle.setAttribute("aria-label", "Jupiter IA réfléchit");
-        bulle.innerHTML = '<span class="points"><span></span><span></span><span></span></span>';
-        interieur.appendChild(bulle);
-        defiler();
-        return bulle;
-      }
-
-      function ajouterErreur(texte) {
-        var zone = document.createElement("div");
-        zone.className = "alerte alerte-erreur";
-        zone.setAttribute("role", "alert");
-        zone.textContent = texte;
-        interieur.appendChild(zone);
-        defiler();
-      }
-
-      function majRestants(n) {
-        if (typeof n !== "number") return;
-        note.textContent = "Il te reste " + n + " message" + (n > 1 ? "s" : "") +
-          " aujourd'hui. Jupiter IA peut se tromper : vérifie les informations importantes.";
-      }
-
-      /* ---------- Écran d'accueil de la discussion ---------- */
-      function afficherAccueil() {
-        var prenom = ((etat.utilisateur && etat.utilisateur.name) || "").split(" ")[0];
-        var bloc = document.createElement("div");
-        bloc.className = "accueil-chat";
-        bloc.id = "accueil";
-        var titre = document.createElement("h2");
-        titre.textContent = prenom ? "Bonjour " + prenom + " !" : "Bonjour !";
-        var texte = document.createElement("p");
-        texte.textContent = "Comment puis-je t'aider aujourd'hui ?";
-        var liste = document.createElement("div");
-        liste.className = "suggestions";
-        SUGGESTIONS.forEach(function (s) {
-          var bouton = document.createElement("button");
-          bouton.type = "button";
-          bouton.className = "suggestion";
-          bouton.textContent = s;
-          bouton.addEventListener("click", function () { envoyer(s); });
-          liste.appendChild(bouton);
-        });
-        bloc.appendChild(titre); bloc.appendChild(texte); bloc.appendChild(liste);
-        interieur.appendChild(bloc);
-      }
-      function masquerAccueil() { var a = $("accueil"); if (a) a.remove(); }
-
-      /* ---------- Liste des conversations ---------- */
-      function afficherConversations() {
-        listeConv.textContent = "";
-        if (!etat.conversations.length) {
-          var vide = document.createElement("p");
-          vide.className = "discret";
-          vide.style.padding = "10px";
-          vide.textContent = "Aucune conversation pour l'instant.";
-          listeConv.appendChild(vide);
-          return;
-        }
-        etat.conversations.forEach(function (c) {
-          var ligne = document.createElement("div");
-          ligne.className = "conv" + (c.id === etat.convId ? " active" : "");
-          var titre = document.createElement("button");
-          titre.type = "button";
-          titre.className = "titre";
-          titre.textContent = c.titre || "Nouvelle conversation";
-          titre.addEventListener("click", function () { ouvrirConversation(c.id); });
-          var suppr = document.createElement("button");
-          suppr.type = "button";
-          suppr.className = "suppr";
-          suppr.textContent = "✕";
-          suppr.setAttribute("aria-label", "Supprimer la conversation : " + (c.titre || "sans titre"));
-          suppr.addEventListener("click", function () { supprimerConversation(c); });
-          ligne.appendChild(titre); ligne.appendChild(suppr);
-          listeConv.appendChild(ligne);
-        });
-      }
-
-      async function chargerConversations() {
-        var reponse = await JIA.appeler("conversations_list");
-        etat.conversations = reponse.conversations || [];
-        afficherConversations();
-      }
-
-      async function ouvrirConversation(id) {
-        if (etat.envoi) return;
-        try {
-          var reponse = await JIA.appeler("conversation_get", { conversation_id: id });
-          etat.convId = id;
-          interieur.textContent = "";
-          reponse.messages.forEach(function (m) {
-            ajouterBulle(m.role === "user" ? "user" : "ia", m.contenu, m.source);
-          });
-          titreConv.textContent = reponse.titre || "Conversation";
-          afficherConversations();
-          fermerTiroir();
-          defiler();
-        } catch (erreur) {
-          ajouterErreur(erreur.message);
-        }
-      }
-
-      function nouvelleConversation() {
-        if (etat.envoi) return;
-        etat.convId = "";
-        interieur.textContent = "";
-        afficherAccueil();
-        titreConv.textContent = "Nouvelle conversation";
-        afficherConversations();
-        fermerTiroir();
-        champ.focus();
-      }
-
-      async function supprimerConversation(c) {
-        if (etat.envoi) return;
-        if (!window.confirm("Supprimer cette conversation ? Cette action est définitive.")) return;
-        try {
-          await JIA.appeler("conversation_delete", { conversation_id: c.id });
-          etat.conversations = etat.conversations.filter(function (x) { return x.id !== c.id; });
-          if (c.id === etat.convId) nouvelleConversation(); else afficherConversations();
-        } catch (erreur) {
-          ajouterErreur(erreur.message);
-        }
-      }
-
-      /* ---------- Envoi d'un message ---------- */
-      // Propose la recherche Internet quand Jupiter IA ne peut pas connaître la réponse
-      function afficherProposition(texte) {
-        var carte = document.createElement("div");
-        carte.className = "proposition";
-        var question = document.createElement("p");
-        question.textContent = "Cette question demande une information récente. Veux-tu que Jupiter IA cherche sur Internet ?";
-        var actions = document.createElement("div");
-        actions.className = "actions";
-        var oui = document.createElement("button");
-        oui.type = "button"; oui.className = "bouton bouton-principal bouton-petit"; oui.textContent = "Oui, chercher";
-        var non = document.createElement("button");
-        non.type = "button"; non.className = "bouton bouton-secondaire bouton-petit"; non.textContent = "Non merci";
-        oui.addEventListener("click", function () { carte.remove(); envoyer(texte, { recherche: true }); });
-        non.addEventListener("click", function () {
-          question.textContent = "D'accord, aucune recherche n'est lancée. Tu peux reformuler ta question ou en poser une autre.";
-          actions.remove();
-        });
-        actions.appendChild(oui); actions.appendChild(non);
-        carte.appendChild(question); carte.appendChild(actions);
-        interieur.appendChild(carte);
-        defiler();
-      }
-
-      async function envoyer(texte, options) {
-        options = options || {};
-        texte = (texte || "").trim();
-        if (!texte || etat.envoi) return;
-        etat.envoi = true;
-        boutonEnvoyer.disabled = true;
-        masquerAccueil();
-        var bulleUtilisateur = options.recherche ? null : ajouterBulle("user", texte);
-        if (!options.recherche) { champ.value = ""; champ.style.height = "auto"; }
-        var attente = ajouterAttente();
-        try {
-          var reponse = await JIA.appeler("chat", {
-            message: texte,
-            conversation_id: etat.convId,
-            recherche: !!options.recherche
-          });
-          attente.remove();
-          var nouvelle = !etat.convId;
-          etat.convId = reponse.conversation_id;
-          if (reponse.propose_recherche) {
-            afficherProposition(texte);
-          } else {
-            ajouterBulle("ia", reponse.reponse, reponse.source);
-            majRestants(reponse.messages_restants);
-          }
-          if (nouvelle) {
-            await chargerConversations();
-            var courante = etat.conversations.filter(function (c) { return c.id === etat.convId; })[0];
-            titreConv.textContent = (courante && courante.titre) || "Conversation";
-          }
-        } catch (erreur) {
-          attente.remove();
-          // Le message n'a pas été traité : on le remet dans la zone de saisie pour ne rien perdre
-          if (bulleUtilisateur) { bulleUtilisateur.remove(); if (!champ.value) champ.value = texte; }
-          ajouterErreur(erreur.message);
-        } finally {
-          etat.envoi = false;
-          boutonEnvoyer.disabled = false;
-        }
-      }
-
-      /* ---------- Saisie ---------- */
-      $("formulaire").addEventListener("submit", function (e) {
-        e.preventDefault();
-        envoyer(champ.value);
-      });
-      champ.addEventListener("input", function () {
-        champ.style.height = "auto";
-        champ.style.height = Math.min(champ.scrollHeight, 160) + "px";
-      });
-      champ.addEventListener("keydown", function (e) {
-        // Sur ordinateur : Entrée envoie, Maj+Entrée va à la ligne. Sur téléphone : Entrée va à la ligne.
-        if (e.key === "Enter" && !e.shiftKey && !e.isComposing && !tactile.matches) {
-          e.preventDefault();
-          envoyer(champ.value);
-        }
-      });
-
-      $("nouvelle-conv").addEventListener("click", nouvelleConversation);
-      $("deconnexion").addEventListener("click", function () { JIA.deconnecter(); });
-
-      /* ---------- Démarrage ---------- */
-      (async function demarrer() {
-        var utilisateur = await JIA.exigerConnexion();
-        if (!utilisateur) return;  // redirigé vers la connexion
-        etat.utilisateur = utilisateur;
-        $("nom-utilisateur").textContent = utilisateur.name || utilisateur.email;
-        if (JIA.estAdmin(utilisateur)) $("lien-admin").classList.remove("cache");
-        afficherAccueil();
-        majTiroir();
-        $("application").removeAttribute("aria-busy");
-        try { await chargerConversations(); }
-        catch (erreur) { ajouterErreur("Impossible de charger l'historique : " + erreur.message); }
-      })();
-    })();
-  </script>
+/* Démarrage */
+(async function(){
+try{
+var utilisateur=await JIA.exigerConnexion();
+if(!utilisateur)return;
+etat.utilisateur=utilisateur;
+$("nom-utilisateur").textContent=utilisateur.name||utilisateur.email;
+if(JIA.estAdmin(utilisateur))$("lien-admin").classList.remove("cache");
+afficherAccueil();majTiroir();
+$("application").removeAttribute("aria-busy");
+try{await chargerConversations()}
+catch(e){ajouterErreur("Impossible de charger l'historique : "+e.message)}
+}catch(e){
+ajouterErreur("Impossible de démarrer Jupiter IA : "+e.message);
+}
+})();
+})();
+</script>
 </body>
 </html>
