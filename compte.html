@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mon compte – Jupiter IA</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2363DCCB'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23073B46' font-family='Arial'%3EJ%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- En-tête -->
+  <header class="entete">
+    <div class="conteneur">
+      <a class="logo" href="index.html" aria-label="Jupiter IA, accueil">
+        <span class="logo-pastille" aria-hidden="true">J</span> Jupiter IA
+      </a>
+      <nav aria-label="Navigation principale">
+        <a class="bouton bouton-principal bouton-petit" href="chat.html">Discussion</a>
+        <a id="lien-admin" class="bouton bouton-secondaire bouton-petit cache" href="admin.html">Administration</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-simple">
+    <div class="conteneur" style="max-width:640px">
+      <h1 style="margin-bottom:20px">Mon compte</h1>
+
+      <!-- Informations personnelles -->
+      <section class="carte" aria-labelledby="titre-infos">
+        <h2 id="titre-infos">Mes informations</h2>
+        <div id="message-infos" class="cache" aria-live="polite"></div>
+        <form id="form-infos" novalidate>
+          <div class="champ">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" type="email" readonly>
+            <p class="discret" style="margin-top:6px">Ton adresse e-mail ne peut pas être modifiée ici.</p>
+          </div>
+          <div class="champ">
+            <label for="nom">Ton prénom ou nom</label>
+            <input id="nom" type="text" autocomplete="name" maxlength="80" required>
+          </div>
+          <div class="champ">
+            <label for="pays">Ton pays</label>
+            <select id="pays">
+              <option value="Burkina Faso">Burkina Faso</option>
+              <option value="Bénin">Bénin</option>
+              <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+              <option value="Mali">Mali</option>
+              <option value="Sénégal">Sénégal</option>
+              <option value="Togo">Togo</option>
+              <option value="Autre">Autre pays</option>
+            </select>
+          </div>
+          <button id="enregistrer" class="bouton bouton-principal" type="submit">Enregistrer</button>
+        </form>
+      </section>
+
+      <!-- Mot de passe -->
+      <section class="carte" aria-labelledby="titre-mdp">
+        <h2 id="titre-mdp">Changer mon mot de passe</h2>
+        <div id="message-mdp" class="cache" aria-live="polite"></div>
+        <form id="form-mdp" novalidate>
+          <div class="champ">
+            <label for="ancien">Mot de passe actuel</label>
+            <input id="ancien" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="champ">
+            <label for="nouveau">Nouveau mot de passe (8 caractères minimum)</label>
+            <input id="nouveau" type="password" autocomplete="new-password" minlength="8" required>
+          </div>
+          <div class="champ">
+            <label for="nouveau2">Confirme le nouveau mot de passe</label>
+            <input id="nouveau2" type="password" autocomplete="new-password" minlength="8" required>
+          </div>
+          <button id="changer-mdp" class="bouton bouton-principal" type="submit">Changer le mot de passe</button>
+        </form>
+      </section>
+
+      <!-- Session -->
+      <section class="carte" aria-labelledby="titre-session">
+        <h2 id="titre-session">Session</h2>
+        <p class="discret" style="margin-bottom:14px">Déconnecte-toi, surtout si tu utilises un appareil partagé.</p>
+        <button id="deconnexion" class="bouton bouton-danger" type="button">Se déconnecter</button>
+      </section>
+    </div>
+  </main>
+
+  <!-- SDK Appwrite (version fixe) puis fonctions communes de Jupiter IA -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@18.2.0"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var $ = function (id) { return document.getElementById(id); };
+
+      (async function demarrer() {
+        var utilisateur = await JIA.exigerConnexion();
+        if (!utilisateur) return;  // redirigé vers la connexion
+
+        $("email").value = utilisateur.email || "";
+        $("nom").value = utilisateur.name || "";
+        if (JIA.estAdmin(utilisateur)) $("lien-admin").classList.remove("cache");
+
+        // Récupère le profil enregistré (nom et pays)
+        try {
+          var profil = await JIA.appeler("profil_get");
+          if (profil.nom) $("nom").value = profil.nom;
+          if (profil.pays) {
+            var liste = $("pays");
+            var existe = Array.prototype.some.call(liste.options, function (o) { return o.value === profil.pays; });
+            if (!existe) {  // pays absent de la liste : on l'ajoute pour ne pas le perdre
+              var option = document.createElement("option");
+              option.value = profil.pays;
+              option.textContent = profil.pays;
+              liste.appendChild(option);
+            }
+            liste.value = profil.pays;
+          }
+        } catch (erreur) {
+          JIA.message($("message-infos"), "Impossible de charger ton profil : " + erreur.message);
+        }
+      })();
+
+      /* ---------- Enregistrer le nom et le pays ---------- */
+      $("form-infos").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var nom = $("nom").value.trim();
+        var pays = $("pays").value;
+        var bouton = $("enregistrer");
+        var zone = $("message-infos");
+        if (nom.length < 2) return JIA.message(zone, "Écris ton prénom ou ton nom.");
+        JIA.message(zone, "");
+        JIA.occupe(bouton, true, "Enregistrement…");
+        try {
+          await JIA.changerNom(nom);                         // nom du compte (affiché dans la discussion)
+          await JIA.appeler("profil_set", { nom: nom, pays: pays });  // profil (nom et pays)
+          JIA.message(zone, "Tes informations ont été enregistrées.", "ok");
+        } catch (erreur) {
+          JIA.message(zone, erreur.message);
+        }
+        JIA.occupe(bouton, false);
+      });
+
+      /* ---------- Changer le mot de passe ---------- */
+      $("form-mdp").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var ancien = $("ancien").value;
+        var nouveau = $("nouveau").value;
+        var nouveau2 = $("nouveau2").value;
+        var bouton = $("changer-mdp");
+        var zone = $("message-mdp");
+        if (!ancien) return JIA.message(zone, "Écris ton mot de passe actuel.");
+        if (nouveau.length < 8) return JIA.message(zone, "Le nouveau mot de passe doit contenir au moins 8 caractères.");
+        if (nouveau !== nouveau2) return JIA.message(zone, "Les deux nouveaux mots de passe ne sont pas identiques.");
+        if (nouveau === ancien) return JIA.message(zone, "Le nouveau mot de passe doit être différent de l'ancien.");
+        JIA.message(zone, "");
+        JIA.occupe(bouton, true, "Modification…");
+        try {
+          await JIA.changerMotDePasse(nouveau, ancien);
+          $("form-mdp").reset();
+          JIA.message(zone, "Ton mot de passe a été modifié.", "ok");
+        } catch (erreur) {
+          JIA.message(zone, /incorrect/i.test(erreur.message) ? "Ton mot de passe actuel est incorrect." : erreur.message);
+        }
+        JIA.occupe(bouton, false);
+      });
+
+      $("deconnexion").addEventListener("click", function () { JIA.deconnecter(); });
+    })();
+  </script>
+</body>
+  </html>
