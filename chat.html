@@ -64,6 +64,15 @@ button,textarea{font:inherit}button{cursor:pointer}.cache{display:none!important
 #envoyer{min-width:44px;height:44px;border-radius:13px;font-size:17px}
 #envoyer:disabled{opacity:.5;cursor:not-allowed}
 .note-saisie{max-width:790px;margin:10px auto 0;text-align:center;color:#5F7377;font-size:11px;line-height:1.5}
+/* Photos : bouton, aperçus avant envoi, vignettes dans la bulle */
+#ajouter-photo{min-width:44px;height:44px;padding:0;border-radius:13px;font-size:18px}
+#ajouter-photo:disabled{opacity:.5;cursor:not-allowed}
+.apercus{max-width:790px;margin:0 auto 10px;display:flex;gap:8px;flex-wrap:wrap}
+.apercu{position:relative;width:72px;height:72px;padding:0;border:1px solid var(--b);border-radius:12px;overflow:hidden;background:#fff}
+.apercu img{width:100%;height:100%;object-fit:cover;display:block}
+.apercu span{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:#073B46d9;color:#fff;font-size:12px;display:grid;place-items:center}
+.bulle-photos{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.bulle-photos img{width:88px;height:88px;object-fit:cover;border-radius:12px;display:block}
 .voile{display:none}
 @media(min-width:960px){#bouton-menu,#fermer-tiroir{display:none}}
 @media(max-width:959px){
@@ -106,9 +115,14 @@ button,textarea{font:inherit}button{cursor:pointer}.cache{display:none!important
 <div class="messages-interieur" id="messages-interieur"></div>
 </div>
 <div class="saisie">
+<!-- Photos : aperçus des photos prêtes à être envoyées -->
+<div class="apercus cache" id="apercus" aria-label="Photos à envoyer"></div>
 <form class="saisie-interieur" id="formulaire" autocomplete="off">
 <label for="champ" class="cache">Ton message</label>
-<textarea id="champ" rows="1" maxlength="2000" aria-label="Ton message" placeholder="Écris ton message…" required></textarea>
+<!-- Photos : bouton et champ fichier caché -->
+<button type="button" class="bouton bouton-secondaire" id="ajouter-photo" aria-label="Joindre des photos (4 maximum)">📎</button>
+<input type="file" id="photo" accept="image/*" multiple class="cache" aria-label="Choisir des photos">
+<textarea id="champ" rows="1" maxlength="2000" aria-label="Ton message" placeholder="Écris ton message…"></textarea>
 <button type="submit" class="bouton bouton-principal" id="envoyer" aria-label="Envoyer">↑</button>
 </form>
 <p class="note-saisie" id="note-saisie">Jupiter IA peut se tromper. Vérifie les informations importantes.</p>
@@ -125,9 +139,15 @@ var tiroir=$("tiroir"),voile=$("voile"),listeConv=$("liste-conv");
 var messages=$("messages"),interieur=$("messages-interieur");
 var champ=$("champ"),boutonEnvoyer=$("envoyer"),titreConv=$("titre-conv");
 var note=$("note-saisie"),boutonMenu=$("bouton-menu");
+var apercus=$("apercus"),boutonPhoto=$("ajouter-photo"),champPhoto=$("photo");
 var etat={utilisateur:null,convId:"",envoi:false,conversations:[]};
 var mobile=window.matchMedia("(max-width:959px)");
 var tactile=window.matchMedia("(pointer:coarse)");
+
+/* Photos : réglages et liste des photos prêtes à l'envoi */
+var MAX_PHOTOS=4;            /* même limite que le serveur */
+var BUDGET_PHOTOS=2500000;   /* poids maximum de l'ensemble (caractères base64) */
+var photos=[];
 
 function majTiroir(){
 var ouvert=tiroir.classList.contains("ouvert");
@@ -145,10 +165,23 @@ if(mobile.addEventListener)mobile.addEventListener("change",majTiroir);
 
 function defiler(){messages.scrollTop=messages.scrollHeight}
 
-function ajouterBulle(role,texte,source){
+/* Photos : le 4e paramètre contient les vignettes locales d'un message de l'utilisateur */
+function ajouterBulle(role,texte,source,photosLocales){
 var bulle=document.createElement("div");
 bulle.className="bulle "+(role==="user"?"bulle-user":"bulle-ia");
-if(role==="user")bulle.textContent=texte;
+if(role==="user"){
+if(photosLocales&&photosLocales.length){
+var galerie=document.createElement("div");
+galerie.className="bulle-photos";
+photosLocales.forEach(function(p,i){
+var img=document.createElement("img");
+img.src=p.apercu;img.alt="Photo "+(i+1)+" envoyée";
+galerie.appendChild(img);
+});
+bulle.appendChild(galerie);
+if(texte){var t=document.createElement("div");t.textContent=texte;bulle.appendChild(t)}
+}else bulle.textContent=texte;
+}
 else{
 bulle.innerHTML=JIA.formater(texte);
 var etiquette=source==="connaissance"?"Réponse issue de la base de connaissances de Jupiter IA":source==="internet"?"Réponse enrichie par une recherche Internet":null;
@@ -179,6 +212,78 @@ function majRestants(n){
 if(typeof n!=="number")return;
 note.textContent="Il te reste "+n+" message"+(n>1?"s":"")+" aujourd'hui. Jupiter IA peut se tromper : vérifie les informations importantes.";
 }
+
+/* Photos : lecture, réduction et conversion d'une photo en JPEG (base64) */
+function lireFichier(fichier,maxCote,qualite){
+return new Promise(function(resolve,reject){
+var url=URL.createObjectURL(fichier);
+var img=new Image();
+img.onload=function(){
+var largeur=img.naturalWidth,hauteur=img.naturalHeight;
+var echelle=Math.min(1,maxCote/Math.max(largeur,hauteur));
+var canvas=document.createElement("canvas");
+canvas.width=Math.max(1,Math.round(largeur*echelle));
+canvas.height=Math.max(1,Math.round(hauteur*echelle));
+var ctx=canvas.getContext("2d");
+ctx.fillStyle="#FFFFFF";ctx.fillRect(0,0,canvas.width,canvas.height); /* fond blanc pour les images transparentes */
+ctx.drawImage(img,0,0,canvas.width,canvas.height);
+URL.revokeObjectURL(url);
+var dataUrl=canvas.toDataURL("image/jpeg",qualite);
+resolve({type:"image/jpeg",data:dataUrl.split(",")[1],apercu:dataUrl});
+};
+img.onerror=function(){URL.revokeObjectURL(url);reject(new Error("Cette photo ne peut pas être lue. Essaie avec une photo JPEG ou PNG."))};
+img.src=url;
+});
+}
+
+/* Photos : aperçus avant envoi (toucher une photo la retire) */
+function afficherApercus(){
+apercus.textContent="";
+photos.forEach(function(p,i){
+var b=document.createElement("button");
+b.type="button";b.className="apercu";
+b.setAttribute("aria-label","Retirer la photo "+(i+1));
+var img=document.createElement("img");
+img.src=p.apercu;img.alt="";
+var x=document.createElement("span");
+x.textContent="✕";x.setAttribute("aria-hidden","true");
+b.appendChild(img);b.appendChild(x);
+b.addEventListener("click",function(){photos.splice(i,1);afficherApercus()});
+apercus.appendChild(b);
+});
+apercus.classList.toggle("cache",photos.length===0);
+boutonPhoto.disabled=photos.length>=MAX_PHOTOS;
+}
+
+/* Photos : préparation avant envoi (réduction supplémentaire si l'ensemble est trop lourd) */
+async function preparerPhotos(liste){
+var niveaux=[[1280,0.8],[1024,0.65],[800,0.55]];
+for(var n=0;n<niveaux.length;n++){
+var lot=[],total=0;
+for(var i=0;i<liste.length;i++){
+var p=n===0?liste[i]:await lireFichier(liste[i].fichier,niveaux[n][0],niveaux[n][1]);
+lot.push({type:p.type,data:p.data});
+total+=p.data.length;
+}
+if(total<=BUDGET_PHOTOS)return lot;
+}
+throw new Error("Les photos sont trop lourdes. Envoie-en moins, ou plus petites.");
+}
+
+boutonPhoto.addEventListener("click",function(){champPhoto.click()});
+champPhoto.addEventListener("change",async function(e){
+var fichiers=Array.prototype.slice.call(e.target.files||[]);
+e.target.value="";
+for(var i=0;i<fichiers.length;i++){
+if(photos.length>=MAX_PHOTOS){ajouterErreur("Tu peux joindre "+MAX_PHOTOS+" photos au maximum par message.");break}
+try{
+var p=await lireFichier(fichiers[i],1280,0.8);
+p.fichier=fichiers[i];
+photos.push(p);
+}catch(err){ajouterErreur(err.message)}
+}
+afficherApercus();
+});
 
 /* Accueil */
 function afficherAccueil(){
@@ -274,20 +379,21 @@ carte.appendChild(question);carte.appendChild(actions);
 interieur.appendChild(carte);defiler();
 }
 
-/* Envoi des messages */
+/* Envoi des messages (avec ou sans photos) */
 async function envoyer(texte,options){
 options=options||{};texte=(texte||"").trim();
-if(!texte||etat.envoi)return;
+var avecPhotos=!options.recherche&&photos.length>0;
+if((!texte&&!avecPhotos)||etat.envoi)return;
 etat.envoi=true;boutonEnvoyer.disabled=true;masquerAccueil();
-var bulleUtilisateur=options.recherche?null:ajouterBulle("user",texte);
+var envoyees=avecPhotos?photos.slice():[];
+var bulleUtilisateur=options.recherche?null:ajouterBulle("user",texte,null,envoyees);
 if(!options.recherche){champ.value="";champ.style.height="auto"}
+if(avecPhotos){photos=[];afficherApercus()}
 var attente=ajouterAttente();
 try{
-var r=await JIA.appeler("chat",{
-message:texte,
-conversation_id:etat.convId,
-recherche:!!options.recherche
-});
+var corps={message:texte,conversation_id:etat.convId,recherche:!!options.recherche};
+if(envoyees.length)corps.images=await preparerPhotos(envoyees);
+var r=await JIA.appeler("chat",corps);
 attente.remove();
 var nouvelle=!etat.convId;
 etat.convId=r.conversation_id;
@@ -303,7 +409,11 @@ titreConv.textContent=(courante&&courante.titre)||"Conversation";
 }
 }catch(e){
 attente.remove();
-if(bulleUtilisateur){bulleUtilisateur.remove();if(!champ.value)champ.value=texte}
+if(bulleUtilisateur){
+bulleUtilisateur.remove();
+if(!champ.value)champ.value=texte;
+if(envoyees.length){photos=envoyees;afficherApercus()} /* les photos reviennent dans les aperçus */
+}
 ajouterErreur(e.message);
 }finally{
 etat.envoi=false;boutonEnvoyer.disabled=false;
