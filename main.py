@@ -5,7 +5,8 @@ JUPITER IA - backend (fonction Appwrite "jupiter-backend", Python 3.12)
 Le site appelle cette fonction avec un corps JSON : {"action": "...", ...}
 
 Actions pour les utilisateurs connectés :
-  chat                 {message, conversation_id?, recherche?}
+  chat                 {message, conversation_id?, recherche?, images?}
+                       images = [{"type": "image/jpeg", "data": "<base64>"}, ...] (4 maximum)
   conversations_list   {}
   conversation_get     {conversation_id}
   conversation_delete  {conversation_id}
@@ -61,6 +62,12 @@ DEFAUT_RECHERCHES = _entier(os.environ.get("MAX_RECHERCHES_PAR_MOIS"), 900)
 JETON_RECHERCHE = "[[RECHERCHE_INTERNET]]"  # signal : Gemini ne peut pas savoir
 LONGUEUR_MAX_MESSAGE = 2000
 SEUIL_EXACT = 0.85  # ressemblance minimale pour renvoyer une "réponse exacte"
+
+# Photos jointes aux messages
+MAX_PHOTOS = 4                                   # nombre de photos par message
+TYPES_IMAGES = ("image/jpeg", "image/png", "image/webp")
+TAILLE_MAX_PHOTO = 1500000                       # caractères base64 par photo (environ 1,1 Mo)
+TAILLE_MAX_TOTAL = 3500000                       # caractères base64 pour l'ensemble des photos
 
 # Contexte de la requête en cours (clé temporaire de la fonction, journal)
 CTX = {"ctx": None, "cle": ""}
@@ -281,7 +288,7 @@ def chercher_connaissances(message):
 # ---------------------------------------------------------------------------
 # Gemini et Tavily
 # ---------------------------------------------------------------------------
-def construire_consigne(profil, references, resultats_web, recherche_proposable, recherche_tentee):
+def construire_consigne(profil, references, resultats_web, recherche_proposable, recherche_tentee, nb_images=0):
     """Écrit les instructions données à Gemini."""
     lignes = [
         "Tu es Jupiter IA, un assistant intelligent, utile et fiable. Tu réponds en français clair et chaleureux, "
@@ -305,6 +312,11 @@ def construire_consigne(profil, references, resultats_web, recherche_proposable,
         "surtout pour les informations récentes.",
         "Pour la santé, le droit et la finance, donne des informations générales et conseille de consulter un professionnel.",
     ]
+    if nb_images:
+        lignes.append("L'utilisateur a joint " + str(nb_images) + " photo" + ("s" if nb_images > 1 else "") + " à son message. "
+                      "Analyse-" + ("les" if nb_images > 1 else "la") + " attentivement (contenu, texte visible, contexte) "
+                      "et réponds à sa question. S'il n'a pas posé de question, décris ce que tu vois et propose ton aide. "
+                      "N'identifie jamais une personne à partir de son visage : décris seulement ce qui est visible.")
     if profil:
         nom = (profil.get("nom") or "").strip()
         pays = (profil.get("pays") or "").strip()
@@ -338,14 +350,21 @@ def construire_consigne(profil, references, resultats_web, recherche_proposable,
     return "\n".join(lignes)
 
 
-def appeler_gemini(consigne, historique):
-    """Envoie la conversation à Gemini et renvoie le texte de la réponse."""
+def appeler_gemini(consigne, historique, images=None):
+    """Envoie la conversation (et les photos éventuelles) à Gemini et renvoie le texte de la réponse."""
     contenus = []
     for message in historique:
         texte = (message.get("contenu") or "")[:4000]
         if texte:
             role = "user" if message.get("role") == "user" else "model"
             contenus.append({"role": role, "parts": [{"text": texte}]})
+    if images:
+        # Les photos sont ajoutées au tout dernier message de l'utilisateur, avant son texte
+        parties_images = [{"inline_data": {"mime_type": i["type"], "data": i["data"]}} for i in images]
+        if contenus and contenus[-1]["role"] == "user":
+            contenus[-1]["parts"] = parties_images + contenus[-1]["parts"]
+        else:
+            contenus.append({"role": "user", "parts": parties_images + [{"text": "Analyse ces photos."}]})
     corps = {
         "system_instruction": {"parts": [{"text": consigne}]},
         "contents": contenus,
@@ -353,12 +372,14 @@ def appeler_gemini(consigne, historique):
     }
     url = "https://generativelanguage.googleapis.com/v1beta/models/" + MODELE + ":generateContent"
     try:
-        code, reponse = _requete("POST", url, corps, {"x-goog-api-key": CLE_GEMINI}, delai=40)
+        code, reponse = _requete("POST", url, corps, {"x-goog-api-key": CLE_GEMINI}, delai=45)
     except Exception as erreur:
         journal("Gemini injoignable : " + str(erreur))
         raise ErreurJupiter("Jupiter IA est momentanément indisponible. Réessaie dans un instant.", 503)
     if code >= 400:
         journal("Gemini erreur " + str(code) + " : " + str(reponse)[:300])
+        if images:
+            raise ErreurJupiter("Jupiter IA n'a pas pu analyser ces photos. Essaie avec moins de photos ou des photos plus petites.", 503)
         raise ErreurJupiter("Jupiter IA est momentanément indisponible. Réessaie dans un instant.", 503)
     candidats = reponse.get("candidates") or [{}]
     parties = (candidats[0].get("content") or {}).get("parts") or []
@@ -404,22 +425,61 @@ def enregistrer_message(conv_id, uid, role, contenu, source):
 
 
 # ---------------------------------------------------------------------------
+# Photos jointes
+# ---------------------------------------------------------------------------
+def lire_images(corps):
+    """Vérifie les photos envoyées : [{"type": "image/jpeg", "data": "<base64>"}, ...]."""
+    brutes = corps.get("images")
+    if not brutes:
+        return []
+    if not isinstance(brutes, list):
+        raise ErreurJupiter("Format de photos invalide.")
+    if len(brutes) > MAX_PHOTOS:
+        raise ErreurJupiter("Tu peux joindre " + str(MAX_PHOTOS) + " photos au maximum par message.")
+    images, total = [], 0
+    for brute in brutes:
+        if not isinstance(brute, dict):
+            raise ErreurJupiter("Format de photos invalide.")
+        type_image = str(brute.get("type") or "")
+        donnees = str(brute.get("data") or "")
+        if type_image not in TYPES_IMAGES or not donnees:
+            raise ErreurJupiter("Format de photo non pris en charge (JPEG, PNG ou WebP).")
+        if len(donnees) > TAILLE_MAX_PHOTO:
+            raise ErreurJupiter("Une photo est trop lourde. Réessaie avec une photo plus petite.")
+        if not re.fullmatch(r"[A-Za-z0-9+/=]+", donnees):
+            raise ErreurJupiter("Photo invalide.")
+        total += len(donnees)
+        images.append({"type": type_image, "data": donnees})
+    if total > TAILLE_MAX_TOTAL:
+        raise ErreurJupiter("Les photos sont trop lourdes ensemble. Envoie-en moins, ou plus petites.")
+    return images
+
+
+# ---------------------------------------------------------------------------
 # Actions utilisateur
 # ---------------------------------------------------------------------------
 def action_chat(uid, corps):
     message = (corps.get("message") or "").strip()
-    if not message:
+    images = lire_images(corps)
+    if not message and not images:
         raise ErreurJupiter("Écris un message avant d'envoyer.")
     if len(message) > LONGUEUR_MAX_MESSAGE:
         raise ErreurJupiter("Message trop long (" + str(LONGUEUR_MAX_MESSAGE) + " caractères maximum).")
-    recherche = bool(corps.get("recherche"))  # l'utilisateur a accepté la recherche Internet
+    # recherche = l'utilisateur a accepté la recherche Internet (jamais avec des photos)
+    recherche = bool(corps.get("recherche")) and not images
     conv_id = str(corps.get("conversation_id") or "")
     if conv_id:
         verifier_conversation(uid, conv_id)
     deja_enregistre = recherche and bool(conv_id)  # le message a été enregistré au 1er envoi
 
-    # 1) Base de connaissances (gratuit)
-    references = chercher_connaissances(message)
+    # Texte enregistré dans l'historique : les photos ne sont pas conservées
+    contenu_enregistre = message
+    if images:
+        etiquette = "📷 " + ("1 photo" if len(images) == 1 else str(len(images)) + " photos")
+        contenu_enregistre = etiquette + (" — " + message if message else "")
+
+    # 1) Base de connaissances (gratuit), sauf pour les messages avec photos
+    references = [] if images else chercher_connaissances(message)
     if references and not recherche and references[0][0] >= SEUIL_EXACT and references[0][2].get("reponse_exacte"):
         conv_id = conv_id or creer_conversation(uid, message)
         enregistrer_message(conv_id, uid, "user", message, "utilisateur")
@@ -435,12 +495,12 @@ def action_chat(uid, corps):
         raise ErreurJupiter("Tu as atteint ta limite de " + str(limite) + " messages pour aujourd'hui. Reviens demain !", 429)
 
     # 3) Enregistrement du message de l'utilisateur
-    conv_id = conv_id or creer_conversation(uid, message)
+    conv_id = conv_id or creer_conversation(uid, message or "📷 Photo")
     if not deja_enregistre:
-        enregistrer_message(conv_id, uid, "user", message, "utilisateur")
+        enregistrer_message(conv_id, uid, "user", contenu_enregistre, "utilisateur")
 
-    # 4) Recherche Internet : seulement si acceptée et sous le plafond mensuel
-    recherche_possible = bool(CLE_TAVILY)
+    # 4) Recherche Internet : seulement si acceptée, sous le plafond mensuel, et sans photos
+    recherche_possible = bool(CLE_TAVILY) and not images
     id_mois = id_court("rech|" + mois())
     if recherche_possible:
         plafond = lire_reglage("limite_recherches_mois", DEFAUT_RECHERCHES)
@@ -459,8 +519,11 @@ def action_chat(uid, corps):
         profil = None
     historique = lister("messages", [q_egal("conversation_id", conv_id), q_desc("$createdAt"), q_limite(10)]).get("rows", [])
     historique.reverse()
-    consigne = construire_consigne(profil, references, resultats_web, recherche_possible, recherche_tentee)
-    texte = appeler_gemini(consigne, historique)
+    if images and historique and historique[-1].get("role") == "user":
+        # Gemini reçoit le vrai texte de l'utilisateur (et non le libellé « 📷 … » de l'historique)
+        historique[-1] = {"role": "user", "contenu": message or "Analyse ces photos et dis-moi ce que tu vois."}
+    consigne = construire_consigne(profil, references, resultats_web, recherche_possible, recherche_tentee, len(images))
+    texte = appeler_gemini(consigne, historique, images)
 
     if JETON_RECHERCHE in texte:
         if recherche_possible and not recherche_tentee:
